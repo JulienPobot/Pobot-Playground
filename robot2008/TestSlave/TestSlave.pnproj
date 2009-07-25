@@ -1,0 +1,1 @@
+<Project name="TestSlave"><File path="global.h"></File><File path="i2cconf.h"></File><File path="makefile"></File><File path="testslave.c"></File><File path="lcd03.h"></File><File path="lcd03.c"></File></Project>

@@ -1,0 +1,1 @@
+<Project name="CartePrincipale"><File path="global.h"></File><File path="principale.c"></File><File path="servoconf.h"></File><File path="testfuzzy.c"></File><File path="Fuzzy.c"></File><File path="Fuzzy.h"></File><File path="i2cconf.h"></File><File path="lcd03.c"></File><File path="lcd03.h"></File><File path="makefile"></File><File path="cmdlineconf.h"></File></Project>
