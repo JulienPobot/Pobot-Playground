@@ -34,6 +34,7 @@ public:
   ADNS2610(uint8_t, uint8_t);
   signed char dx(void);
   signed char dy(void);
+  signed char pixel(void);
 };
 
 #endif

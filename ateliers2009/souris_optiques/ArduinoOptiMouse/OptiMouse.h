@@ -1,5 +1,5 @@
 /*
- OptiMouse.h - Part ofoptical mouse sensor library for Arduino
+ OptiMouse.h - Part of optical mouse sensor library for Arduino
  Copyright (c) 2008 Martijn The.  All right reserved.
  http://www.martijnthe.nl/
  

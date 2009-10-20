@@ -33,6 +33,7 @@
 
 #define Delta_Y				0x02
 #define Delta_X				0x03
+#define PIXEL                           0x08
 
 /******************************************************************************
  * Constructors
@@ -57,6 +58,11 @@ signed char ADNS2610::dx(void)
 signed char ADNS2610::dy(void)
 {
   return (signed char) readRegister(Delta_Y);
+}
+
+signed char ADNS2610::pixel(void)
+{
+  return (signed char) readRegister(PIXEL);
 }
 
 // Private Methods /////////////////////////////////////////////////////////////
