@@ -38,19 +38,25 @@ public class BipedeSequence
   {
     if (index == commandes.size()-1)
     {
-      ajouteCommande();
+      addNewCommande();
     }
     index++;    
     return (BipedeCommande) commandes.get(index);    
   }
 
-  public void ajouteCommande()
+  public void addNewCommande()
   {
     BipedeCommande tmp = new BipedeCommande();
     commandes.add(tmp);
   }
 
+  public void setCommandes(ArrayList al)
+  {
+    this.commandes = al;
+  }
+
 }
+
 
 
 

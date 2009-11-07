@@ -1,15 +1,25 @@
+import processing.xml.*;
+import java.util.ArrayList;
 
-
+/**
+ * Classe de chargement des séquences stockées 
+ */
 public class BipedeSequenceLoader
 {
 
-  public static BipedeSequence load(String name)
+  public static BipedeSequenceLoader singleton = new BipedeSequenceLoader();
+
+  public static BipedeSequenceLoader getSingleton()
   {
-    BipedeSequence seq = new BipedeSequence();    
-    seq.setName(name);
-    return seq;    
+    return singleton;
   }
 
+  
 
 }
+
+
+
+
+
 

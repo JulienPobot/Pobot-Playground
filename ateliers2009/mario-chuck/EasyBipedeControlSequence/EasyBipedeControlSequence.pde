@@ -1,4 +1,5 @@
 import processing.serial.*;
+import controlP5.*;
 
 int rows = 9;
 int columns = 18;
@@ -19,8 +20,8 @@ Serial port;
 
 void setup()
 {
-  size(798, 480);
-  bg = loadImage("interface_easybipede.jpg");
+  size(734, 446);
+  bg = loadImage("interface_easybipede.png");
   font = loadFont("ArialMT-32.vlw");
   textAlign(LEFT);
   textFont(font, 32);
@@ -30,7 +31,7 @@ void setup()
   port = new Serial(this, portName, 9600);
   port.bufferUntil(10); // line feed
   //
-  curSequence = BipedeSequenceLoader.load("left");
+  curSequence = loadSequence("left");
 }
 
 void draw()
@@ -91,7 +92,7 @@ void draw()
   else if (seqname.equals("right")) {    
     rect(720,220,55,55);
   }
-  
+
   // cas 2 : la distance des capteurs Sharp
   fill(0,250,0);
   rect(4,4,distance_left, 27);
@@ -150,6 +151,40 @@ void serialEvent(Serial p) {
   distance_right = (distance_right+int(float(parts[0])/2.5))/2;
   distance_left = (distance_left+int(float(parts[1])/2.5))/2;
 }
+
+BipedeSequence loadSequence(String name)
+{
+  // création de la séquence
+  BipedeSequence seq = new BipedeSequence();    
+  seq.setName(name);
+  // préparation de la liste des commandes
+  ArrayList al = new ArrayList();
+
+  // fichier xml sous la forme
+  // <?xml version="1.0"?>
+  // <sequence>
+  //   <commande gg="0" hg="0" gd="0" hd="0" />
+  //   <commande gg="0" hg="0" gd="0" hd="0" />
+  // </sequence>
+  XMLElement xml = new XMLElement(this, name+".xml");
+  // nombre de commandes :
+  int numCmds = xml.getChildCount();
+  // pour chaque commande : 
+  for (int i = 0; i < numCmds; i++) {
+    // 
+    BipedeCommande bc = new BipedeCommande();
+    XMLElement cmd = xml.getChild(i);
+    bc.setGenouGauche(cmd.getIntAttribute("gg")); 
+    bc.setHancheGauche(cmd.getIntAttribute("hg")); 
+    bc.setGenouDroit(cmd.getIntAttribute("gd")); 
+    bc.setHancheDroite(cmd.getIntAttribute("hd"));     
+    al.add(cmd);
+  }
+  seq.setCommandes(al);    
+  return seq;    
+}
+
+
 
 
 
