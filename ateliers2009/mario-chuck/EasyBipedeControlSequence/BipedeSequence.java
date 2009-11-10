@@ -6,8 +6,6 @@ public class BipedeSequence
 
   private String filename;
 
-  private int index;
-
   private ArrayList commandes;
 
   public String getName()
@@ -28,20 +26,10 @@ public class BipedeSequence
     }
     return filename;
   }
-
-  public BipedeCommande currentCommande()
+  
+  public int nombreCommandes()
   {
-    return (BipedeCommande) commandes.get(index);
-  }
-
-  public BipedeCommande nextCommande()
-  {
-    if (index == commandes.size()-1)
-    {
-      addNewCommande();
-    }
-    index++;    
-    return (BipedeCommande) commandes.get(index);    
+   return commandes.size(); 
   }
 
   public void addNewCommande()
@@ -53,6 +41,11 @@ public class BipedeSequence
   public void setCommandes(ArrayList al)
   {
     this.commandes = al;
+  }
+  
+  public BipedeCommande getCommande(int index)
+  {
+   return (BipedeCommande) this.commandes.get(index); 
   }
 
 }

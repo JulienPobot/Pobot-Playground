@@ -10,8 +10,16 @@ int distance_right;
 boolean flag_modif_position = true;
 boolean flag_modif_sequence = true;
 
+boolean modePlay = false;
+boolean modePause = false;
+boolean modeRecord = true;
+
 // la séquence en cours
 BipedeSequence curSequence;
+
+int curIndex = 0;
+
+int curSpeed = 0;
 
 PImage bg;
 PFont font;
@@ -20,14 +28,14 @@ Serial port;
 
 void setup()
 {
-  size(734, 446);
+  size(836, 459);
   bg = loadImage("interface_easybipede.png");
   font = loadFont("ArialMT-32.vlw");
   textAlign(LEFT);
-  textFont(font, 32);
+  textFont(font, 20);
   // 
   println(Serial.list());
-  String portName = Serial.list()[1];
+  String portName = Serial.list()[0];
   port = new Serial(this, portName, 9600);
   port.bufferUntil(10); // line feed
   //
@@ -38,7 +46,83 @@ void draw()
 {
   background(bg);
 
-  /* Première partie : indiquer le passage de la souris selon le cas */
+  // Première partie : indiquer le passage de la souris selon le cas
+  afficheSouris();
+
+  // Seconde partie : indiquer la situation courante (séquence, play/stop, etc)
+  afficheSequence();
+  afficheFleche();
+  afficheMode();
+  afficheSpeed();
+  afficheSharp();
+
+  afficheCommande();
+}
+
+void afficheCommande()
+{  
+  fill(0,120,0);
+  noStroke();
+  BipedeCommande cur = curSequence.getCommande(curIndex);
+  rect(2+(cur.hg-1)*30,4+(10-cur.gg)*30,30,30);
+  rect(2+(cur.hd-1)*30+269,4+(10-cur.gd)*30,30,30);
+}
+
+void afficheSpeed()
+{
+  fill(20); 
+  text(curSpeed, 627, 162);
+}
+
+void afficheSharp()
+{ 
+  fill(0,250,0);
+  noStroke();
+  rect(4,4,distance_left, 27);
+  rect(273,4,distance_right, 27); 
+}
+
+void afficheMode()
+{ 
+  fill(0,255,0,30); // couleur verte
+  stroke(1);
+  if (modePlay)
+  {   
+    rect(550,11,53,53);
+  }
+  if (modePause)
+  {   
+    rect(610,11,53,53);
+  }
+  if (modeRecord)
+  {   
+    rect(670,11,53,53);
+  }
+}
+
+void afficheFleche()
+{ 
+  fill(0,255,0,30); // couleur verte
+  stroke(1);
+
+  String seqname = curSequence.getName(); // le nom de la séquence courante
+  if (seqname.equals("forward"))
+  {
+    rect(610,175,53,53);
+  } 
+  else if (seqname.equals("backward")) {    
+    rect(610,240,53,53);
+  } 
+  else if (seqname.equals("left")) {    
+    rect(550,207,53,53);
+  } 
+  else if (seqname.equals("right")) {    
+    rect(670,207,53,53);
+  }  
+}
+
+void afficheSouris()
+{
 
   // cas 1 : la grille
   if (flag_modif_position && mouseY>30 && mouseY<300 && mouseX <540) {
@@ -46,67 +130,43 @@ void draw()
     int mCol = mouseX/30;
     int mRow = mouseY/30;
     // position de la souris
-    fill(30);  
-    rect(2+mCol*30,2+mRow*30,29,29);
+    if (mousePressed)
+    { 
+      fill(220,30,30);  
+    } 
+    else {
+      fill(30);  
+    }
+    rect(2+mCol*30,4+mRow*30,30,30);
   }
   // cas 2 : la séquence
   if (flag_modif_sequence)
   { 
-    fill(0,0,250,50);
-    if (mouseX>640 && mouseX<640+55 && mouseY>140 && mouseY<140+55)
+    noStroke();
+    if (mousePressed)
     {
-      rect(640,140,55,55);
+      fill(250,0,0,50);
+    } 
+    else {
+      fill(0,0,250,50);
     }
-    if (mouseX>640 && mouseX<640+55 && mouseY>220 && mouseY<220+55)
+    if (mouseX>610 && mouseX<610+53 && mouseY>175 && mouseY<175+53)
     {
-      rect(640,220,55,55);
+      rect(610,175,53,53);
     }
-    if (mouseX>560 && mouseX<560+55 && mouseY>220 && mouseY<220+55)
+    if (mouseX>610 && mouseX<610+53 && mouseY>243 && mouseY<243+53)
     {
-      rect(560,220,55,55);
+      rect(610,243,53,53);
     }
-    if (mouseX>720 && mouseX<720+55 && mouseY>220 && mouseY<220+55)
+    if (mouseX>550 && mouseX<550+53 && mouseY>207 && mouseY<207+53)
+    {
+      rect(550,207,53,53);
+    }
+    if (mouseX>670 && mouseX<670+53 && mouseY>207 && mouseY<207+53)
     { 
-      rect(720,220,55,55);
+      rect(670,207,53,53);
     }
   }
-
-  /* Seconde partie : indiquer la situation courante (séquence, play/stop, etc) */
-
-  // cas 1 : la sequence en cours
-
-  fill(0,255,0,30); // couleur verte
-  noStroke();
-
-  String seqname = curSequence.getName(); // le nom de la séquence courante
-  if (seqname.equals("forward"))
-  {
-    rect(640,140,55,55);
-  } 
-  else if (seqname.equals("backward")) {    
-    rect(640,220,55,55);
-  } 
-  else if (seqname.equals("left")) {    
-    rect(560,220,55,55);
-  } 
-  else if (seqname.equals("right")) {    
-    rect(720,220,55,55);
-  }
-
-  // cas 2 : la distance des capteurs Sharp
-  fill(0,250,0);
-  rect(4,4,distance_left, 27);
-  rect(273,4,distance_right, 27);
-
-
-  /*
-  fill(0,120,0);
-   rect((cmd[1]-1-48)*30,(cmd[0]-48)*30,30,30);
-   rect((cmd[3]-1-48)*30+269,(cmd[2]-48)*30,30,30);
-   //
-   String pos = new String(cmd);
-   text(pos, 15, 25); 
-   */
 }
 
 void sendPosition()
@@ -122,6 +182,10 @@ void sendPosition()
 
 void mouseReleased()
 {  
+  if (mouseX < 540 && mouseY > 31 && mouseY < 300 && modeRecord)
+  {
+    saveNewCommande(mouseX,mouseY);
+  }
   /*
   if (mouseX<270) {
    cmd[0] = (char) (mRow+48);
@@ -133,6 +197,60 @@ void mouseReleased()
    }
    sendPosition();
    */
+}
+
+void saveNewCommande(int x, int y)
+{  
+  // enregistrer la nouvelle position  
+  BipedeCommande cur = curSequence.getCommande(curIndex);
+  if (x < 270) // jambe gauche
+  {
+    cur.gg = 10-y/30;
+    cur.hg = (x/30)+1;
+  } 
+  else { // jambe droite
+    cur.gd = 10-y/30;
+    cur.hd = ((x-270)/30)+1;
+  }  
+  // sauver la séquence
+  
+}
+
+void keyPressed()
+{
+  if (keyCode == RIGHT)
+  {
+    curIndex++;
+    if (curIndex >= curSequence.nombreCommandes())
+    {
+      curIndex = 0; 
+    }
+  }
+  if (keyCode == LEFT)
+  {
+    if (curIndex == 0)
+    {
+      curIndex = curSequence.nombreCommandes()-1;
+    } 
+    else {
+      curIndex--;
+    }
+  }
+  if (keyCode == UP)
+  {
+    curSpeed++;
+    if (curSpeed > 9) 
+    {
+      curSpeed = 9;
+    }
+  }
+  if (keyCode == DOWN)
+  {
+    if (curSpeed !=0)
+    {
+      curSpeed--; 
+    }
+  }
 }
 
 
@@ -152,6 +270,9 @@ void serialEvent(Serial p) {
   distance_left = (distance_left+int(float(parts[1])/2.5))/2;
 }
 
+/**
+ *
+ */
 BipedeSequence loadSequence(String name)
 {
   // création de la séquence
@@ -174,18 +295,47 @@ BipedeSequence loadSequence(String name)
     // 
     BipedeCommande bc = new BipedeCommande();
     XMLElement cmd = xml.getChild(i);
-    bc.setGenouGauche(cmd.getIntAttribute("gg")); 
-    bc.setHancheGauche(cmd.getIntAttribute("hg")); 
-    bc.setGenouDroit(cmd.getIntAttribute("gd")); 
-    bc.setHancheDroite(cmd.getIntAttribute("hd"));     
-    al.add(cmd);
+    bc.gg = cmd.getIntAttribute("gg"); 
+    bc.hg = cmd.getIntAttribute("hg"); 
+    bc.gd = cmd.getIntAttribute("gd"); 
+    bc.hd = cmd.getIntAttribute("hd");     
+    al.add(bc);
   }
   seq.setCommandes(al);    
   return seq;    
 }
 
+/**
+ *
+ */
+void afficheSequence()
+{  
+  for (int i = 0; i < curSequence.nombreCommandes(); i++)
+  {
+    if (i == curIndex) 
+    {
+      if (modePlay)
+      {
+        fill(20,255,20);
+      } 
+      if (modePause)
+      {
+        fill(20,20,255);
+
+      }
+      if (modeRecord)
+      {
+        fill(255,20,20);
+      }
+    } 
+    else {     
+      fill(20); 
+    }
+    text(curSequence.getCommande(i).textValue(), 744, 32+i*32);
+  }
 
 
+}
 
 
 

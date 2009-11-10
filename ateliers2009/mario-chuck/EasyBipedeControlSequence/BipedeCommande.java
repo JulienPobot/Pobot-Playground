@@ -3,33 +3,20 @@
 public class BipedeCommande
 {
   // genou gauche
-  private int gg;
+  public int gg;
   
   // hanche gauche
-  private int hg;
+  public int hg;
   
   // genou droit
-  private int gd;
+  public int gd;
   
   // hanche droite
-  private int hd; 
+  public int hd; 
   
-  public void setGenouGauche(int value)
+  public String textValue()
   {
-   gg = value; 
-  }
-  
-  public void setGenouDroit(int value)
-  {
-   gd = value; 
-  }
-  public void setHancheGauche(int value)
-  {
-   hg = value; 
-  }
-  public void setHancheDroite(int value)
-  {
-   hd = value; 
+   return "("+gg+","+hg+","+gd+","+hd+")";
   }
   
 }

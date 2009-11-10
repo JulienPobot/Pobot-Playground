@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <sequence>
   <commande gg="5" hg="5" gd="5" hd="4" />
+  <commande gg="4" hg="5" gd="5" hd="4" />
   <commande gg="5" hg="5" gd="5" hd="4" />
-  <commande gg="5" hg="5" gd="5" hd="4" />
-  <commande gg="5" hg="5" gd="5" hd="4" />
-  <commande gg="5" hg="5" gd="5" hd="4" />
+  <commande gg="3" hg="2" gd="5" hd="4" />
+  <commande gg="5" hg="1" gd="4" hd="6" />
 </sequence>
