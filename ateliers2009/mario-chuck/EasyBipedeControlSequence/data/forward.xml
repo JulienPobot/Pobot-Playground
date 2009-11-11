@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<sequence name="left">
+<sequence name="forward">
   <commande gg="4" hg="5" gd="5" hd="5"/>
   <commande gg="3" hg="5" gd="3" hd="5"/>
   <commande gg="3" hg="4" gd="1" hd="5"/>
