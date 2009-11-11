@@ -1,5 +1,6 @@
+import proxml.*;
 import processing.serial.*;
-import controlP5.*;
+
 
 int rows = 9;
 int columns = 18;
@@ -13,6 +14,8 @@ boolean flag_modif_sequence = true;
 boolean modePlay = false;
 boolean modePause = false;
 boolean modeRecord = true;
+
+XMLInOut xmlIO;
 
 // la séquence en cours
 BipedeSequence curSequence;
@@ -39,7 +42,7 @@ void setup()
   port = new Serial(this, portName, 9600);
   port.bufferUntil(10); // line feed
   //
-  curSequence = loadSequence("left");
+  loadSequence("forward");
 }
 
 void draw()
@@ -213,7 +216,27 @@ void saveNewCommande(int x, int y)
     cur.hd = ((x-270)/30)+1;
   }  
   // sauver la séquence
-  
+  enregistreSequence();
+}
+
+void enregistreSequence()
+{
+
+  proxml.XMLElement xml = new proxml.XMLElement("sequence"); 
+  xml.addAttribute("name",curSequence.getName());
+
+  for (int i = 0; i < curSequence.nombreCommandes(); i++)
+  {
+    BipedeCommande bc = curSequence.getCommande(i);
+    proxml.XMLElement fils = new proxml.XMLElement("commande");
+    fils.addAttribute("gg", bc.gg);
+    fils.addAttribute("hg", bc.hg);
+    fils.addAttribute("gd", bc.gd);
+    fils.addAttribute("hd", bc.hd);
+    xml.addChild(fils);    
+  }
+
+  xmlIO.saveElement(xml,curSequence.getName()+".xml"); 
 }
 
 void keyPressed()
@@ -251,6 +274,12 @@ void keyPressed()
       curSpeed--; 
     }
   }
+
+  if (keyCode == DELETE && modeRecord)
+  {
+    curSequence.removeCommande(curIndex);
+    enregistreSequence();
+  }
 }
 
 
@@ -273,28 +302,33 @@ void serialEvent(Serial p) {
 /**
  *
  */
-BipedeSequence loadSequence(String name)
+void loadSequence(String name)
 {
-  // création de la séquence
+  xmlIO = new XMLInOut(this);
+  xmlIO.loadElement(name+".xml"); 
+}
+
+void xmlEvent(proxml.XMLElement xml){    // création de la séquence
   BipedeSequence seq = new BipedeSequence();    
-  seq.setName(name);
+  seq.setName(xml.getAttribute("name"));
+
+  println(seq.getName());
   // préparation de la liste des commandes
   ArrayList al = new ArrayList();
 
   // fichier xml sous la forme
   // <?xml version="1.0"?>
-  // <sequence>
+  // <sequence name="filename">
   //   <commande gg="0" hg="0" gd="0" hd="0" />
   //   <commande gg="0" hg="0" gd="0" hd="0" />
   // </sequence>
-  XMLElement xml = new XMLElement(this, name+".xml");
   // nombre de commandes :
-  int numCmds = xml.getChildCount();
+  int numCmds = xml.countChildren();
   // pour chaque commande : 
   for (int i = 0; i < numCmds; i++) {
     // 
     BipedeCommande bc = new BipedeCommande();
-    XMLElement cmd = xml.getChild(i);
+    proxml.XMLElement cmd = xml.getChild(i);
     bc.gg = cmd.getIntAttribute("gg"); 
     bc.hg = cmd.getIntAttribute("hg"); 
     bc.gd = cmd.getIntAttribute("gd"); 
@@ -302,8 +336,9 @@ BipedeSequence loadSequence(String name)
     al.add(bc);
   }
   seq.setCommandes(al);    
-  return seq;    
+  curSequence = seq;
 }
+
 
 /**
  *
@@ -336,6 +371,11 @@ void afficheSequence()
 
 
 }
+
+
+
+
+
 
 
 

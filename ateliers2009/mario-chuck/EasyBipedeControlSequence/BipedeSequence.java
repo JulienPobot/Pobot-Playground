@@ -43,6 +43,11 @@ public class BipedeSequence
     this.commandes = al;
   }
   
+  public void removeCommande(int index)
+  {
+   this.commandes.remove(index); 
+  }
+  
   public BipedeCommande getCommande(int index)
   {
    return (BipedeCommande) this.commandes.get(index); 
