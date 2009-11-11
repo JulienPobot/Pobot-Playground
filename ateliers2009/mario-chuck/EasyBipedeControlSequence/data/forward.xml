@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<sequence name="left">
+  <commande gg="4" hg="5" gd="5" hd="5"/>
+  <commande gg="3" hg="5" gd="3" hd="5"/>
+  <commande gg="3" hg="4" gd="1" hd="5"/>
+  <commande gg="2" hg="4" gd="1" hd="5"/>
+  <commande gg="2" hg="6" gd="3" hd="7"/>
+  <commande gg="3" hg="7" gd="4" hd="8"/>
+  <commande gg="5" hg="6" gd="5" hd="6"/>
+  <commande gg="6" hg="6" gd="6" hd="6"/>
+  <commande gg="7" hg="6" gd="7" hd="6"/>
+  <commande gg="7" hg="4" gd="7" hd="3"/>
+  <commande gg="6" hg="3" gd="7" hd="3"/>
+  <commande gg="6" hg="3" gd="5" hd="3"/>
+</sequence>
