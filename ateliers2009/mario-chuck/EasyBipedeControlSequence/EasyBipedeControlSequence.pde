@@ -22,7 +22,9 @@ BipedeSequence curSequence;
 
 int curIndex = 0;
 
-int curSpeed = 0;
+int curSpeed = 9;
+
+long lastMillis = millis();
 
 PImage bg;
 PFont font;
@@ -38,11 +40,11 @@ void setup()
   textFont(font, 20);
   // 
   println(Serial.list());
-  String portName = Serial.list()[0];
+  String portName = Serial.list()[1];
   port = new Serial(this, portName, 9600);
   port.bufferUntil(10); // line feed
   //
-  loadSequence("forward");
+  loadSequence("left");
 }
 
 void draw()
@@ -60,6 +62,28 @@ void draw()
   afficheSharp();
 
   afficheCommande();
+
+
+  // Principal : gérer la communication avec le robot
+
+  if (millis()-lastMillis > calculePeriode())
+  {
+    envoieCommande(); 
+    lastMillis = millis();
+    if (modePlay) {
+      curIndex++; 
+    }
+  }  
+}
+
+/** 
+ * Nombre de millisecondes à s'écouler entre deux envois
+ * Dépend de la vitesse
+ */
+long calculePeriode()
+{
+  // plus la vitesse est grande plus il y a de temps
+  return (10-curSpeed)*1000; // 1 seconde par vitesse  
 }
 
 void afficheCommande()
@@ -153,7 +177,7 @@ void afficheSouris()
     else {
       fill(0,0,250,50);
     }
-    if (mouseX>610 && mouseX<610+53 && mouseY>175 && mouseY<175+53)
+    if (mouseOverForward())
     {
       rect(610,175,53,53);
     }
@@ -170,25 +194,113 @@ void afficheSouris()
       rect(670,207,53,53);
     }
   }
+  // cas 3, les boutons du mode
+  if (mouseOverPlay())
+  {
+     rect(550,11,53,53);
+  }
+  if (mouseOverStop())
+  {
+     rect(610,11,53,53);
+  }
+  if (mouseOverRecord())
+  {
+     rect(670,11,53,53);
+  }
+  
 }
 
-void sendPosition()
+void envoieCommande()
 {
-  /*
-  port.write(cmd[0]);
-   port.write(cmd[1]);
-   port.write(cmd[2]);
-   port.write(cmd[3]);
-   port.write('p');
-   */
+  BipedeCommande cur = curSequence.getCommande(curIndex);
+  port.write(48+cur.gg);
+  port.write(48+cur.hg);
+  port.write(48+cur.gd);
+  port.write(48+cur.hd);
+  port.write('p');
+  // 
+  println("Sent : "+cur.gg+""+cur.hg+""+cur.gd+""+cur.hd);
+
 }
 
-void mouseReleased()
+void mouseChangeCommande()
 {  
   if (mouseX < 540 && mouseY > 31 && mouseY < 300 && modeRecord)
   {
     saveNewCommande(mouseX,mouseY);
+  }   
+}
+
+void mouseChangeSequence()
+{
+  String seqname = curSequence.getName(); // le nom de la séquence courante
+  if (mouseOverForward() && ! seqname.equals("forward"))
+  {
+    loadSequence("forward");  
+    curIndex = 0;  
   }
+  if (mouseOverBackward() && ! seqname.equals("backward"))
+  {
+    loadSequence("backward"); 
+    curIndex = 0;     
+  }
+  if (mouseOverLeft() && ! seqname.equals("left"))
+  {
+    loadSequence("left");    
+    curIndex = 0;  
+  }
+  if (mouseOverRight() && ! seqname.equals("right"))
+  {
+    loadSequence("right");    
+    curIndex = 0;  
+  }
+
+}
+
+boolean mouseOverPlay()
+{
+  return (mouseX >= 550 && mouseX <= 550+53 && mouseY>=11 && mouseY <= 11+53);   
+}
+
+boolean mouseOverStop()
+{
+  return (mouseX >= 610 && mouseX <= 610+53 && mouseY>=11 && mouseY <= 11+53);   
+}
+
+boolean mouseOverRecord()
+{
+  return (mouseX >= 670 && mouseX <= 670+53 && mouseY>=11 && mouseY <= 11+53);   
+}
+
+boolean mouseOverForward()
+{
+  return (mouseX >= 610 && mouseX <= 610+53 && mouseY>=175 && mouseY <= 175+53);  
+}
+
+boolean mouseOverBackward()
+{
+  return (mouseX >= 610 && mouseX <= 610+53 && mouseY>=240 && mouseY <= 240+53);  
+}
+
+boolean mouseOverLeft()
+{
+  return (mouseX >= 550 && mouseX <= 550+53 && mouseY>=207 && mouseY <= 207+53);  
+}
+
+boolean mouseOverRight()
+{
+  return (mouseX >= 670 && mouseX <= 670+53 && mouseY>=207 && mouseY <= 207+53);  
+}
+
+void mouseReleased()
+{ 
+  // changement de commande
+  mouseChangeCommande();
+
+  // changement de séquence
+  mouseChangeSequence();  
+
+
   /*
   if (mouseX<270) {
    cmd[0] = (char) (mRow+48);
@@ -248,6 +360,8 @@ void keyPressed()
     {
       curIndex = 0; 
     }
+    envoieCommande(); 
+    lastMillis = millis();
   }
   if (keyCode == LEFT)
   {
@@ -258,6 +372,8 @@ void keyPressed()
     else {
       curIndex--;
     }
+    envoieCommande(); 
+    lastMillis = millis();
   }
   if (keyCode == UP)
   {
@@ -280,6 +396,13 @@ void keyPressed()
     curSequence.removeCommande(curIndex);
     enregistreSequence();
   }
+
+  if (keyCode == 155 && modeRecord) 
+  {
+    curSequence.insertCommande(curIndex);
+    enregistreSequence();    
+  }
+
 }
 
 
@@ -371,6 +494,8 @@ void afficheSequence()
 
 
 }
+
+
 
 
 

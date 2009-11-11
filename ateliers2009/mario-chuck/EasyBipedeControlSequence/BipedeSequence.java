@@ -43,13 +43,25 @@ public class BipedeSequence
     this.commandes = al;
   }
   
+  public void insertCommande(int index)
+  {
+    BipedeCommande tmp = new BipedeCommande();
+    commandes.add(index, tmp);        
+  }
+  
   public void removeCommande(int index)
   {
+   if (index < commandes.size())
+   {
    this.commandes.remove(index); 
+   }
   }
   
   public BipedeCommande getCommande(int index)
   {
+   if (index >= commandes.size()) {
+    index = index-1; 
+   }
    return (BipedeCommande) this.commandes.get(index); 
   }
 
