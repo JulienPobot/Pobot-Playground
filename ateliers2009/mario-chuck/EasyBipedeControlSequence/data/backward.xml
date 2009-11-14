@@ -1,8 +1,19 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <sequence name="backward">
-  <commande gg="8" hg="8" gd="7" hd="7"/>
-  <commande gg="9" hg="9" gd="9" hd="9"/>
-  <commande gg="9" hg="1" gd="9" hd="1"/>
-  <commande gg="1" hg="9" gd="1" hd="9"/>
   <commande gg="5" hg="5" gd="5" hd="5"/>
+  <commande gg="2" hg="5" gd="7" hd="4"/>
+  <commande gg="1" hg="6" gd="7" hd="6"/>
+  <commande gg="3" hg="6" gd="7" hd="6"/>
+  <commande gg="5" hg="7" gd="5" hd="7"/>
+  <commande gg="7" hg="7" gd="3" hd="7"/>
+  <commande gg="7" hg="3" gd="2" hd="3"/>
+  <commande gg="7" hg="3" gd="3" hd="3"/>
+  <commande gg="5" hg="3" gd="5" hd="3"/>
+  <commande gg="2" hg="3" gd="7" hd="3"/>
+  <commande gg="1" hg="6" gd="7" hd="6"/>
+  <commande gg="3" hg="6" gd="7" hd="6"/>
+  <commande gg="5" hg="6" gd="5" hd="6"/>
+  <commande gg="7" hg="6" gd="3" hd="6"/>
+  <commande gg="6" hg="5" gd="2" hd="5"/>
+  <commande gg="7" hg="5" gd="3" hd="5"/>
 </sequence>
