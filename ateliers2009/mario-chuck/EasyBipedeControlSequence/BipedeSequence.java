@@ -59,7 +59,7 @@ public class BipedeSequence
   
   public BipedeCommande getCommande(int index)
   {
-   if (index >= commandes.size()) {
+   if (index >= this.commandes.size()) {
     index = index-1; 
    }
    return (BipedeCommande) this.commandes.get(index); 

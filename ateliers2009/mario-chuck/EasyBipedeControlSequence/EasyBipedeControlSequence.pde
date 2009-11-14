@@ -12,8 +12,8 @@ boolean flag_modif_position = true;
 boolean flag_modif_sequence = true;
 
 boolean modePlay = false;
-boolean modePause = false;
-boolean modeRecord = true;
+boolean modePause = true;
+boolean modeRecord = false;
 
 XMLInOut xmlIO;
 
@@ -37,7 +37,7 @@ void setup()
   bg = loadImage("interface_easybipede.png");
   font = loadFont("ArialMT-32.vlw");
   textAlign(LEFT);
-  textFont(font, 20);
+  textFont(font, 15);
   // 
   println(Serial.list());
   String portName = Serial.list()[1];
@@ -72,6 +72,10 @@ void draw()
     lastMillis = millis();
     if (modePlay) {
       curIndex++; 
+      if (curIndex >= curSequence.nombreCommandes())
+      {
+       curIndex = 0; 
+      }
     }
   }  
 }
@@ -223,6 +227,34 @@ void envoieCommande()
 
 }
 
+void mouseChangeMode()
+{
+  if (mouseOverPlay() && ! modePlay)
+  {
+    modePlay = true;
+    modePause = false;
+    modeRecord = false;
+    println("play");
+  }
+  
+  if (mouseOverStop() && ! modePause)
+  {
+    modePlay = false;
+    modePause = true;
+    modeRecord = false;
+    println("stop");    
+  }
+  
+  if (mouseOverRecord() && ! modeRecord)
+  {    
+    modePlay = false;
+    modePause = false;
+    modeRecord = true;
+    println("record");
+  }
+  
+}
+
 void mouseChangeCommande()
 {  
   if (mouseX < 540 && mouseY > 31 && mouseY < 300 && modeRecord)
@@ -299,6 +331,9 @@ void mouseReleased()
 
   // changement de séquence
   mouseChangeSequence();  
+  
+  // changement de mode
+  mouseChangeMode();
 
 
   /*
@@ -489,7 +524,7 @@ void afficheSequence()
     else {     
       fill(20); 
     }
-    text(curSequence.getCommande(i).textValue(), 744, 32+i*32);
+    text(curSequence.getCommande(i).textValue(), 744, 20+i*20);
   }
 
 
