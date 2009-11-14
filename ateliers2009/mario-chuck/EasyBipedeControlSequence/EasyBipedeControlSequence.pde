@@ -2,6 +2,8 @@ import proxml.*;
 import processing.serial.*;
 
 
+int speedMillis = 500; // nombre de millisecondes entre deux pas
+
 int rows = 9;
 int columns = 18;
 
@@ -87,7 +89,7 @@ void draw()
 long calculePeriode()
 {
   // plus la vitesse est grande plus il y a de temps
-  return (10-curSpeed)*1000; // 1 seconde par vitesse  
+  return (10-curSpeed)*speedMillis; // 1 seconde par vitesse  
 }
 
 void afficheCommande()
