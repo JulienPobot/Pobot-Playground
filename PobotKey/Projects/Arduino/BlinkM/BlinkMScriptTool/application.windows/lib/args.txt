@@ -1,3 +1,0 @@
- -Xms64m -Xmx500m
-BlinkMScriptTool
-BlinkMScriptTool.jar,core.jar,serial.jar,RXTXcomm.jar
