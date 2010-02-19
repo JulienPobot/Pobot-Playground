@@ -1,0 +1,104 @@
+Manifest-Version: 1.0
+Short-Name: HudsonBlink
+Long-Name: Unnamed - org.pobot:HudsonBlink:hpi:1.0-SNAPSHOT
+Url: https://hudson.dev.java.net/plugin/HudsonBlink
+Plugin-Version: 1.0-SNAPSHOT (private-10/20/2009 10:31-Julien)
+Hudson-Version: 1.323
+Plugin-Dependencies: maven-plugin:1.323
+Libraries: C:\Software\Arduino\HudsonSignal\server\HudsonBlink\target\
+ classes,C:\Documents and Settings\Julien\.m2\repository\org\jvnet\hud
+ son\main\hudson-war\1.323\hudson-war-1.323.war,C:\Documents and Setti
+ ngs\Julien\.m2\repository\junit\junit\4.3.1\junit-4.3.1.jar,C:\Docume
+ nts and Settings\Julien\.m2\repository\org\jvnet\hudson\main\hudson-t
+ est-harness\1.323\hudson-test-harness-1.323.jar,C:\Documents and Sett
+ ings\Julien\.m2\repository\org\jvnet\hudson\main\hudson-war\1.323\hud
+ son-war-1.323-war-for-test.jar,C:\Documents and Settings\Julien\.m2\r
+ epository\org\jvnet\hudson\main\maven-plugin\1.323\maven-plugin-1.323
+ .jar,C:\Documents and Settings\Julien\.m2\repository\org\jvnet\hudson
+ \main\maven-agent\1.323\maven-agent-1.323.jar,C:\Documents and Settin
+ gs\Julien\.m2\repository\org\jvnet\hudson\main\maven-interceptor\1.32
+ 3\maven-interceptor-1.323.jar,C:\Documents and Settings\Julien\.m2\re
+ pository\org\apache\maven\maven-core\2.0.9\maven-core-2.0.9.jar,C:\Do
+ cuments and Settings\Julien\.m2\repository\org\apache\maven\maven-set
+ tings\2.0.9\maven-settings-2.0.9.jar,C:\Documents and Settings\Julien
+ \.m2\repository\org\apache\maven\maven-model\2.0.9\maven-model-2.0.9.
+ jar,C:\Documents and Settings\Julien\.m2\repository\org\codehaus\plex
+ us\plexus-utils\1.5.1\plexus-utils-1.5.1.jar,C:\Documents and Setting
+ s\Julien\.m2\repository\org\codehaus\plexus\plexus-container-default\
+ 1.0-alpha-9-stable-1\plexus-container-default-1.0-alpha-9-stable-1.ja
+ r,C:\Documents and Settings\Julien\.m2\repository\classworlds\classwo
+ rlds\1.1\classworlds-1.1.jar,C:\Documents and Settings\Julien\.m2\rep
+ ository\org\apache\maven\wagon\wagon-file\1.0-beta-2\wagon-file-1.0-b
+ eta-2.jar,C:\Documents and Settings\Julien\.m2\repository\org\apache\
+ maven\wagon\wagon-provider-api\1.0-beta-2\wagon-provider-api-1.0-beta
+ -2.jar,C:\Documents and Settings\Julien\.m2\repository\org\apache\mav
+ en\maven-plugin-parameter-documenter\2.0.9\maven-plugin-parameter-doc
+ umenter-2.0.9.jar,C:\Documents and Settings\Julien\.m2\repository\sli
+ de\slide-webdavlib\2.1\slide-webdavlib-2.1.jar,C:\Documents and Setti
+ ngs\Julien\.m2\repository\commons-httpclient\commons-httpclient\3.1\c
+ ommons-httpclient-3.1.jar,C:\Documents and Settings\Julien\.m2\reposi
+ tory\de\zeigermann\xml\xml-im-exporter\1.1\xml-im-exporter-1.1.jar,C:
+ \Documents and Settings\Julien\.m2\repository\org\apache\maven\wagon\
+ wagon-http-lightweight\1.0-beta-2\wagon-http-lightweight-1.0-beta-2.j
+ ar,C:\Documents and Settings\Julien\.m2\repository\org\apache\maven\w
+ agon\wagon-http-shared\1.0-beta-2\wagon-http-shared-1.0-beta-2.jar,C:
+ \Documents and Settings\Julien\.m2\repository\org\apache\maven\report
+ ing\maven-reporting-api\2.0.9\maven-reporting-api-2.0.9.jar,C:\Docume
+ nts and Settings\Julien\.m2\repository\org\apache\maven\doxia\doxia-s
+ ink-api\1.0-alpha-10\doxia-sink-api-1.0-alpha-10.jar,C:\Documents and
+  Settings\Julien\.m2\repository\org\apache\maven\maven-profile\2.0.9\
+ maven-profile-2.0.9.jar,C:\Documents and Settings\Julien\.m2\reposito
+ ry\org\apache\maven\maven-artifact\2.0.9\maven-artifact-2.0.9.jar,C:\
+ Documents and Settings\Julien\.m2\repository\org\apache\maven\maven-r
+ epository-metadata\2.0.9\maven-repository-metadata-2.0.9.jar,C:\Docum
+ ents and Settings\Julien\.m2\repository\org\apache\maven\maven-error-
+ diagnostics\2.0.9\maven-error-diagnostics-2.0.9.jar,C:\Documents and 
+ Settings\Julien\.m2\repository\org\apache\maven\maven-project\2.0.9\m
+ aven-project-2.0.9.jar,C:\Documents and Settings\Julien\.m2\repositor
+ y\org\apache\maven\maven-artifact-manager\2.0.9\maven-artifact-manage
+ r-2.0.9.jar,C:\Documents and Settings\Julien\.m2\repository\org\apach
+ e\maven\maven-plugin-registry\2.0.9\maven-plugin-registry-2.0.9.jar,C
+ :\Documents and Settings\Julien\.m2\repository\org\apache\maven\maven
+ -plugin-api\2.0.9\maven-plugin-api-2.0.9.jar,C:\Documents and Setting
+ s\Julien\.m2\repository\org\apache\maven\wagon\wagon-ssh-external\1.0
+ -beta-2\wagon-ssh-external-1.0-beta-2.jar,C:\Documents and Settings\J
+ ulien\.m2\repository\org\apache\maven\wagon\wagon-ssh-common\1.0-beta
+ -2\wagon-ssh-common-1.0-beta-2.jar,C:\Documents and Settings\Julien\.
+ m2\repository\org\codehaus\plexus\plexus-interactivity-api\1.0-alpha-
+ 4\plexus-interactivity-api-1.0-alpha-4.jar,C:\Documents and Settings\
+ Julien\.m2\repository\org\apache\maven\maven-plugin-descriptor\2.0.9\
+ maven-plugin-descriptor-2.0.9.jar,C:\Documents and Settings\Julien\.m
+ 2\repository\org\apache\maven\maven-monitor\2.0.9\maven-monitor-2.0.9
+ .jar,C:\Documents and Settings\Julien\.m2\repository\org\apache\maven
+ \wagon\wagon-ssh\1.0-beta-2\wagon-ssh-1.0-beta-2.jar,C:\Documents and
+  Settings\Julien\.m2\repository\com\jcraft\jsch\0.1.27\jsch-0.1.27.ja
+ r,C:\Documents and Settings\Julien\.m2\repository\org\jvnet\hudson\ma
+ ven2.1-interceptor\1.2\maven2.1-interceptor-1.2.jar,C:\Documents and 
+ Settings\Julien\.m2\repository\org\apache\maven\maven-embedder\2.0.4\
+ maven-embedder-2.0.4.jar,C:\Documents and Settings\Julien\.m2\reposit
+ ory\org\jvnet\hudson\wagon-webdav\1.0-beta-2-hudson-1\wagon-webdav-1.
+ 0-beta-2-hudson-1.jar,C:\Documents and Settings\Julien\.m2\repository
+ \org\mortbay\jetty\jetty\6.1.11\jetty-6.1.11.jar,C:\Documents and Set
+ tings\Julien\.m2\repository\org\mortbay\jetty\jetty-util\6.1.11\jetty
+ -util-6.1.11.jar,C:\Documents and Settings\Julien\.m2\repository\org\
+ mortbay\jetty\servlet-api-2.5\6.1.11\servlet-api-2.5-6.1.11.jar,C:\Do
+ cuments and Settings\Julien\.m2\repository\org\jvnet\mock-javamail\mo
+ ck-javamail\1.7\mock-javamail-1.7.jar,C:\Documents and Settings\Julie
+ n\.m2\repository\org\jvnet\hudson\htmlunit\2.2-hudson-10\htmlunit-2.2
+ -hudson-10.jar,C:\Documents and Settings\Julien\.m2\repository\xalan\
+ xalan\2.7.0\xalan-2.7.0.jar,C:\Documents and Settings\Julien\.m2\repo
+ sitory\org\jvnet\hudson\htmlunit-core-js\2.2-hudson-2\htmlunit-core-j
+ s-2.2-hudson-2.jar,C:\Documents and Settings\Julien\.m2\repository\ne
+ t\sourceforge\nekohtml\nekohtml\1.9.8\nekohtml-1.9.8.jar,C:\Documents
+  and Settings\Julien\.m2\repository\xerces\xercesImpl\2.8.1\xercesImp
+ l-2.8.1.jar,C:\Documents and Settings\Julien\.m2\repository\net\sourc
+ eforge\cssparser\cssparser\0.9.5\cssparser-0.9.5.jar,C:\Documents and
+  Settings\Julien\.m2\repository\org\w3c\css\sac\1.3\sac-1.3.jar,C:\Do
+ cuments and Settings\Julien\.m2\repository\org\jvnet\hudson\embedded-
+ rhino-debugger\1.1\embedded-rhino-debugger-1.1.jar,C:\Documents and S
+ ettings\Julien\.m2\repository\org\jvnet\hudson\netx\0.5-hudson-2\netx
+ -0.5-hudson-2.jar,C:\Documents and Settings\Julien\.m2\repository\org
+ \easymock\easymock\2.4\easymock-2.4.jar
+Resource-Path: C:\Software\Arduino\HudsonSignal\server\HudsonBlink\src
+ \main\webapp
+
