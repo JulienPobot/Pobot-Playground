@@ -1,1 +1,0 @@
-servoclock.o: servoclock.c
