@@ -1,0 +1,1 @@
+<Project name="CarteMoteurs"><File path="vitesses.h"></File><File path="global.h"></File><File path="i2cconf.h"></File><File path="makefile"></File><File path="moteurs.c"></File></Project>
