@@ -1,9 +1,0 @@
-# pobtools project
-pobtools.version=4
-target.name=./Camera.hex
-sources.number=1
-sources.0=./Camera.c
-bmps.number=0
-patterns.number=0
-sdk=pobeye2
-lang=C
