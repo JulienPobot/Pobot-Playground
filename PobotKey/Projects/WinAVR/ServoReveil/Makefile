@@ -41,7 +41,8 @@
 
 
 # MCU name
-MCU = attiny2313
+MCU = attiny13
+#MCU = atmega8
 
 
 # Processor frequency.
@@ -62,7 +63,7 @@ MCU = attiny2313
 #         F_CPU = 16000000
 #         F_CPU = 18432000
 #         F_CPU = 20000000
-F_CPU = 8000000
+F_CPU = 600000
 
 
 # Output format. (can be srec, ihex, binary)
@@ -273,10 +274,10 @@ LDFLAGS += $(PRINTF_LIB) $(SCANF_LIB) $(MATH_LIB)
 # Type: avrdude -c ?
 # to get a full listing.
 #
-AVRDUDE_PROGRAMMER = avr911
+AVRDUDE_PROGRAMMER = stk500
 
 # com1 = serial port. Use lpt1 to connect to parallel port.
-AVRDUDE_PORT = usb    # programmer connected to serial device
+AVRDUDE_PORT = COM3    # programmer connected to serial device
 
 AVRDUDE_WRITE_FLASH = -U flash:w:$(TARGET).hex
 #AVRDUDE_WRITE_EEPROM = -U eeprom:w:$(TARGET).eep
