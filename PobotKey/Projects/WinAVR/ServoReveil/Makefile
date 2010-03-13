@@ -63,7 +63,7 @@ MCU = attiny13
 #         F_CPU = 16000000
 #         F_CPU = 18432000
 #         F_CPU = 20000000
-F_CPU = 600000
+F_CPU = 4800000
 
 
 # Output format. (can be srec, ihex, binary)
