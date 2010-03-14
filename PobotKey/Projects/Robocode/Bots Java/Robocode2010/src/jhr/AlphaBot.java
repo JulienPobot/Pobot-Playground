@@ -4,22 +4,29 @@ import robocode.AdvancedRobot;
 import robocode.ScannedRobotEvent;
 import robocode.util.Utils;
 
+/**
+ * 
+ * @author Julien pour Pobot
+ *
+ */
 public class AlphaBot extends AdvancedRobot {
 
+	// Gestion du sens de déplacement (avancer ou reculer)
 	public double FORWARD = 1.0;
 
 	@Override
 	public void run() {
 
-		// Radar indépendant
+		// Le robot, le canon et le radar peuvent tourner indépendemment les uns des autres
 		setAdjustRadarForRobotTurn(true);
 		setAdjustRadarForGunTurn(true);
 		setAdjustGunForRobotTurn(true);
 
-		// Utilisation du "narrow lock" en combat 1-1
+		// Utilisation d'un radar de type "narrow lock" en combat 1-1
+		// décrit sur le wiki : http://robowiki.net/wiki/Radar
 		turnRadarRightRadians(Double.POSITIVE_INFINITY);
 		do {
-			// si rien ne se passe
+			// si on a perdu le robot ennemi, on tourne le radar
 			turnRadarRight(45);
 		} while (true);
 	}
@@ -27,9 +34,9 @@ public class AlphaBot extends AdvancedRobot {
 	@Override
 	public void onScannedRobot(ScannedRobotEvent e) {
 
-		// esquive
-
-		// alignement du radar avec l'adversaire
+		// Alignement du radar avec l'adversaire
+		// selon le principe "narrow lock" 
+		// décrit sur le wiki : http://robowiki.net/wiki/Radar
 
 		double radarTurn =
 		// Absolute bearing to target
