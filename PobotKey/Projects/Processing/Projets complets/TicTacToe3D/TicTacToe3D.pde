@@ -2,7 +2,7 @@ import processing.serial.*;
 import processing.opengl.*;
 
 Serial serial;
-int serialPort = 2;
+int serialPort = 3;
 
 int sen = 3; // sensors
 int div = 3; // board sub divisions
