@@ -1,4 +1,4 @@
-#N canvas 466 130 674 563 10;
+#N canvas 308 94 674 563 10;
 #X msg 39 122 close;
 #N canvas 779 22 447 555 DIGITAL-OUTPUT 0;
 #X text 72 97 I/O the individual pins:;
@@ -452,9 +452,9 @@ digital it is controller per 8-pin "port".;
 #X msg 56 167 devices;
 #X text 86 119 close the serial port;
 #X msg 337 160 pinMode 13 output;
-#N canvas 303 223 426 388 SERVO 1;
-#X obj 180 177 hsl 150 17 0 1 0 0 empty empty Servo_control_(0-1) -2
--6 1 10 -260818 -1 -1 0 1;
+#N canvas 333 502 491 389 SERVO 0;
+#X obj 195 177 hsl 150 17 0 1 0 0 empty empty Servo_control_(0-1) -2
+-6 1 10 -260818 -1 -1 7600 1;
 #X obj 53 272 s \$0-arduino;
 #X msg 53 157 pinMode 7 servo;
 #X msg 107 229 analog 7 \$1;
