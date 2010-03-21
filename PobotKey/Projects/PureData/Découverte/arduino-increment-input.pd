@@ -1,4 +1,4 @@
-#N canvas 679 167 502 480 10;
+#N canvas 625 38 502 480 10;
 #X text 26 25 Test d'incrément sur une interruption externe. L'objectif
 est de pouvoir gérer des odomètres.;
 #X msg 45 128 close;
@@ -11,7 +11,7 @@ est de pouvoir gérer des odomètres.;
 #X obj 175 259 send \$0-arduino-out;
 #X obj 175 215 receive \$0-arduino;
 #X obj 175 238 arduino 1;
-#X text 187 97;
+#X text 187 97 comment;
 #X text 244 236 <- Arduino object;
 #X msg 21 311 pinMode 2 input;
 #X obj 21 348 send \$0-arduino;
@@ -29,7 +29,6 @@ est de pouvoir gérer des odomètres.;
 #X connect 13 0 14 0;
 #X connect 15 0 16 0;
 #X connect 16 0 17 0;
-#X connect 17 0 18 0;
 #X connect 17 0 20 0;
 #X connect 19 0 20 1;
 #X connect 19 0 18 0;
