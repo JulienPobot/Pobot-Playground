@@ -1,0 +1,38 @@
+#N canvas 588 356 450 300 10;
+#N canvas 149 501 380 300 consignes 1;
+#X obj 19 32 vsl 15 128 -50 50 0 0 empty empty speed 0 -9 0 10 -261682
+-1 -1 10500 1;
+#X obj 144 34 hsl 128 15 -50 50 0 0 empty empty bias -2 -8 0 10 -261682
+-1 -1 9000 1;
+#X floatatom 19 176 5 0 0 0 - - -;
+#X floatatom 141 68 5 0 0 0 - - -;
+#X msg 74 -4 0;
+#X obj 80 230 hsl 128 15 -100 100 0 0 empty empty empty -2 -8 0 10
+-204800 -1 -1 9750 1;
+#X obj 230 231 hsl 128 15 -100 100 0 0 empty empty empty -2 -8 0 10
+-204800 -1 -1 7100 1;
+#X obj 77 202 +;
+#X floatatom 77 259 5 0 0 0 - - -;
+#X floatatom 227 260 5 0 0 0 - - -;
+#X obj 172 106 f;
+#X obj 227 192 -;
+#X obj 111 104 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X text 108 125 bang pour activer la mise à jour;
+#X connect 0 0 2 0;
+#X connect 1 0 3 0;
+#X connect 2 0 7 0;
+#X connect 2 0 11 0;
+#X connect 3 0 10 0;
+#X connect 3 0 12 0;
+#X connect 4 0 0 0;
+#X connect 4 0 1 0;
+#X connect 5 0 8 0;
+#X connect 6 0 9 0;
+#X connect 7 0 5 0;
+#X connect 10 0 7 1;
+#X connect 10 0 11 1;
+#X connect 11 0 6 0;
+#X connect 12 0 7 0;
+#X connect 12 0 11 0;
+#X restore 331 9 pd consignes;
