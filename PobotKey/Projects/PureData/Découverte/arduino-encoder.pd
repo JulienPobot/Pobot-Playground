@@ -1,0 +1,103 @@
+#N canvas 767 113 450 642 10;
+#X obj 80 38 send \$0-arduino;
+#X msg 80 -28 pinMode 2 input;
+#X text 206 0;
+#X msg 93 0 pinMode 3 input;
+#X obj 199 -88 send \$0-arduino-out;
+#X obj 199 -132 receive \$0-arduino;
+#X obj 199 -109 arduino 1;
+#X text 14 -108 here is our Arduino object -->;
+#X msg -19 -28 close;
+#X obj -36 41 send \$0-arduino;
+#X msg -2 7 devices;
+#X msg -36 -62 open 38;
+#X obj -46 297 route analog;
+#X obj -46 265 r \$0-arduino-out;
+#X obj -46 330 route 6 7;
+#X floatatom -46 372 10 0 0 3 a6 - -;
+#X floatatom 54 399 10 0 0 3 a7 - -;
+#X msg -14 133 analogIns 7 1;
+#N canvas 162 133 610 460 serin 0;
+#X obj 59 337 outlet;
+#X obj 59 266 trigger bang anything;
+#X obj 201 286 list;
+#X obj 60 61 tgl 15 0 junk_to_hide_inlet ARDUINO_TEST_RESET 0 5 9 1
+12 -262130 -1 -1 0 1;
+#X obj 75 61 tgl 15 0 junk_to_hide_inlet ARDUINO_TEST_RESET 1 5 9 1
+12 -262130 -1 -1 0 1;
+#X obj 90 61 tgl 15 0 junk_to_hide_inlet ARDUINO_TEST_RESET 2 5 9 1
+12 -262130 -1 -1 0 1;
+#X obj 105 61 tgl 15 0 junk_to_hide_inlet ARDUINO_TEST_RESET 3 5 9
+1 12 -262130 -1 -1 0 1;
+#X obj 120 61 tgl 15 0 junk_to_hide_inlet ARDUINO_TEST_RESET 4 5 9
+1 12 -262130 -1 -1 0 1;
+#X obj 135 61 tgl 15 0 junk_to_hide_inlet ARDUINO_TEST_RESET 5 5 9
+1 12 -262130 -1 -1 0 1;
+#X obj 150 61 tgl 15 0 junk_to_hide_inlet ARDUINO_TEST_RESET 6 5 9
+1 12 -262130 -1 -1 1 1;
+#X obj 165 61 tgl 15 0 junk_to_hide_inlet ARDUINO_TEST_RESET 7 5 9
+1 12 -262130 -1 -1 1 1;
+#X msg 59 210 analogIns \$1 \$2;
+#X msg 35 106 0 \$1;
+#X msg 70 106 1 \$1;
+#X msg 105 106 2 \$1;
+#X msg 140 106 3 \$1;
+#X msg 175 106 4 \$1;
+#X msg 210 106 5 \$1;
+#X msg 245 106 6 \$1;
+#X msg 280 106 7 \$1;
+#X msg 202 307 set \$1 \$2 \$3;
+#X connect 1 0 0 0;
+#X connect 1 1 2 0;
+#X connect 2 0 20 0;
+#X connect 3 0 12 0;
+#X connect 4 0 13 0;
+#X connect 5 0 14 0;
+#X connect 6 0 15 0;
+#X connect 7 0 16 0;
+#X connect 8 0 17 0;
+#X connect 9 0 18 0;
+#X connect 10 0 19 0;
+#X connect 11 0 1 0;
+#X connect 12 0 11 0;
+#X connect 13 0 11 0;
+#X connect 14 0 11 0;
+#X connect 15 0 11 0;
+#X connect 16 0 11 0;
+#X connect 17 0 11 0;
+#X connect 18 0 11 0;
+#X connect 19 0 11 0;
+#X connect 20 0 0 0;
+#X coords 0 -1 1 1 120 16 1 60 60;
+#X restore -14 112 pd serin;
+#X text -15 94 which analogIns to enable:;
+#X text -8 157;
+#X obj -14 169 send \$0-arduino;
+#X obj -38 437 r \$0-arduino-out;
+#X obj 209 39 send \$0-arduino;
+#X msg 209 -26 pinMode 4 output;
+#X msg 222 1 pinMode 5 output;
+#X obj 193 96 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 193 161 send \$0-arduino;
+#X msg 193 129 digital 5 \$1;
+#X obj 54 369 * 1000;
+#X connect 1 0 0 0;
+#X connect 3 0 0 0;
+#X connect 5 0 6 0;
+#X connect 6 0 4 0;
+#X connect 8 0 9 0;
+#X connect 10 0 9 0;
+#X connect 11 0 9 0;
+#X connect 12 0 14 0;
+#X connect 13 0 12 0;
+#X connect 14 0 15 0;
+#X connect 14 1 29 0;
+#X connect 17 0 21 0;
+#X connect 18 0 17 0;
+#X connect 24 0 23 0;
+#X connect 25 0 23 0;
+#X connect 26 0 28 0;
+#X connect 28 0 27 0;
+#X connect 29 0 16 0;
+#X coords 0 0 1 1 85 60 0;

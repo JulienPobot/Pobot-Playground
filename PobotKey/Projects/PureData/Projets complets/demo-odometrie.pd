@@ -1,38 +1,133 @@
-#N canvas 588 356 450 300 10;
-#N canvas 149 501 380 300 consignes 1;
-#X obj 19 32 vsl 15 128 -50 50 0 0 empty empty speed 0 -9 0 10 -261682
--1 -1 10500 1;
-#X obj 144 34 hsl 128 15 -50 50 0 0 empty empty bias -2 -8 0 10 -261682
--1 -1 9000 1;
-#X floatatom 19 176 5 0 0 0 - - -;
-#X floatatom 141 68 5 0 0 0 - - -;
-#X msg 74 -4 0;
-#X obj 80 230 hsl 128 15 -100 100 0 0 empty empty empty -2 -8 0 10
--204800 -1 -1 9750 1;
-#X obj 230 231 hsl 128 15 -100 100 0 0 empty empty empty -2 -8 0 10
--204800 -1 -1 7100 1;
-#X obj 77 202 +;
-#X floatatom 77 259 5 0 0 0 - - -;
-#X floatatom 227 260 5 0 0 0 - - -;
-#X obj 172 106 f;
-#X obj 227 192 -;
-#X obj 111 104 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+#N canvas 743 124 486 444 10;
+#N canvas 90 214 790 499 consignes 1;
+#X obj 23 -35 vsl 15 128 -50 50 0 0 empty empty speed 0 -9 0 10 -261682
+-1 -1 6350 1;
+#X obj 118 -28 hsl 128 15 -180 180 0 0 empty empty bias -2 -8 0 10
+-261682 -1 -1 6350 1;
+#X floatatom 23 116 5 0 0 0 - - -;
+#X floatatom 115 5 5 0 0 0 - - -;
+#X msg 67 -74 0;
+#X obj 26 267 hsl 128 15 -100 100 0 0 empty empty empty -2 -8 0 10
+-204800 -1 -1 6350 1;
+#X obj 180 267 hsl 128 15 -100 100 0 0 empty empty empty -2 -8 0 10
+-204800 -1 -1 6350 1;
+#X floatatom 23 297 5 0 0 0 - - -;
+#X floatatom 177 299 5 0 0 0 - - -;
+#X text 159 149 bang pour activer la mise à jour;
+#X obj 23 328 outlet;
+#X obj 177 330 outlet;
+#X obj 67 -103 receive reset;
+#X text 264 -35 angle de consigne;
+#X text 168 -109 remise à zéro des consignes depuis le patch principal
+;
+#X obj 89 116 sin;
+#X obj 144 118 cos;
+#X obj 115 72 * 6.28319;
+#X obj 115 38 / 360;
+#X obj 23 196 *;
+#X obj 144 193 *;
+#X obj 23 233 +;
+#X obj 177 233 -;
+#X obj 114 147 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
-#X text 108 125 bang pour activer la mise à jour;
+#X text 182 70 conversion de degrés en radians;
+#X text 176 114 conversion de polaire à cartésien;
+#X text 211 231 conversion en gauche/droite;
 #X connect 0 0 2 0;
 #X connect 1 0 3 0;
-#X connect 2 0 7 0;
-#X connect 2 0 11 0;
-#X connect 3 0 10 0;
-#X connect 3 0 12 0;
+#X connect 2 0 19 0;
+#X connect 2 0 20 0;
+#X connect 3 0 18 0;
 #X connect 4 0 0 0;
 #X connect 4 0 1 0;
-#X connect 5 0 8 0;
-#X connect 6 0 9 0;
-#X connect 7 0 5 0;
-#X connect 10 0 7 1;
-#X connect 10 0 11 1;
-#X connect 11 0 6 0;
-#X connect 12 0 7 0;
-#X connect 12 0 11 0;
-#X restore 331 9 pd consignes;
+#X connect 5 0 7 0;
+#X connect 6 0 8 0;
+#X connect 7 0 10 0;
+#X connect 8 0 11 0;
+#X connect 12 0 4 0;
+#X connect 15 0 19 1;
+#X connect 15 0 23 0;
+#X connect 16 0 20 1;
+#X connect 16 0 23 0;
+#X connect 17 0 15 0;
+#X connect 17 0 16 0;
+#X connect 18 0 17 0;
+#X connect 19 0 21 0;
+#X connect 19 0 22 1;
+#X connect 20 0 21 1;
+#X connect 20 0 22 0;
+#X connect 21 0 5 0;
+#X connect 22 0 6 0;
+#X connect 23 0 20 0;
+#X connect 23 0 19 0;
+#X restore 199 208 pd consignes;
+#X floatatom 199 246 5 0 0 0 - - -;
+#X floatatom 268 244 5 0 0 0 - - -;
+#N canvas 171 25 450 250 simu-odometrie 1;
+#X obj 36 23 inlet;
+#X obj 283 24 inlet;
+#X obj 121 22 inlet;
+#X floatatom 283 56 5 0 0 0 - - -;
+#X floatatom 121 53 5 0 0 0 - - -;
+#X obj 36 63 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X text 106 3 vitesse gauche;
+#X text 285 4 vitesse droite;
+#X floatatom 104 184 5 0 0 0 - - -;
+#X floatatom 267 183 5 0 0 0 - - -;
+#X text 144 182 incrément gauche;
+#X text 309 183 incrément droit;
+#X obj 104 214 outlet;
+#X obj 266 214 outlet;
+#X obj 121 136 +;
+#X obj 121 100 * 0.01;
+#X obj 283 137 +;
+#X obj 283 100 * 0.01;
+#X msg 16 147 0;
+#X obj 16 113 receive reset;
+#X connect 0 0 5 0;
+#X connect 1 0 3 0;
+#X connect 2 0 4 0;
+#X connect 3 0 17 0;
+#X connect 4 0 15 0;
+#X connect 5 0 15 0;
+#X connect 5 0 17 0;
+#X connect 8 0 12 0;
+#X connect 8 0 14 1;
+#X connect 9 0 13 0;
+#X connect 9 0 16 1;
+#X connect 14 0 8 0;
+#X connect 15 0 14 0;
+#X connect 16 0 9 0;
+#X connect 17 0 16 0;
+#X connect 18 0 8 0;
+#X connect 18 0 9 0;
+#X connect 19 0 18 0;
+#X restore 150 282 pd simu-odometrie;
+#X obj 62 165 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+1;
+#X floatatom 113 174 5 0 0 0 - - -;
+#X obj 62 221 metro 500;
+#X text 17 126 Génération d'une horloge régulière pour la simulation
+;
+#X text 189 167 Sous-patch pour gestion des consignes de vitesse (UI)
+;
+#X text 25 17 Un projet de démonstration de l'odométrie pour le club
+Pobot - (c) Julien Holtzer / mars 2010;
+#X text 316 237 vitesses de commande des moteurs;
+#X floatatom 150 322 4 0 0 0 - - -;
+#X floatatom 249 320 4 0 0 0 - - -;
+#X msg 256 89 reset;
+#X obj 256 119 send reset;
+#X text 254 65 Remise à zéro de la démo;
+#X text 297 318 incréments des odomètres;
+#X connect 0 0 1 0;
+#X connect 0 1 2 0;
+#X connect 1 0 3 1;
+#X connect 2 0 3 2;
+#X connect 3 0 11 0;
+#X connect 3 1 12 0;
+#X connect 4 0 6 0;
+#X connect 5 0 6 1;
+#X connect 6 0 3 0;
+#X connect 13 0 14 0;
