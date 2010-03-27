@@ -21,7 +21,7 @@ void setup()
   textFont(font, 32);
   // 
   println(Serial.list());
-  String portName = Serial.list()[1];
+  String portName = Serial.list()[0];
   port = new Serial(this, portName, 9600);
 }
 

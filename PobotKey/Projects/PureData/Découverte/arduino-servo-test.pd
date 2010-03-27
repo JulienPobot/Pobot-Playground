@@ -1,6 +1,6 @@
-#N canvas 308 94 674 563 10;
+#N canvas 209 41 674 563 10;
 #X msg 39 122 close;
-#N canvas 779 22 447 555 DIGITAL-OUTPUT 0;
+#N canvas 577 22 447 555 DIGITAL-OUTPUT 1;
 #X text 72 97 I/O the individual pins:;
 #X text 20 22 NOTE: don't forget to set pins to output mode first!
 ;
@@ -143,7 +143,7 @@ with one message;
 #X connect 31 0 27 0;
 #X connect 32 0 27 0;
 #X restore 61 411 pd DIGITAL-OUTPUT;
-#N canvas 678 65 578 280 DIGITAL-INPUT 0;
+#N canvas 446 65 578 280 DIGITAL-INPUT 0;
 #X obj 114 67 r \$0-arduino-out;
 #X text 387 93 connect the Digital Input;
 #X text 387 110 to the ground (=0) or to;
@@ -193,10 +193,10 @@ to the ground \, you will get random values (0 or 1) - to avoid that
 #X connect 7 12 18 0;
 #X connect 7 13 19 0;
 #X restore 68 387 pd DIGITAL-INPUT;
-#N canvas 268 170 441 343 ANALOG-INPUT 0;
+#N canvas 268 170 441 343 ANALOG-INPUT 1;
 #X obj 121 70 r \$0-arduino-out;
 #X obj 121 108 spigot 0;
-#X obj 183 105 tgl 20 0 empty empty empty 0 -6 0 8 -258699 -1 -1 0
+#X obj 183 105 tgl 20 0 empty empty empty 0 -6 0 8 -258699 -1 -1 1
 1;
 #X text 30 24 Analog Inputs of the Arduino-Board:;
 #X text 211 107 <- enable analog inputs;
@@ -275,41 +275,50 @@ the ground \, if you want to avoid flickering of the values !;
 #X connect 16 6 12 0;
 #X connect 16 7 13 0;
 #X restore 73 435 pd ANALOG-INPUT;
-#N canvas 614 428 562 378 ANALOG-OUTPUT-PWM 0;
+#N canvas 446 70 562 561 ANALOG-OUTPUT-PWM 1;
 #X text 16 17 Analog Output \, PWM (Pulse Width Modulation);
-#X msg 21 189 pwm 9 \$1;
-#X obj 24 168 hsl 150 17 0 1 0 0 empty empty PWM_control_(0-1) -2 -6
+#X msg 16 380 pwm 9 \$1;
+#X obj 19 359 hsl 150 17 0 1 0 0 empty empty PWM_control_(0-1) -2 -6
 1 10 -260818 -1 -1 0 1;
-#X obj 21 258 s \$0-arduino;
-#X text 29 215 disable PWM:;
-#X obj 192 168 hsl 150 17 0 1 0 0 empty empty PWM_control_(0-1) -2
+#X obj 16 449 s \$0-arduino;
+#X text 24 406 disable PWM:;
+#X obj 187 359 hsl 150 17 0 1 0 0 empty empty PWM_control_(0-1) -2
+-6 1 10 -260818 -1 -1 14521 1;
+#X obj 184 449 s \$0-arduino;
+#X text 192 406 disable PWM:;
+#X obj 349 359 hsl 150 17 0 1 0 0 empty empty PWM_control_(0-1) -2
 -6 1 10 -260818 -1 -1 0 1;
-#X obj 189 258 s \$0-arduino;
-#X text 197 215 disable PWM:;
-#X obj 354 168 hsl 150 17 0 1 0 0 empty empty PWM_control_(0-1) -2
--6 1 10 -260818 -1 -1 0 1;
-#X obj 351 258 s \$0-arduino;
-#X text 359 215 disable PWM:;
-#X text 21 133 PIN9:;
-#X text 189 135 PIN10:;
-#X text 351 135 PIN11:;
-#X msg 189 189 pwm 10 \$1;
-#X msg 351 189 pwm 11 \$1;
-#X text 21 319 NOTE: it is possible to write as well on the other pins
+#X obj 346 449 s \$0-arduino;
+#X text 354 406 disable PWM:;
+#X text 16 324 PIN9:;
+#X text 184 326 PIN10:;
+#X text 346 326 PIN11:;
+#X msg 184 380 pwm 10 \$1;
+#X msg 346 380 pwm 11 \$1;
+#X text 16 510 NOTE: it is possible to write as well on the other pins
 to send software-PWM signals (will come soon ...);
-#X msg 31 234 pwm 9 0;
-#X msg 199 234 pwm 10 0;
-#X msg 361 234 pwm 11 0;
+#X msg 26 425 pwm 9 0;
+#X msg 194 425 pwm 10 0;
+#X msg 356 425 pwm 11 0;
 #X text 16 53 With the help of PWM you can write analog values to the
 PWM pins of your Arduino board.;
-#X text 17 89 NOTE: don't forget to set the pins to 'pwm' mode first
+#X text 17 84 NOTE: don't forget to set the pins to 'pwm' mode first
 !;
 #X msg 393 62 pinMode 10 pwm;
 #X msg 400 39 pinMode 9 pwm;
 #X msg 382 84 pinMode 11 pwm;
-#X obj 393 8 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0 1
+#X obj 393 8 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1 1
 ;
 #X obj 423 115 print;
+#X obj 341 112 s \$0-arduino;
+#X obj 107 139 r \$0-arduino-out;
+#X floatatom 107 248 5 0 0 3 a0 - -;
+#X obj 107 182 route analog;
+#X obj 107 213 route 0;
+#X obj 108 288 * 3;
+#X obj 180 285 -;
+#X floatatom 185 240 5 0 0 0 - - -;
+#X obj 246 284 * 6;
 #X connect 1 0 3 0;
 #X connect 2 0 1 0;
 #X connect 5 0 14 0;
@@ -319,10 +328,25 @@ PWM pins of your Arduino board.;
 #X connect 17 0 3 0;
 #X connect 18 0 6 0;
 #X connect 19 0 9 0;
+#X connect 22 0 26 0;
+#X connect 22 0 27 0;
+#X connect 23 0 26 0;
+#X connect 23 0 27 0;
 #X connect 24 0 26 0;
+#X connect 24 0 27 0;
 #X connect 25 0 23 0;
 #X connect 25 0 22 0;
 #X connect 25 0 24 0;
+#X connect 28 0 30 0;
+#X connect 29 0 32 0;
+#X connect 29 0 33 1;
+#X connect 29 0 35 0;
+#X connect 30 0 31 0;
+#X connect 31 0 29 0;
+#X connect 32 0 2 0;
+#X connect 33 0 5 0;
+#X connect 34 0 33 0;
+#X connect 35 0 8 0;
 #X restore 43 460 pd ANALOG-OUTPUT-PWM;
 #X text 191 410 <- example of Digital Output;
 #X text 191 388 <- example of Digital Input;
@@ -451,10 +475,10 @@ digital it is controller per 8-pin "port".;
 #X obj 476 70 arduino 1;
 #X msg 56 167 devices;
 #X text 86 119 close the serial port;
-#X msg 337 160 pinMode 13 output;
-#N canvas 333 502 491 389 SERVO 0;
+#X msg 338 160 pinMode 13 output;
+#N canvas 392 260 491 389 SERVO 0;
 #X obj 195 177 hsl 150 17 0 1 0 0 empty empty Servo_control_(0-1) -2
--6 1 10 -260818 -1 -1 7600 1;
+-6 1 10 -260818 -1 -1 0 1;
 #X obj 53 272 s \$0-arduino;
 #X msg 53 157 pinMode 7 servo;
 #X msg 107 229 analog 7 \$1;
@@ -473,7 +497,7 @@ une valeur entre 0 et 1 \, l'utilise pour constuire la commande de
 valeur analogique sur la patte 7;
 #X text 49 119 - récupère aussi la valeur du slider \, la multiplie
 par 180 pour un affichage dans la console;
-#X text 38 196;
+#X text 38 196 comment;
 #X connect 0 0 3 0;
 #X connect 0 0 5 0;
 #X connect 2 0 1 0;
@@ -485,7 +509,6 @@ par 180 pour un affichage dans la console;
 ;
 #X text 451 157 <-- set pin 13 to output mode;
 #X text 380 185 <-- toggle pin 13 on and off;
-#X msg 16 78 open 38;
 #X text 19 -1 ::::_PDUINO_ for Pobot ::::;
 #X text 21 19 Tests de l'interface Arduino pour Pure Data;
 #X text 311 69 import de l'objet Arduino:;
@@ -497,6 +520,9 @@ par 180 pour un affichage dans la console;
 #X text 449 313 2010 \, modification pour Pobot \; by Julien Holtzer
 from 2006 \, released under GNU GPL \; Gerda Strobl \, Georg Holzmann
 ;
+#X msg 16 78 open 18;
+#X obj 321 326 send \$0-arduino;
+#X msg 322 295 pinMode 14 analog;
 #X connect 0 0 13 0;
 #X connect 12 0 19 0;
 #X connect 17 0 10 0;
@@ -504,4 +530,5 @@ from 2006 \, released under GNU GPL \; Gerda Strobl \, Georg Holzmann
 #X connect 19 0 11 0;
 #X connect 20 0 13 0;
 #X connect 22 0 10 0;
-#X connect 27 0 13 0;
+#X connect 34 0 13 0;
+#X connect 36 0 35 0;
