@@ -53,20 +53,23 @@ static uint8_t web_client_attempts=0;
 static uint8_t web_client_sendok=0;
 static uint8_t resend=0;
 
-// initialisation par défaut, pour voir une valeur significative dans Pachube
-int temp = 2250;
+// déclaration des variables envoyézs à Pachube
+int temp = 0;
+int lumen = 0;
+int visitors = 0;
 
-#ifdef TWEET
-#define STATUS_BUFFER_SIZE 200
-int updatesSinceTweet = UPDATES_TO_TWEET;
-#else
-#define STATUS_BUFFER_SIZE 20
-#endif
+// nb de 30s depuis le démarrage
+// remise à zéro à minuit (normalement)
+// pour le décompte du nombre de visiteurs
+int deminutes; 
 
+
+// le buffer complet pour le message Ethernet
 #define BUFFER_SIZE 650
 static uint8_t buf[BUFFER_SIZE+1];
 
-// global string buffer for twitter message:
+// le buffer pour la partie capteurs
+#define STATUS_BUFFER_SIZE 20
 static char statusstr[STATUS_BUFFER_SIZE];
 
 // Instantiate the EtherShield class
@@ -88,10 +91,26 @@ uint16_t print_webpage(uint8_t *buf)
   plen=es.ES_fill_tcp_data_p(buf,plen,PSTR("."));
   itoa(temp%100,vstr,10);
   plen=es.ES_fill_tcp_data(buf,plen,vstr);
-  plen=es.ES_fill_tcp_data_p(buf,plen,PSTR("<br/><br/>"));
-  // lien vers pachube
-  plen=es.ES_fill_tcp_data_p(buf,plen,PSTR("<img src=\"http://www.pachube.com/feeds/1267/datastreams/0/history.png\"><br/>"));
-  plen=es.ES_fill_tcp_data_p(buf,plen,PSTR("<a href=\"http://www.pachube.com/feeds/1267/\">Voir le feed sur Pachube</a>"));
+  plen=es.ES_fill_tcp_data_p(buf,plen,PSTR("&deg;C<br/><br/>"));
+  //
+  plen=es.ES_fill_tcp_data_p(buf,plen,PSTR("La luminosit&eacute; est de: "));
+  itoa(lumen/10,vstr,10);
+  plen=es.ES_fill_tcp_data(buf,plen,vstr);
+  plen=es.ES_fill_tcp_data_p(buf,plen,PSTR("."));
+  itoa(lumen%10,vstr,10);
+  plen=es.ES_fill_tcp_data(buf,plen,vstr);
+  plen=es.ES_fill_tcp_data_p(buf,plen,PSTR("%<br/><br/>"));  // lien vers pachube
+  
+  plen=es.ES_fill_tcp_data_p(buf,plen,PSTR("<img src=\"http://www.pachube.com/feeds/1267/datastreams/0/history.png\">&nbsp;"));
+  plen=es.ES_fill_tcp_data_p(buf,plen,PSTR("<img src=\"http://www.pachube.com/feeds/1267/datastreams/1/history.png\"><br/>"));
+  plen=es.ES_fill_tcp_data_p(buf,plen,PSTR("<a href=\"http://www.pachube.com/feeds/1267/\">Voir le feed sur Pachube</a><br/>"));
+  
+  // affichage des visiteurs du site  
+  plen=es.ES_fill_tcp_data_p(buf,plen,PSTR("D&eacute;j&agrave; "));
+  itoa(visitors/2,vstr,10);
+  plen=es.ES_fill_tcp_data(buf,plen,vstr);
+  plen=es.ES_fill_tcp_data_p(buf,plen,PSTR(" visiteurs aujourd'hui!<br/>"));  // lien vers pachube
+  
 #else  
   // Display just the csv data
   plen=es.ES_fill_tcp_data(buf,plen,statusstr);
@@ -140,25 +159,40 @@ void loop(){
       time = millis();
       if( time > (lastSend + 30000) ) {
         resend=1; // resend once if it failed
+        // déclenche l'envoi à Pachube
         start_web_client=1;
+        // met à jour le chrono pour les 30 secondes suivantes
         lastSend = time;
+        // incrémente le compteur de demi-minutes
+        deminutes++;
+        if (deminutes > 2880) {
+          // on démarre une nouvelle journée !
+          deminutes = 0;
+          // on repart à 0 pour les visiteurs
+          visitors = 0; 
+        }
       }
 
+      // lorsqu'un envoi à Pachube est demandé
       if (start_web_client==1) {
         start_web_client=2;
         web_client_attempts++;
 
-        // Here is where we make the reading and build the csv data
-
-        //temp = readSHTemp();
-
+        // Ici, la mise à jour des valeurs pour Pachube
+        temp = 2550;
+        lumen = analogRead(0);
+        
         // Pachube update
-        sprintf( statusstr, "%d.%d", temp / 100, temp % 100);
+        sprintf( statusstr, "%d.%d,%d.%d,%d", temp / 100, temp % 100,lumen / 10, lumen % 10, visitors/2);
         es.ES_client_set_wwwip(pachubeip);
         es.ES_client_http_post(PSTR(PACHUBEAPIURL),PSTR(PACHUBE_VHOST),PSTR(PACHUBEAPIKEY), PSTR("PUT "), statusstr ,&browserresult_callback);
       }
       continue;
     }
+    
+    // si on arrive ici, c'est qu'un visiteur a demandé la page
+    visitors++;
+    lumen = analogRead(0);
 
     dat_p=print_webpage(buf);
     es.ES_www_server_reply(buf,dat_p); // send data
