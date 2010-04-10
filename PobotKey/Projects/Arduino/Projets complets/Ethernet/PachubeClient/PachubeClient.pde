@@ -7,6 +7,9 @@
  *
  * Changes by Julien Holtzer, April 2010.
  * Clean-up for simple Pachube + comments in french
+ *
+ * Temperature sensor : LM35DZ
+ * Light sensor : simple photoresistor (CdS)
  */
 
 #include "etherShield.h"
@@ -179,8 +182,12 @@ void loop(){
         web_client_attempts++;
 
         // Ici, la mise à jour des valeurs pour Pachube
-        temp = 2550;
-        lumen = analogRead(0);
+        
+        // 10mV / °C
+        // 1024 = 5000 mV = 500 °C (not possible)
+        // 81 = 
+        temp = analogRead(0)*20;
+        lumen = analogRead(1);
         
         // Pachube update
         sprintf( statusstr, "%d.%d,%d.%d,%d", temp / 100, temp % 100,lumen / 10, lumen % 10, visitors/2);
@@ -192,7 +199,8 @@ void loop(){
     
     // si on arrive ici, c'est qu'un visiteur a demandé la page
     visitors++;
-    lumen = analogRead(0);
+    temp = analogRead(0)*20;
+    lumen = analogRead(1);
 
     dat_p=print_webpage(buf);
     es.ES_www_server_reply(buf,dat_p); // send data
