@@ -1,56 +1,109 @@
 /**
- * @author Julien Holtzer - julien.holtzer@gmail.com
+ * Outil de calibrage des moteurs d'un Pobot Easy
+ *
+ * - deux odomètres sur interruptions externes
+ * - deux servomoteurs
+ *
+ * @author Julien pour Pobot (julien@pobot.org)
  * @date 31-08-2009
  *
  */
 
+// utilisation de la bibliothèque "Servo" pour Arduino
+// fonctionne avec toute entrée numérique ("Digital")
 #include <Servo.h>
 
-// servo object representing the motor
-Servo serv;
+// déclaration des deux objets qui représentent les servomoteurs
+Servo servG;
+Servo servD;
 
-// servo connection to the Arduino (digital output 9 or 10)
-int servPin = 10;
-int odoPin = 0;
+// connections du servomoteur gauche
+int servGPin = 9;
+int odoGPin = 0; // 0 pour la patte Digital 2, 1 pour la patte Digital 3
 
-int counter = 0;
+// connections du servomoteur droit
+int servDPin = 10;
+int odoDPin = 1; // 0 pour la patte Digital 2, 1 pour la patte Digital 3
 
+// les deux compteurs pour incréments des odomètres
+int counterG = 0;
+int counterD = 0;
+
+// la vitesse en cours de test
+int vitesse = 59;
+
+// utilisation d'une mémoire pour le démarrage d'une mesure
+// attention, "long" obligatoire pour ne pas avoir de dépassement
 long timer = 0;
 
-int vitesse = -1;
-
-
+/**
+ * Fonction de configuration initiale du programme
+ */
 void setup()
 {
-  // configure your serial terminal to 9600, N, 8, 1 (standard configuration for Arduino)
-  Serial.begin(9600);
-  // attach the servo with standard values
-  serv.attach(servPin);
+  // démarrage de la liaison série
+  Serial.begin(38400);
+  // initialisation des servomoteurs
+  servG.attach(servGPin);
+  servD.attach(servDPin);
   // attach the odometer interrupt
-  attachInterrupt(odoPin, blink, CHANGE);
+  attachInterrupt(odoGPin, tickG, CHANGE);
+  attachInterrupt(odoDPin, tickD, CHANGE);
 }
 
+/**
+ * Fonction appelée en boucle
+ */
 void loop()
 {
-  if (timer == 0) {
-    vitesse++;
-    serv.write(vitesse);
-    counter = 0;
-    timer = millis();    
+  // lorsqu'on atteint 100, arrêter le test
+  if (vitesse > 100)
+  {
+    servG.detach();
+    servD.detach();
+    return;
   }
-  if (millis()-timer > 5000) {
-    // 10 seconds
+  if (timer == 0) {
+    // passage à la vitesse suivante
+    vitesse++;
+    // donner la nouvelle consigne de vitesse
+    servG.write(vitesse);
+    servD.write(vitesse);
+    // remettre à zéro les deux compteurs d'odométrie
+    counterG = 0;
+    counterD = 0;
+    // se remettre à compter le temps 
+    timer = millis();      
+  }
+  // toutes les 5 secondes, changer de vitesse 
+  // et envoyer les valeurs sur la liaison série
+  long diff = millis() - timer;
+  if (diff > 5000.0) {
+    // demander le passage à la mesure suivante
     timer = 0;
-    // send value of counter and corresponding speed
+    // envoyer les valeurs séparées par une tabulation (pour Excel)
     Serial.print(vitesse);
-    Serial.print("\t"); // tab for Excel csv record
-    Serial.print(counter);
+    Serial.print("\t");
+    Serial.print(counterG);
+    Serial.print("\t");
+    Serial.print(counterD);
     Serial.println();
   }
 }
 
-void blink()
+// incrément lors d'une interruption pour roue gauche
+void tickG()
 {  
-  counter++;
+  counterG++;
 }
+
+// incrément lors d'une interruption pour roue droite
+void tickD()
+{
+  counterD++; 
+}
+
+
+
+
 

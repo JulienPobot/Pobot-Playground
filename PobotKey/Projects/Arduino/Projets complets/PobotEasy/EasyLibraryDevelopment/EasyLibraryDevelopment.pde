@@ -13,9 +13,13 @@
 #include "EasyOdo.h"
 #include "EasyRobot.h"
 #include "EasySquare.h"
+#include "EasyPince.h"
 
 Servo servo1;
 Servo servo2;
+
+Servo servo3;
+Servo servo4;
 
 EasyRobot robot;
 EasyOdo odo;
