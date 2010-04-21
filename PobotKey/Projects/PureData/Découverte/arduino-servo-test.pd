@@ -196,7 +196,7 @@ to the ground \, you will get random values (0 or 1) - to avoid that
 #N canvas 268 170 441 343 ANALOG-INPUT 1;
 #X obj 121 70 r \$0-arduino-out;
 #X obj 121 108 spigot 0;
-#X obj 183 105 tgl 20 0 empty empty empty 0 -6 0 8 -258699 -1 -1 1
+#X obj 183 105 tgl 20 0 empty empty empty 0 -6 0 8 -258699 -1 -1 0
 1;
 #X text 30 24 Analog Inputs of the Arduino-Board:;
 #X text 211 107 <- enable analog inputs;
@@ -283,7 +283,7 @@ the ground \, if you want to avoid flickering of the values !;
 #X obj 16 449 s \$0-arduino;
 #X text 24 406 disable PWM:;
 #X obj 187 359 hsl 150 17 0 1 0 0 empty empty PWM_control_(0-1) -2
--6 1 10 -260818 -1 -1 14521 1;
+-6 1 10 -260818 -1 -1 0 1;
 #X obj 184 449 s \$0-arduino;
 #X text 192 406 disable PWM:;
 #X obj 349 359 hsl 150 17 0 1 0 0 empty empty PWM_control_(0-1) -2
@@ -307,7 +307,7 @@ PWM pins of your Arduino board.;
 #X msg 393 62 pinMode 10 pwm;
 #X msg 400 39 pinMode 9 pwm;
 #X msg 382 84 pinMode 11 pwm;
-#X obj 393 8 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1 1
+#X obj 393 8 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0 1
 ;
 #X obj 423 115 print;
 #X obj 341 112 s \$0-arduino;
@@ -476,12 +476,10 @@ digital it is controller per 8-pin "port".;
 #X msg 56 167 devices;
 #X text 86 119 close the serial port;
 #X msg 338 160 pinMode 13 output;
-#N canvas 392 260 491 389 SERVO 0;
+#N canvas 377 193 491 389 SERVO 1;
 #X obj 195 177 hsl 150 17 0 1 0 0 empty empty Servo_control_(0-1) -2
 -6 1 10 -260818 -1 -1 0 1;
 #X obj 53 272 s \$0-arduino;
-#X msg 53 157 pinMode 7 servo;
-#X msg 107 229 analog 7 \$1;
 #X obj 253 324 print;
 #X obj 253 230 * 180;
 #X msg 253 275 le servo est à \$1;
@@ -498,12 +496,14 @@ valeur analogique sur la patte 7;
 #X text 49 119 - récupère aussi la valeur du slider \, la multiplie
 par 180 pour un affichage dans la console;
 #X text 38 196 comment;
+#X msg 53 157 pinMode 8 servo;
+#X msg 107 229 analog 8 \$1;
+#X connect 0 0 12 0;
 #X connect 0 0 3 0;
-#X connect 0 0 5 0;
-#X connect 2 0 1 0;
-#X connect 3 0 1 0;
-#X connect 5 0 6 0;
-#X connect 6 0 4 0;
+#X connect 3 0 4 0;
+#X connect 4 0 2 0;
+#X connect 11 0 1 0;
+#X connect 12 0 1 0;
 #X restore 21 297 pd SERVO;
 #X text 191 533 <- example of switching inputs on and off (optional)
 ;
@@ -520,9 +520,9 @@ par 180 pour un affichage dans la console;
 #X text 449 313 2010 \, modification pour Pobot \; by Julien Holtzer
 from 2006 \, released under GNU GPL \; Gerda Strobl \, Georg Holzmann
 ;
-#X msg 16 78 open 18;
 #X obj 321 326 send \$0-arduino;
 #X msg 322 295 pinMode 14 analog;
+#X msg 16 78 open 40;
 #X connect 0 0 13 0;
 #X connect 12 0 19 0;
 #X connect 17 0 10 0;
@@ -530,5 +530,5 @@ from 2006 \, released under GNU GPL \; Gerda Strobl \, Georg Holzmann
 #X connect 19 0 11 0;
 #X connect 20 0 13 0;
 #X connect 22 0 10 0;
-#X connect 34 0 13 0;
-#X connect 36 0 35 0;
+#X connect 35 0 34 0;
+#X connect 36 0 13 0;
