@@ -12,8 +12,8 @@
 
 #include "EasyOdo.h"
 #include "EasyRobot.h"
-#include "EasySquare.h"
 #include "EasyPince.h"
+#include "EasySquare.h"
 
 Servo servo1;
 Servo servo2;
@@ -24,6 +24,7 @@ Servo servo4;
 EasyRobot robot;
 EasyOdo odo;
 EasySquare movesquare;
+EasyPince pince;
 
 // two external interrupt functions
 void interruptLeft(void);
@@ -50,16 +51,11 @@ void setup() {
   movesquare.attachRobot(&robot);
   movesquare.attachOdo(&odo);
 
+  // la pince
+  pince.attachServo(&servo3, &servo4);
+
   // stop the robot
   robot.updateSpeeds(0,0);    
-
-  // small routine waiting for a first char before starting
-  // to be replaced with a simple button
-  while (Serial.available() == 0) {
-    Serial.print(".");  
-    delay(500);
-  }
-  Serial.println("\nGo !");
 
   // here, select the strategy
   //movesquare.start();
@@ -67,32 +63,53 @@ void setup() {
 
 void loop() {
 
-  // movesquare.update();
-  
+  // movesquare.update();  
   odo.checkZero();
-  
 
+  // fermer la pince  
+  pince.fermePince();
+  Serial.println("On ferme la pince.");
+  delay(2000);
+
+  // lever la pince
+  pince.levePince();
+  Serial.println("On leve la pince.");
+  delay(2000);
+
+  // ouvrir la pince
+  pince.ouvrePince();
+  Serial.println("On ouvre la pince.");
+  delay(2000);
+
+  // baisser la pince
+  pince.baissePince();
+  Serial.println("On ferme la pince.");
+  delay(2000);
+
+  /*
   if (millis()%1000 == 0) {
-    /*
-    Serial.print("G ");
-    Serial.print(odo.counterLeft);
-    Serial.print(" D ");
-    Serial.print(odo.counterRight);
-    */
+  /*
+   Serial.print("G ");
+   Serial.print(odo.counterLeft);
+   Serial.print(" D ");
+   Serial.print(odo.counterRight);
+   */
+  /*
     Serial.print(" X ");
-    Serial.print(odo.x);
-    Serial.print(" Y ");
-    Serial.print(odo.y);
-    Serial.print(" A ");
-    Serial.print(odo.theta/PI*180.0);  
-    Serial.print(" L ");
-    Serial.print(robot.speedLeft);
-    Serial.print(" R ");
-    Serial.print(robot.speedRight);
-    Serial.print(" S ");
-    Serial.print(movesquare.side);
-    Serial.println();
-  }
+   Serial.print(odo.x);
+   Serial.print(" Y ");
+   Serial.print(odo.y);
+   Serial.print(" A ");
+   Serial.print(odo.theta/PI*180.0);  
+   Serial.print(" L ");
+   Serial.print(robot.speedLeft);
+   Serial.print(" R ");
+   Serial.print(robot.speedRight);
+   Serial.print(" S ");
+   Serial.print(movesquare.side);
+   Serial.println();
+   }
+   */
 }
 
 
@@ -110,4 +127,5 @@ void interruptRight(void)
 {
   odo.incrementRight();  
 }
+
 

@@ -35,7 +35,7 @@
 
 // use "Calibre Servo" Arduino program to know the value of immobile position for each servo
 #define POS_NEUTRAL_RIGHT  77
-#define POS_NEUTRAL_LEFT   76
+#define POS_NEUTRAL_LEFT   72
 
 // servomotors pins
 #define pinLeft  9
