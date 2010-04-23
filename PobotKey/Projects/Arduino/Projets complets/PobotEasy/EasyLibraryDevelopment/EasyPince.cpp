@@ -6,8 +6,6 @@
 #include "WProgram.h"
 #include "EasyPince.h"
 
-#include "utils/stdio.h"
-
 
 void EasyPince::ouvrePince(void)
 {

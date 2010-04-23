@@ -7,13 +7,13 @@
  * - http://www.arduino.cc/en/Hacking/LibraryTutorial
  */
 
-//#include <MsTimer2.h>
+#include <MsTimer2.h>
 #include <Servo.h>
 
 #include "EasyOdo.h"
 #include "EasyRobot.h"
 #include "EasyPince.h"
-#include "EasySquare.h"
+//#include "EasyAsserv.h"
 
 Servo servo1;
 Servo servo2;
@@ -21,10 +21,12 @@ Servo servo2;
 Servo servo3;
 Servo servo4;
 
+int triggerCount;
+
 EasyRobot robot;
 EasyOdo odo;
-EasySquare movesquare;
 EasyPince pince;
+//EasyAsserv asserv;
 
 // two external interrupt functions
 void interruptLeft(void);
@@ -36,53 +38,61 @@ void setup() {
   Serial.begin(38400); 
   Serial.print("Init odometry test");
   // init timer for regular scheduled operations
-  //MsTimer2::set(250, triggerTimer);
-  //MsTimer2::start();
+  MsTimer2::set(200, triggerTimer);
+  MsTimer2::start();
 
   //
   attachInterrupt(0, interruptLeft, CHANGE);
   attachInterrupt(1, interruptRight, CHANGE);  
 
   // the base components : a robot with odometry
-  //odo.attachRobot(&robot);
+  odo.attachRobot(&robot);
   robot.attachServo(&servo1, &servo2);
-
-  // the movement control
-  //movesquare.attachRobot(&robot);
-  //movesquare.attachOdo(&odo);
 
   // la pince
   pince.attachServo(&servo3, &servo4);
 
-  // stop the robot
-  robot.updateSpeeds(0,0);    
+  // l'asservissement
+  //asserv.attachRobot(&robot);
+  //asserv.attachOdo(&odo);
 
-  // here, select the strategy
-  //movesquare.start();
+  // stop the robot
+  robot.directSpeeds(0,0);    
+
+  pince.fermePince();  
+  pince.levePince();
+
+
 }
 
 void loop() {
 
-  // movesquare.update();  
+
   //odo.checkZero();
-  
+
   //pince.testPince();
-  
-  robot.directSpeeds(4,4);
-  
-  delay(2000);
-  
-  robot.directSpeeds(0,0);
-  
-  delay(500);
-  
-  robot.directSpeeds(-4,-4);
-  
-  delay(2000);
-  
-  robot.directSpeeds(0,0);
-  
+
+  /*
+  robot.penteSpeeds(15,15);
+   
+   delay(5000);
+   
+   robot.penteSpeeds(0,0);
+   
+   delay(5000);
+   
+   robot.penteSpeeds(-15,-15);
+   
+   delay(5000);
+   
+   robot.stopRobot();
+   
+   delay(5000);
+   delay(5000);
+   */
+
   //pince.testPince();
+
 
 
   /*
@@ -100,33 +110,40 @@ void loop() {
    Serial.print(odo.y);
    Serial.print(" A ");
    Serial.print(odo.theta/PI*180.0);  
-   Serial.print(" L ");
-   Serial.print(robot.speedLeft);
-   Serial.print(" R ");
-   Serial.print(robot.speedRight);
    Serial.print(" S ");
    Serial.print(movesquare.side);
    Serial.println();
    }
    */
+
+  delay(100);
 }
 
 
 void triggerTimer(void)
-{
-  //odo.update();    
-  robot.update();
+{  
+  triggerCount++;
+  odo.update();    
+  robot.updateSpeeds();
+  //asserv.checkAsserv();
+  if (triggerCount >= 5) 
+  {
+
+    triggerCount = 0;
+  }
 }
 
 void interruptLeft(void)
 {
-  //odo.incrementLeft();
+  odo.incrementLeft();
 }
 
 void interruptRight(void)
 {
-  //odo.incrementRight();  
+  odo.incrementRight();  
 }
+
+
 
 
 

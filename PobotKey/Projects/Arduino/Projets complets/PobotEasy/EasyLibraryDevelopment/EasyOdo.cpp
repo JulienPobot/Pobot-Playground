@@ -46,7 +46,7 @@ void EasyOdo::update()
 }
 
 void EasyOdo::incrementLeft(void) {
-  if (robot->speedLeft > 0)
+  if (robot->speedLeft >= 0)
   {
     counterLeft++;
     totalLeft++;
@@ -58,7 +58,7 @@ void EasyOdo::incrementLeft(void) {
 }
 
 void EasyOdo::incrementRight(void) {
-  if (robot->speedRight > 0)
+  if (robot->speedRight >= 0)
   {
     counterRight++;
     totalRight++;

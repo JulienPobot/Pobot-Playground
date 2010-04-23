@@ -7,17 +7,18 @@
 #define _EASY_TURNGO_H
 
 #include "WProgram.h"
-#include "EasyOdo.h"
 #include "EasyRobot.h"
+
 
 class EasyTurnGo
 {
-
 public:
   
+  void attachRobot(EasyRobot *rob) {
+    robot = rob;
+  }
     
 private:
-  EasyOdo *tgodo;
   EasyRobot *tgrobot;  
 
 };

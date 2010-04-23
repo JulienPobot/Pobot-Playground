@@ -1,6 +1,6 @@
 // The Arduino code.
 
-#define ANALOG_IN 0
+#define ANALOG_IN 1
 
 void setup() {
   Serial.begin(38400); 

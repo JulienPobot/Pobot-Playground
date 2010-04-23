@@ -13,6 +13,7 @@
 #define ENTRAXE_MM  145
 #define WHEEL_MM  64
 
+#define MAX_SPEED  15
 
 // use "Calibre Servo" Arduino program to know the value of immobile position for each servo
 // #define POS_NEUTRAL_RIGHT  77
@@ -28,7 +29,6 @@
 #define VG(val)  (val+72)
 #define VD(val)  ((val<0)?76-val:77-val)
 
-
 // Class EasyRobot
 class EasyRobot{
 
@@ -36,7 +36,7 @@ public:
 
   int speedLeft; 
   int speedRight;
-  
+
   int consLeft;
   int consRight;
 
@@ -44,23 +44,40 @@ public:
     //
     speedLeft = 0;
     speedRight = 0;
+    consLeft = 0;
+    consRight = 0;
+  }
+
+  void enableServos(void) {    
+    servoLeft->attach(pinLeft);
+    servoRight->attach(pinRight);
+  }
+
+  void disableServos(void) {
+    servoLeft->detach();
+    servoRight->detach(); 
   }
 
   void attachServo(Servo *s1, Servo *s2) {  
     servoLeft = s1;
     servoRight = s2;
-    servoLeft->attach(pinLeft);
-    servoRight->attach(pinRight);
+    enableServos();
   }
-  
-  // pente
-  void update(void);
-  
-  // normal control of the robot using speed for each motor
-  void updateSpeeds(int left, int right);  
-  
-  // direct access (no effect on speeds)
+
+  // mise à jour des vitesses selon les consignes
+  void updateSpeeds(void);  
+
+  // mise à jour des consignes de vitesse
+  void penteSpeeds(int left, int right);
+
+  // modification directe des vitesses (annule les consignes)
   void directSpeeds(int left, int right);
+  
+  // arrêt complet du robot
+  void stopRobot(void) {
+    directSpeeds(0,0);
+    disableServos();    
+  }
 
 private:
   Servo *servoLeft;
@@ -70,5 +87,8 @@ private:
 };
 
 #endif
+
+
+
 
 
