@@ -12,11 +12,11 @@
 // Values
 
 
-#define PINCE_OUVERTE 90  
-#define PINCE_FERMEE  30
+#define PINCE_OUVERTE 110  
+#define PINCE_FERMEE  38
 
-#define BRAS_HAUT  12
-#define BRAS_BAS  80
+#define BRAS_HAUT  40
+#define BRAS_BAS  110
 
 
 #define pinBras    8
@@ -45,6 +45,8 @@ public:
     servoBras->attach(pinBras);
     servoPince->attach(pinPince);
   }
+  
+  void testPince(void);
 
 private:
   Servo *servoBras;

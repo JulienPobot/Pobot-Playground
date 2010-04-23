@@ -65,26 +65,9 @@ void loop() {
 
   // movesquare.update();  
   odo.checkZero();
+  
+  // pince.testPince();
 
-  // fermer la pince  
-  pince.fermePince();
-  Serial.println("On ferme la pince.");
-  delay(2000);
-
-  // lever la pince
-  pince.levePince();
-  Serial.println("On leve la pince.");
-  delay(2000);
-
-  // ouvrir la pince
-  pince.ouvrePince();
-  Serial.println("On ouvre la pince.");
-  delay(2000);
-
-  // baisser la pince
-  pince.baissePince();
-  Serial.println("On ferme la pince.");
-  delay(2000);
 
   /*
   if (millis()%1000 == 0) {
