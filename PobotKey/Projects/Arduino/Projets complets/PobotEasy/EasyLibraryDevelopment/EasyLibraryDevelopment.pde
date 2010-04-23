@@ -7,7 +7,7 @@
  * - http://www.arduino.cc/en/Hacking/LibraryTutorial
  */
 
-#include <MsTimer2.h>
+//#include <MsTimer2.h>
 #include <Servo.h>
 
 #include "EasyOdo.h"
@@ -36,20 +36,20 @@ void setup() {
   Serial.begin(38400); 
   Serial.print("Init odometry test");
   // init timer for regular scheduled operations
-  MsTimer2::set(250, triggerTimer);
-  MsTimer2::start();
+  //MsTimer2::set(250, triggerTimer);
+  //MsTimer2::start();
 
   //
   attachInterrupt(0, interruptLeft, CHANGE);
   attachInterrupt(1, interruptRight, CHANGE);  
 
   // the base components : a robot with odometry
-  odo.attachRobot(&robot);
+  //odo.attachRobot(&robot);
   robot.attachServo(&servo1, &servo2);
 
   // the movement control
-  movesquare.attachRobot(&robot);
-  movesquare.attachOdo(&odo);
+  //movesquare.attachRobot(&robot);
+  //movesquare.attachOdo(&odo);
 
   // la pince
   pince.attachServo(&servo3, &servo4);
@@ -64,9 +64,25 @@ void setup() {
 void loop() {
 
   // movesquare.update();  
-  odo.checkZero();
+  //odo.checkZero();
   
-  // pince.testPince();
+  //pince.testPince();
+  
+  robot.directSpeeds(4,4);
+  
+  delay(2000);
+  
+  robot.directSpeeds(0,0);
+  
+  delay(500);
+  
+  robot.directSpeeds(-4,-4);
+  
+  delay(2000);
+  
+  robot.directSpeeds(0,0);
+  
+  //pince.testPince();
 
 
   /*
@@ -98,17 +114,19 @@ void loop() {
 
 void triggerTimer(void)
 {
-  odo.update();    
+  //odo.update();    
+  robot.update();
 }
 
 void interruptLeft(void)
 {
-  odo.incrementLeft();
+  //odo.incrementLeft();
 }
 
 void interruptRight(void)
 {
-  odo.incrementRight();  
+  //odo.incrementRight();  
 }
+
 
 

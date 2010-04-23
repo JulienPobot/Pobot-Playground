@@ -6,6 +6,8 @@
 #include "WProgram.h"
 #include "EasyPince.h"
 
+#include "utils/stdio.h"
+
 
 void EasyPince::ouvrePince(void)
 {
@@ -54,22 +56,22 @@ void EasyPince::testPince(void)
   // fermer la pince  
   fermePince();
   Serial.println("On ferme la pince.");
-  delay(2000);
+  delay(200);
 
   // lever la pince
   levePince();
   Serial.println("On leve la pince.");
-  delay(2000);
+  delay(200);
 
   // ouvrir la pince
   ouvrePince();
   Serial.println("On ouvre la pince.");
-  delay(2000);
+  delay(200);
 
   // baisser la pince
   baissePince();
   Serial.println("On ferme la pince.");
-  delay(2000);
+  delay(200);
 }
 
 
