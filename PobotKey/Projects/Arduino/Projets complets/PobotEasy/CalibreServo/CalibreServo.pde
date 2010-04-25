@@ -29,7 +29,7 @@ int valeur = 90;
 void setup()
 {
   // configure your serial terminal to 9600, N, 8, 1 (standard configuration for Arduino)
-  Serial.begin(9600);
+  Serial.begin(38400);
   // attach the servo with standard values
   serv.attach(servPin);
 }
