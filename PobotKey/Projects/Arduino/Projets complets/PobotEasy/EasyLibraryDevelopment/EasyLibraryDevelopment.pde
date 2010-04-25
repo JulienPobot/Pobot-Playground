@@ -14,6 +14,7 @@
 #include "EasyRobot.h"
 #include "EasyPince.h"
 //#include "EasyAsserv.h"
+#include "EasyTurnGo.h"
 
 Servo servo1;
 Servo servo2;
@@ -21,12 +22,16 @@ Servo servo2;
 Servo servo3;
 Servo servo4;
 
+// le compteur des 90 secondes
+long start;
+
 int triggerCount;
 
 EasyRobot robot;
 EasyOdo odo;
 EasyPince pince;
 //EasyAsserv asserv;
+EasyTurnGo tg;
 
 // two external interrupt functions
 void interruptLeft(void);
@@ -38,7 +43,7 @@ void setup() {
   Serial.begin(38400); 
   Serial.print("Init odometry test");
   // init timer for regular scheduled operations
-  MsTimer2::set(200, triggerTimer);
+  MsTimer2::set(100, triggerTimer);
   MsTimer2::start();
 
   //
@@ -56,81 +61,72 @@ void setup() {
   //asserv.attachRobot(&robot);
   //asserv.attachOdo(&odo);
 
+  // le turn & go
+  tg.attachRobot(&robot);
+  tg.attachOdo(&odo);
+
   // stop the robot
   robot.directSpeeds(0,0);    
 
   pince.fermePince();  
   pince.levePince();
+  delay(200);
+  pince.baissePince(); 
+  delay(200);
+  pince.levePince();
 
+  robot.stopRobot();
+
+  while (analogRead(1) > 250) {
+    delay(50); 
+
+    start = 0;
+
+  }
 
 }
 
 void loop() {
 
+  tg.avance(500,10);
 
-  //odo.checkZero();
+  robot.stopRobot();
 
-  //pince.testPince();
+  pince.baissePince();
 
-  /*
-  robot.penteSpeeds(15,15);
-   
-   delay(5000);
-   
-   robot.penteSpeeds(0,0);
-   
-   delay(5000);
-   
-   robot.penteSpeeds(-15,-15);
-   
-   delay(5000);
-   
-   robot.stopRobot();
-   
-   delay(5000);
-   delay(5000);
-   */
+  delay(1000);  
+  
+  tg.avance(500,10);
+  
+  pince.ouvrePince();
+  delay(500);
+  pince.fermePince();
+    
+  tg.avance(700,10);
 
-  //pince.testPince();
+  robot.stopRobot();
 
+  delay(2000);
 
-
-  /*
-  if (millis()%1000 == 0) {
-  /*
-   Serial.print("G ");
-   Serial.print(odo.counterLeft);
-   Serial.print(" D ");
-   Serial.print(odo.counterRight);
-   */
-  /*
-    Serial.print(" X ");
-   Serial.print(odo.x);
-   Serial.print(" Y ");
-   Serial.print(odo.y);
-   Serial.print(" A ");
-   Serial.print(odo.theta/PI*180.0);  
-   Serial.print(" S ");
-   Serial.print(movesquare.side);
-   Serial.println();
-   }
-   */
-
-  delay(100);
 }
 
 
 void triggerTimer(void)
 {  
-  triggerCount++;
+  //triggerCount++;
   odo.update();    
   robot.updateSpeeds();
   //asserv.checkAsserv();
-  if (triggerCount >= 5) 
-  {
 
-    triggerCount = 0;
+  if (millis() - start > 90000)
+  {
+     robot.stopRobot();
+     // boucle infinie
+     while (1) {
+      start++; 
+     }
   }
+
 }
 
 void interruptLeft(void)
@@ -142,6 +138,10 @@ void interruptRight(void)
 {
   odo.incrementRight();  
 }
+
+
+
+
 
 
 

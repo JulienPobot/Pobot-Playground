@@ -31,9 +31,12 @@ public:
 
   int counterLeft;
   int counterRight;
-  
+
   int totalLeft;
   int totalRight;
+  
+  double tgmoyenne;
+  double tgvar;
 
   EasyOdo() {
     x = 0;
@@ -46,17 +49,31 @@ public:
   }
 
   void update(void);
-  
+
   void attachRobot(EasyRobot *rob) {
-      robot = rob;
+    robot = rob;
   }
-  
+
   void checkZero(void);
 
   void incrementLeft(void);
 
   void incrementRight(void);
+
+  void reset(void)
+  {
+    counterLeft = 0;
+    counterRight = 0;
+    totalLeft = 0;
+    totalRight = 0;
+  }
   
+  void tgreset(void)
+  {
+     tgmoyenne = 0; 
+     tgvar = 0;
+  }
+
 private:
 
   EasyRobot *robot;
@@ -66,6 +83,8 @@ private:
 
 };
 #endif
+
+
 
 
 

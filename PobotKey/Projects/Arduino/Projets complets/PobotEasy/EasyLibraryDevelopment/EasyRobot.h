@@ -26,7 +26,7 @@
 // ajout de deux macros qui calculent la consigne en adaptant 
 // - la consigne constatée pour vitesse de rotation minimale (si possible nulle)
 // - le signe qui rétablira l'inversion des deux moteurs face à face
-#define VG(val)  (val+72)
+#define VG(val)  ((val<0)?72+val:71+val)
 #define VD(val)  ((val<0)?76-val:77-val)
 
 // Class EasyRobot
@@ -75,6 +75,8 @@ public:
   
   // arrêt complet du robot
   void stopRobot(void) {
+    penteSpeeds(0,0);
+    delay(200);
     directSpeeds(0,0);
     disableServos();    
   }

@@ -22,7 +22,11 @@ void EasyOdo::update()
   // + conversion in mm and radians
   dTheta = (counterRight - counterLeft) * TIC_RAD;
   dDist = (counterRight + counterLeft) / 2 * TIC_MM;
-
+  
+  // mise à jour de la moyenne pour le turn & go
+  tgmoyenne += dDist;
+  tgvar += counterRight - counterLeft;
+  
   // reset counters (as soon as possible due to external interrupt routine)
   counterLeft = 0;
   counterRight = 0;
