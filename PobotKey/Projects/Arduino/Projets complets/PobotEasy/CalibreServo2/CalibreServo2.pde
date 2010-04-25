@@ -61,7 +61,7 @@ void loop()
   serv.attach(servPin);
   serv.write(valeur);
   // 4) attendre le délai de mesure
-  delay(1000);
+  delay(3000);
   // 5) arrêter le servo
   serv.detach();
   // 6) envoyer les valeurs
