@@ -84,7 +84,7 @@ void loop()
   // toutes les 5 secondes, changer de vitesse 
   // et envoyer les valeurs sur la liaison série
   long diff = millis() - timer;
-  if (diff > 5000.0) {
+  if (diff > 2000.0) {
     // demander le passage à la mesure suivante
     timer = 0;
     // envoyer les valeurs séparées par une tabulation (pour Excel)

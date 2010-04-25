@@ -1,0 +1,158 @@
+#N canvas 209 41 674 563 10;
+#X msg 52 154 close;
+#N canvas 718 287 441 306 ANALOG-INPUT 1;
+#X obj 32 66 r \$0-arduino-out;
+#X floatatom 32 175 5 0 0 3 a0 - -;
+#X obj 32 93 route analog;
+#X obj 32 122 route 0;
+#X obj 32 148 mapping/resample 100;
+#X obj 204 101 send \$0-arduino;
+#X msg 204 70 pinMode 14 analog;
+#X obj 32 216 * 1023;
+#X floatatom 32 247 5 0 0 0 - - -;
+#X text 44 10 Test de l'entrée analogique.;
+#X text 102 174 le câble à 2 fils est connecté sur analog 0;
+#X text 322 66 analog 0 = pin 14;
+#X text 121 192 rouge sur la pin analogique;
+#X text 124 207 noir sur la masse;
+#X text 37 271 Le convertisseur analogique est sur 10 bits (0-1023)
+;
+#X connect 0 0 2 0;
+#X connect 1 0 7 0;
+#X connect 2 0 3 0;
+#X connect 3 0 4 0;
+#X connect 4 0 1 0;
+#X connect 6 0 5 0;
+#X connect 7 0 8 0;
+#X restore 23 310 pd ANALOG-INPUT;
+#X text 106 185 <- list devices;
+#X obj 337 257 send \$0-arduino;
+#X obj 417 83 send \$0-arduino-out;
+#X obj 417 39 receive \$0-arduino;
+#X obj 16 219 send \$0-arduino;
+#N canvas 648 577 471 273 SWITCHING-INPUTS 0;
+#X obj 140 195 send \$0-arduino;
+#X msg 25 123 analogIns 0 0;
+#N canvas 162 133 610 460 serin 0;
+#X obj 59 337 outlet;
+#X obj 59 266 trigger bang anything;
+#X obj 201 286 list;
+#X obj 60 61 tgl 15 0 junk_to_hide_inlet junk_to_hide_outlet 0 5 9
+1 12 -262130 -1 -1 0 1;
+#X obj 75 61 tgl 15 0 junk_to_hide_inlet junk_to_hide_outlet 1 5 9
+1 12 -262130 -1 -1 0 1;
+#X obj 90 61 tgl 15 0 junk_to_hide_inlet junk_to_hide_outlet 2 5 9
+1 12 -262130 -1 -1 0 1;
+#X obj 105 61 tgl 15 0 junk_to_hide_inlet junk_to_hide_outlet 3 5 9
+1 12 -262130 -1 -1 0 1;
+#X obj 120 61 tgl 15 0 junk_to_hide_inlet junk_to_hide_outlet 4 5 9
+1 12 -262130 -1 -1 0 1;
+#X obj 135 61 tgl 15 0 junk_to_hide_inlet junk_to_hide_outlet 5 5 9
+1 12 -262130 -1 -1 0 1;
+#X obj 150 61 tgl 15 0 junk_to_hide_inlet junk_to_hide_outlet 6 5 9
+1 12 -262130 -1 -1 0 1;
+#X obj 165 61 tgl 15 0 junk_to_hide_inlet junk_to_hide_outlet 7 5 9
+1 12 -262130 -1 -1 0 1;
+#X msg 59 210 analogIns \$1 \$2;
+#X msg 35 106 0 \$1;
+#X msg 70 106 1 \$1;
+#X msg 105 106 2 \$1;
+#X msg 140 106 3 \$1;
+#X msg 175 106 4 \$1;
+#X msg 210 106 5 \$1;
+#X msg 245 106 6 \$1;
+#X msg 280 106 7 \$1;
+#X msg 202 307 set \$1 \$2 \$3;
+#X connect 1 0 0 0;
+#X connect 1 1 2 0;
+#X connect 2 0 20 0;
+#X connect 3 0 12 0;
+#X connect 4 0 13 0;
+#X connect 5 0 14 0;
+#X connect 6 0 15 0;
+#X connect 7 0 16 0;
+#X connect 8 0 17 0;
+#X connect 9 0 18 0;
+#X connect 10 0 19 0;
+#X connect 11 0 1 0;
+#X connect 12 0 11 0;
+#X connect 13 0 11 0;
+#X connect 14 0 11 0;
+#X connect 15 0 11 0;
+#X connect 16 0 11 0;
+#X connect 17 0 11 0;
+#X connect 18 0 11 0;
+#X connect 19 0 11 0;
+#X connect 20 0 0 0;
+#X coords 0 -1 1 1 120 16 1 60 60;
+#X restore 25 103 pd serin;
+#X text 24 86 which analogIns to enable:;
+#X msg 234 128 digitalIns 0 0;
+#X text 233 91 which digital ports to enable:;
+#N canvas 162 133 610 460 seri 0;
+#X obj 59 337 outlet;
+#X obj 59 266 trigger bang anything;
+#X obj 201 286 list;
+#X obj 60 61 tgl 15 0 junk_to_hide_inlet ARDUINO_TEST_RESET 0 5 9 1
+12 -260736 -1 -1 0 1;
+#X obj 75 61 tgl 15 0 junk_to_hide_inlet ARDUINO_TEST_RESET 1 5 9 1
+12 -260736 -1 -1 0 1;
+#X obj 90 61 tgl 15 0 junk_to_hide_inlet ARDUINO_TEST_RESET 2 5 9 1
+12 -260736 -1 -1 0 1;
+#X msg 35 106 0 \$1;
+#X msg 70 106 1 \$1;
+#X msg 105 106 2 \$1;
+#X msg 202 307 set \$1 \$2 \$3;
+#X msg 59 210 digitalIns \$1 \$2;
+#X connect 1 0 0 0;
+#X connect 1 1 2 0;
+#X connect 2 0 9 0;
+#X connect 3 0 6 0;
+#X connect 4 0 7 0;
+#X connect 5 0 8 0;
+#X connect 6 0 10 0;
+#X connect 7 0 10 0;
+#X connect 8 0 10 0;
+#X connect 9 0 0 0;
+#X connect 10 0 1 0;
+#X coords 0 -1 1 1 45 16 1 60 60;
+#X restore 234 108 pd seri;
+#X text 23 15 Currently \, you have to tell StandardFirmata to send
+you data from the inputs. For analog \, its controlled per-pin. For
+digital it is controller per 8-pin "port".;
+#X connect 1 0 0 0;
+#X connect 2 0 1 0;
+#X connect 4 0 0 0;
+#X connect 6 0 4 0;
+#X restore 24 341 pd SWITCHING-INPUTS;
+#X msg 358 219 digital 13 \$1;
+#X obj 358 189 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0
+1;
+#X obj 417 62 arduino 1;
+#X msg 52 185 devices;
+#X text 96 151 close the serial port;
+#X msg 338 160 pinMode 13 output;
+#X text 166 341 <- example of switching inputs on and off (optional)
+;
+#X text 451 157 <-- set pin 13 to output mode;
+#X text 380 185 <-- toggle pin 13 on and off;
+#X text 19 -1 ::::_PDUINO_ for Pobot ::::;
+#X text 21 19 Tests de l'interface Arduino pour Pure Data;
+#X text 393 12 import de l'objet Arduino:;
+#X text 321 132 Premier test simple : la led sur la carte;
+#X text 16 102 select the serial port (à changer selon l'ordinateur)
+;
+#X text 15 268 Avec l'instruction "pd" \, on ouvre une autre page:
+;
+#X text 16 35 2010 \, modification pour Pobot \; by Julien Holtzer
+from 2006 \, released under GNU GPL \; Gerda Strobl \, Georg Holzmann
+;
+#X msg 48 125 open 38;
+#X connect 0 0 6 0;
+#X connect 5 0 10 0;
+#X connect 8 0 3 0;
+#X connect 9 0 8 0;
+#X connect 10 0 4 0;
+#X connect 11 0 6 0;
+#X connect 13 0 3 0;
+#X connect 24 0 6 0;
