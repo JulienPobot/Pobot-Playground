@@ -1,3 +1,0 @@
-
-EasyBipedeControlSequence
-EasyBipedeControlSequence.jar,core.jar,proxml.jar,serial.jar,RXTXcomm.jar
