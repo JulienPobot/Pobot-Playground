@@ -41,12 +41,12 @@ int consigneD = 0;
 // la vitesse en cours de test
 
 #define VITESSE_MIN  -10
-#define VITESSE_MAX  10
+#define VITESSE_MAX  30
 
 int vitesse = VITESSE_MIN;
 
-int vitesseG = 0;
-int vitesseD = 0;
+float vitesseG = 0;
+float vitesseD = 0;
 
 // utilisation d'une mémoire pour le démarrage d'une mesure
 // attention, "long" obligatoire pour ne pas avoir de dépassement
@@ -67,7 +67,7 @@ void setup()
   attachInterrupt(odoDPin, tickD, CHANGE);
 
   // utilisation du timer 2 pour gérer l'asservissement
-  MsTimer2::set(500, update); // 500ms period
+  MsTimer2::set(50, update); // 500ms period
   MsTimer2::start();
 
 }
@@ -91,16 +91,14 @@ void update(void)
   } 
   
   if (counterG < counterD) {
-    servD.write(VD(vitesse/(counterG-counterD))); 
+    vitesseD = vitesse/((counterD-counterG)/2);
+    servD.write(VD(vitesseD)); 
   }
   
   if (counterD < counterG) {
-    servG.write(VG(vitesse/(counterD-counterG))); 
+    vitesseG = vitesse/((counterG-counterD)/2);
+    servG.write(VG(vitesseG)); 
   }
-
-  // vérification des vitesses pour trace
-  vitesseG = servG.read();
-  vitesseD = servD.read();
 
 }
 
@@ -110,7 +108,7 @@ void update(void)
 void loop()
 {
   // lorsqu'on atteint 10, arrêter le test
-  if (vitesse > 10)
+  if (vitesse > VITESSE_MAX)
   {
     servG.detach();
     servD.detach();
@@ -137,17 +135,13 @@ void loop()
     Serial.print("\t");
     Serial.print(counterG);
     Serial.print("\t");
-    Serial.print(consigneG);
+    Serial.print(counterD);
     Serial.print("\t");
     Serial.print(vitesseG);
     Serial.print("\t");
-    Serial.print(counterD);
-    Serial.print("\t");
-    Serial.print(consigneD);
-    Serial.print("\t");
     Serial.print(vitesseD);
     Serial.println();
-    delay(300);    
+    delay(200);    
   }  
   // passage à la vitesse suivante
   servG.detach();
