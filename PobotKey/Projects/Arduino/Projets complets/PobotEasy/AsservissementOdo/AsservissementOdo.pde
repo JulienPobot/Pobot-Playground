@@ -40,7 +40,7 @@ int consigneD = 0;
 
 // la vitesse en cours de test
 
-#define VITESSE_MIN  -10
+#define VITESSE_MIN  5
 #define VITESSE_MAX  30
 
 int vitesse = VITESSE_MIN;
@@ -89,12 +89,12 @@ void update(void)
   {
     servD.detach(); 
   } 
-  
+
   if (counterG < counterD) {
     vitesseD = vitesse/((counterD-counterG)/2);
     servD.write(VD(vitesseD)); 
   }
-  
+
   if (counterD < counterG) {
     vitesseG = vitesse/((counterG-counterD)/2);
     servG.write(VG(vitesseG)); 
@@ -129,7 +129,7 @@ void loop()
 
   // attendre que les deux consignes soient atteintes
   while (counterG < consigneG && counterD < consigneD)
-  {
+  {    
     // afficher où on en est
     Serial.print(vitesse);
     Serial.print("\t");
@@ -141,6 +141,8 @@ void loop()
     Serial.print("\t");
     Serial.print(vitesseD);
     Serial.println();
+    // ajout de la génération d'un son pour "entendre" la vitesse
+    //tone(4,abs(vitesseG)*10,50);
     delay(200);    
   }  
   // passage à la vitesse suivante
@@ -162,6 +164,7 @@ void tickD()
 {
   counterD++; 
 }
+
 
 
 
