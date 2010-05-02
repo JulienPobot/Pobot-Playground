@@ -1,0 +1,140 @@
+#N canvas 491 344 733 505 10;
+#X msg 45 95 close;
+#X text 128 136 <- list devices;
+#X msg 72 136 devices;
+#X text 81 62 select the serial port;
+#X text 90 96 close the serial port;
+#X msg 25 62 open 38;
+#X text 96 172 <- Arduino object;
+#X text -13 19 Affichage des informations des Sharps;
+#X obj 25 170 arduino 1;
+#X obj 25 219 spigot;
+#X obj 58 195 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+1;
+#X obj 25 251 route analog;
+#X obj 25 281 route 1 2;
+#X floatatom 6 318 5 0 0 0 - - -;
+#X floatatom 58 317 5 0 0 0 - - -;
+#X msg 271 153 analogIns 2 1;
+#N canvas 162 133 610 460 serin 0;
+#X obj 59 337 outlet;
+#X obj 59 266 trigger bang anything;
+#X obj 201 286 list;
+#X obj 60 61 tgl 15 0 junk_to_hide_inlet junk_to_hide_outlet 0 5 9
+1 12 -262130 -1 -1 0 1;
+#X obj 75 61 tgl 15 0 junk_to_hide_inlet junk_to_hide_outlet 1 5 9
+1 12 -262130 -1 -1 1 1;
+#X obj 90 61 tgl 15 0 junk_to_hide_inlet junk_to_hide_outlet 2 5 9
+1 12 -262130 -1 -1 1 1;
+#X obj 105 61 tgl 15 0 junk_to_hide_inlet junk_to_hide_outlet 3 5 9
+1 12 -262130 -1 -1 0 1;
+#X obj 120 61 tgl 15 0 junk_to_hide_inlet junk_to_hide_outlet 4 5 9
+1 12 -262130 -1 -1 0 1;
+#X obj 135 61 tgl 15 0 junk_to_hide_inlet junk_to_hide_outlet 5 5 9
+1 12 -262130 -1 -1 0 1;
+#X obj 150 61 tgl 15 0 junk_to_hide_inlet junk_to_hide_outlet 6 5 9
+1 12 -262130 -1 -1 0 1;
+#X obj 165 61 tgl 15 0 junk_to_hide_inlet junk_to_hide_outlet 7 5 9
+1 12 -262130 -1 -1 0 1;
+#X msg 59 210 analogIns \$1 \$2;
+#X msg 35 106 0 \$1;
+#X msg 70 106 1 \$1;
+#X msg 105 106 2 \$1;
+#X msg 140 106 3 \$1;
+#X msg 175 106 4 \$1;
+#X msg 210 106 5 \$1;
+#X msg 245 106 6 \$1;
+#X msg 280 106 7 \$1;
+#X msg 202 307 set \$1 \$2 \$3;
+#X connect 1 0 0 0;
+#X connect 1 1 2 0;
+#X connect 2 0 20 0;
+#X connect 3 0 12 0;
+#X connect 4 0 13 0;
+#X connect 5 0 14 0;
+#X connect 6 0 15 0;
+#X connect 7 0 16 0;
+#X connect 8 0 17 0;
+#X connect 9 0 18 0;
+#X connect 10 0 19 0;
+#X connect 11 0 1 0;
+#X connect 12 0 11 0;
+#X connect 13 0 11 0;
+#X connect 14 0 11 0;
+#X connect 15 0 11 0;
+#X connect 16 0 11 0;
+#X connect 17 0 11 0;
+#X connect 18 0 11 0;
+#X connect 19 0 11 0;
+#X connect 20 0 0 0;
+#X coords 0 -1 1 1 120 16 1 60 60;
+#X restore 271 122 pd serin;
+#X text 270 105 which analogIns to enable:;
+#X obj 61 347 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 4829 1;
+#X obj 9 382 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 3575 1;
+#N canvas 0 0 450 300 (subpatch) 0;
+#X array array1 100 float 3;
+#A 0 0.271732 0.305984 0.255118 0.350945 0.252205 0.250236 0.265905
+0.250236 0.288346 0.265905 0.264882 0.272756 0.263937 0.256142 0.263937
+0.271732 0.269764 0.269764 0.265905 0.257087 0.350945 0.272756 0.261024
+0.341181 0.250236 0.250236 0.261968 0.250236 0.528819 0.274646 0.300079
+0.261024 0.264882 0.277638 0.263937 0.268819 0.272756 0.250236 0.265905
+0.284488 0.292283 0.274646 0.261024 0.333307 0.250236 0.254173 0.258031
+0.259055 0.259055 0.263937 0.259055 0.261024 0.264882 0.252205 0.26685
+0.261968 0.273701 0.259055 0.262913 0.270787 0.286378 0.261968 0.354803
+0.335276 0.26 0.250236 0.272756 0.261024 0.262913 0.255118 0.261024
+0.257087 0.258031 0.257087 0.264882 0.261968 0.274646 0.271732 0.288346
+0.275669 0.276614 0.274646 0.335276 0.343071 0.250236 0.254173 0.250236
+0.281496 0.261024 0.288346 0.261024 0.262913 0.274646 0.261968 0.261968
+0.272756 0.280551 0.250236 0.288346 0.258031;
+#X coords 0 1 99 0 200 140 1;
+#X restore 445 20 graph;
+#X obj 299 397 tabwrite array1;
+#X obj 267 295 mod 100;
+#X obj 267 257 f;
+#X obj 309 258 + 1;
+#X obj 273 195 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+1;
+#N canvas 0 0 450 300 (subpatch) 0;
+#X array array2 100 float 3;
+#A 0 0.421339 0.364646 0.386142 0.368504 0.174016 0.347008 0.178898
+0.194488 0.19063 0.405669 0.363622 0.362677 0.35874 0.391969 0.357795
+0.373386 0.579685 0.373386 0.187717 0.191575 0.636378 0.413465 0.392992
+0.393937 0.391024 0.382205 0.391024 0.365591 0.564016 0.249291 0.22874
+0.279606 0.375354 0.377323 0.38811 0.372441 0.362677 0.386142 0.359764
+0.38315 0.384173 0.263937 0.259055 0.397874 0.380236 0.319685 0.387087
+0.391969 0.373386 0.375354 0.372441 0.35874 0.304961 0.371417 0.317717
+0.323543 0.382205 0.380236 0.376378 0.302047 0.52685 0.417402 0.307953
+0.380236 0.382205 0.348976 0.359764 0.38315 0.448661 0.405669 0.367559
+0.363622 0.263937 0.376378 0.372441 0.316693 0.372441 0.357795 0.377323
+0.371417 0.222835 0.405669 0.224803 0.397874 0.391969 0.174016 0.349921
+0.380236 0.416457 0.331417 0.389055 0.372441 0.378268 0.186693 0.182835
+0.379291 0.353858 0.380236 0.378268 0.400787;
+#X coords 0 1 99 0 200 140 1;
+#X restore 442 196 graph;
+#X obj 215 362 tabwrite array2;
+#X obj 268 226 metro 100;
+#X connect 0 0 8 0;
+#X connect 2 0 8 0;
+#X connect 5 0 8 0;
+#X connect 8 0 9 0;
+#X connect 9 0 11 0;
+#X connect 10 0 9 1;
+#X connect 11 0 12 0;
+#X connect 12 0 13 0;
+#X connect 12 1 14 0;
+#X connect 13 0 19 0;
+#X connect 14 0 18 0;
+#X connect 15 0 8 0;
+#X connect 16 0 15 0;
+#X connect 18 0 27 0;
+#X connect 19 0 21 0;
+#X connect 22 0 21 1;
+#X connect 22 0 27 1;
+#X connect 23 0 24 0;
+#X connect 23 0 22 0;
+#X connect 24 0 23 1;
+#X connect 25 0 28 0;
+#X connect 28 0 23 0;
