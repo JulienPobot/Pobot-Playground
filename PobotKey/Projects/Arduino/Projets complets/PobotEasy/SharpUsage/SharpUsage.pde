@@ -10,18 +10,33 @@
  * (c) Julien Holtzer pour Pobot - mai 2010
  */
 
+#define SAMPLES  10
+
 // pattes analogiques sur lesquelles les Sharp sont connectés
 int pinLeft = 1; 
 int pinRight = 2;
+
+int pin = pinLeft;
+
+int valuesL[SAMPLES];
+int valuesR[SAMPLES];
+
+int index = 0;
+
+// la moyenne pour gauche et droite
 
 int valueLeft = 0;
 int valueRight = 0;
 
 // la moyenne
-double moyenne = 0;
+int moyenne = 0;
 
 // l'angle qu'on souhaite connaitre
-double result = 0;
+int result = 0;
+
+int incr = 0;
+
+long last = 0;
 
 void setup()
 {
@@ -33,17 +48,48 @@ void setup()
 
 void loop()
 {
-  // mettre à jour les valeurs des Sharps
-  valueLeft = analogRead(pinLeft);
-  valueRight = analogRead(pinRight);
+  // remplir un tableau de valeurs
+  if (pin == pinLeft) {
+    valuesL[index] = analogRead(pin);
+  } 
+  else {
+    valuesR[index] = analogRead(pin);
+  }
+  index++;
 
-  // calcul de la moyenne
-  moyenne = (valueLeft + valueRight) / 2;
-  
-  Serial.print( 0xff, BYTE);
-  Serial.print( (val >> 8) & 0xff, BYTE);
-  Serial.print( val & 0xff, BYTE);
+  if (index >= SAMPLES) {
+    // le tableau est plein, on analyse son contenu
+    moyenneLeft();
+    moyenneRight();
+    // calcul de la moyenne
+    moyenne = (valueLeft + valueRight) / 2;
 
+    //Serial.print(millis());
+    //Serial.print("\t");
+    Serial.print(valueLeft);
+    Serial.print(" ");
+    Serial.print(valueRight);
+    Serial.print(" ");
+    Serial.print(0);
+    Serial.print(incr);
+    Serial.println();
+
+    // repartir
+    index = 0;
+
+    if (pin == pinLeft) {
+      pin = pinRight; 
+    } 
+    else {
+      pin = pinLeft; 
+    }
+
+    if (millis() > last + 5000) {
+      // toutes les deux secondes
+      incr++;
+      last = millis();
+    }
+  }
 
   // en déduire la valeur fusionnée qu'on utilisera
   // soit pour de l'évitement, soit pour de la cible
@@ -53,13 +99,41 @@ void loop()
 
   if (valueRight < valueLeft) {
     // fuite à gauche
-    
-  } else {
+
+  } 
+  else {
     // fuite à droite
-    
+
   }
-  
+
 }
+
+int moyenneLeft(void)
+{
+  valueLeft = 0;
+  for (int i = 0; i < SAMPLES; i++)
+  {
+    valueLeft += valuesL[i];   
+  }
+  valueLeft /= SAMPLES;
+}
+
+int moyenneRight(void)
+{
+  valueRight = 0;
+  for (int i = 0; i < SAMPLES; i++)
+  {
+    valueRight += valuesR[i];   
+  }
+  valueRight /= SAMPLES;
+}
+
+
+
+
+
+
+
 
 
 
