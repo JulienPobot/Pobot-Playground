@@ -43,10 +43,21 @@ int consigneD = 0;
 #define VITESSE_MIN  5
 #define VITESSE_MAX  30
 
-int vitesse = VITESSE_MIN;
+int vitesse = VITESSE_MAX;
 
 float vitesseG = 0;
 float vitesseD = 0;
+
+int erreur = 0;
+int errSum = 0;
+int errDif = 0;
+int lastErreur = 0;
+
+int correction = 0;
+
+static int kP=5;
+static int kI=1;
+static int kD=0;
 
 // utilisation d'une mémoire pour le démarrage d'une mesure
 // attention, "long" obligatoire pour ne pas avoir de dépassement
@@ -63,8 +74,8 @@ void setup()
   servG.attach(servGPin);
   servD.attach(servDPin);
   // attach the odometer interrupt
-  attachInterrupt(odoGPin, tickG, CHANGE);
-  attachInterrupt(odoDPin, tickD, CHANGE);
+  attachInterrupt(odoGPin, tickG, RISING);
+  attachInterrupt(odoDPin, tickD, RISING);
 
   // utilisation du timer 2 pour gérer l'asservissement
   MsTimer2::set(50, update); // 500ms period
@@ -90,15 +101,50 @@ void update(void)
     servD.detach(); 
   } 
 
-  if (counterG < counterD) {
-    vitesseD = vitesse/((counterD-counterG)/2);
-    servD.write(VD(vitesseD)); 
-  }
+  // l'erreur
+  erreur = counterD-counterG;
+  correction = computePID(erreur);
 
-  if (counterD < counterG) {
-    vitesseG = vitesse/((counterG-counterD)/2);
-    servG.write(VG(vitesseG)); 
-  }
+  //
+  vitesseG = vitesse + correction;
+  vitesseD = vitesse - correction;
+
+  servG.write(VG(vitesseG)); 
+  servD.write(VD(vitesseD)); 
+
+  /*
+  if (counterG < counterD) {
+   vitesseD = vitesse + correction;
+   // vitesseD = vitesse/((counterD-counterG)/2);
+   servD.write(VD(vitesseD)); 
+   }
+   
+   if (counterD < counterG) {
+   vitesseG = vitesse + correction;
+   //vitesseG = vitesse/((counterG-counterD)/2);
+   servG.write(VG(vitesseG)); 
+   }
+   */
+
+
+
+}
+
+int computePID(int err)
+{
+  int P,I,D;
+
+  errSum += err;                 //Somme les erreurs depuis le début 
+
+  errDif = err - lastErreur;      //Calcule la variation de l'erreur
+  lastErreur = err;
+
+  P = err * kP;                  //Proportionnelle
+  I = errSum * kI;                 //Intégrale
+  D = errDif * kD;                 //Dérivée
+
+  return P + I + D;                //Le résultat est la somme des trois
+  //composantes calculées précédemment
 
 }
 
@@ -164,6 +210,7 @@ void tickD()
 {
   counterD++; 
 }
+
 
 
 
