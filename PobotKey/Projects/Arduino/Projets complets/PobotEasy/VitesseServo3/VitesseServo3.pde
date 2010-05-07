@@ -6,6 +6,8 @@
  * @date 30-04-2010
  *
  */
+ 
+ // test
 
 // utilisation de la bibliothèque "Servo" pour Arduino
 // fonctionne avec toute entrée numérique ("Digital")
