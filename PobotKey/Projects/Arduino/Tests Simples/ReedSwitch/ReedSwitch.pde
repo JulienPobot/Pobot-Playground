@@ -1,27 +1,34 @@
-/*
- * Button
- * by DojoDave <http://www.0j0.org>
+/**
+ * Interrupteur magnétique ("reed switch")
  *
- * Turns on and off a light emitting diode(LED) connected to digital  
- * pin 13, when pressing a pushbutton attached to pin 7. 
+ * Simple utilisation : changement de la led.
  *
- * http://www.arduino.cc/en/Tutorial/Button
+ * (c) 2010 - Julien Holtzer pour Pobot
  */
  
-int ledPin = 13;                // choose the pin for the LED
-int inputPin = 2;               // choose the input pin (for a pushbutton)
-int val = 0;                    // variable for reading the pin status
+// la led déjà placée sur une Arduino classique (DIGITAL 13)
+int ledPin = 13;
+
+// la patte de connexion de l'interrupteur (DIGITAL 2 car 0 et 1 sont utilisés par la série)
+int inputPin = 2;
+
+// statut de l'interrupteur
+int val = 0;
 
 void setup() {
-  pinMode(ledPin, OUTPUT);      // declare LED as output
-  pinMode(inputPin, INPUT);     // declare pushbutton as input
+  pinMode(ledPin, OUTPUT);
+  pinMode(inputPin, INPUT);
 }
 
 void loop(){
-  val = digitalRead(inputPin);  // read input value
-  if (val == HIGH) {            // check if the input is HIGH
-    digitalWrite(ledPin, LOW);  // turn LED OFF
+  // lire l'entrée
+  val = digitalRead(inputPin);
+  // 
+  if (val == HIGH) {          
+    // si l'interrupteur est ouvert, éteindre la led
+    digitalWrite(ledPin, LOW);
   } else {
-    digitalWrite(ledPin, HIGH); // turn LED ON
+    // s'il est fermé, allumer la led
+    digitalWrite(ledPin, HIGH);
   }
 }
