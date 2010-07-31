@@ -1,0 +1,163 @@
+#N canvas 178 34 518 494 10;
+#N canvas 233 472 466 316 INSTALL-NOTES 0;
+#X text 39 201 [comport] \, from pd-cvs/externals/iem/comport;
+#X text 39 185 [arduino] \, from pd-cvs/externals/hardware/arduino
+;
+#X text 39 217 [speedlim] \, from iemlib \, pd-cvs/externals/iemlib
+;
+#X text 20 27 1 General information on arduino: http://www.arduino.cc
+;
+#X text 21 159 4 Pduino needs the following externals and abstractions:
+;
+#X text 22 257 5 If you still have troubles \, mail to the pd list
+!;
+#X text 20 61 2 You need to install a Firmata firmware. There are a
+bunch of Firmata firmwares included with Arduino. Use Arduino 18 or
+newer for best results.;
+#X text 20 108 3 The StandardFirmata firmware is the best place to
+start.;
+#X restore 25 72 pd INSTALL-NOTES;
+#X msg 44 192 close;
+#X text 34 315 2006 \, released under GNU GPL \; Gerda Strobl \, Georg
+Holzmann;
+#X text 106 221 <- list devices;
+#X obj 370 103 send \$0-arduino-out;
+#X obj 370 59 receive \$0-arduino;
+#X obj 28 251 send \$0-arduino;
+#X obj 370 82 arduino 1;
+#X msg 53 220 devices;
+#X text 184 81 here is our Arduino object -->;
+#N canvas 0 22 467 240 ver 0;
+#X obj 250 100 cnv 15 145 17 empty \$0-version_cnv empty 4 10 0 12
+-203904 -1 0;
+#X obj 23 157 send \$0-version_cnv;
+#X msg 23 132 label \$1;
+#X obj 23 52 zexy/makesymbol firmata_version_%s.%s;
+#X obj 48 103 symbol;
+#X obj 38 77 loadbang;
+#X msg 96 78 bang;
+#X obj 23 29 route version;
+#X obj 23 6 receive \$0-arduino-out;
+#X connect 2 0 1 0;
+#X connect 3 0 2 0;
+#X connect 4 0 2 0;
+#X connect 5 0 4 0;
+#X connect 6 0 4 0;
+#X connect 7 0 3 0;
+#X connect 8 0 7 0;
+#X coords 0 -1 1 1 145 17 1 250 100;
+#X restore 131 251 pd ver;
+#X text 75 170 select the serial port;
+#X text 95 192 close the serial port;
+#X text 114 5 ::::Bipede Pobot EasyRobotics::::;
+#X text 98 25 Arduino control of biped robot with PD;
+#N canvas 735 195 450 300 CONFIG-PIN 0;
+#X obj 29 237 send \$0-arduino;
+#X msg 112 135 pinMode 10 servo;
+#X msg 33 49 pinMode 8 servo;
+#X msg 62 94 pinMode 9 servo;
+#X msg 178 180 pinMode 11 servo;
+#X obj 190 22 inlet;
+#X connect 1 0 0 0;
+#X connect 2 0 0 0;
+#X connect 3 0 0 0;
+#X connect 4 0 0 0;
+#X connect 5 0 2 0;
+#X connect 5 0 3 0;
+#X connect 5 0 1 0;
+#X connect 5 0 4 0;
+#X restore 347 201 pd CONFIG-PIN;
+#X msg 347 167 bang;
+#X text 31 138 1) update port number and click "open xx";
+#X text 345 135 2) set pins (servos);
+#N canvas 616 406 539 366 TEST_SERVOS 1;
+#X obj 111 52 hsl 150 17 0 1 0 0 empty empty Servo_control_(0-1) -2
+-6 1 10 -260818 -1 -1 4900 1;
+#X obj 109 115 s \$0-arduino;
+#X floatatom 67 99 5 0 0 0 - - -;
+#X obj 111 233 hsl 150 17 0 1 0 0 empty empty Servo_control_(0-1) -2
+-6 1 10 -260818 -1 -1 3900 1;
+#X obj 108 295 s \$0-arduino;
+#X floatatom 66 279 5 0 0 0 - - -;
+#X obj 362 57 hsl 150 17 0 1 0 0 empty empty Servo_control_(0-1) -2
+-6 1 10 -260818 -1 -1 4500 1;
+#X obj 359 113 s \$0-arduino;
+#X floatatom 314 97 5 0 0 0 - - -;
+#X obj 362 237 hsl 150 17 0 1 0 0 empty empty Servo_control_(0-1) -2
+-6 1 10 -260818 -1 -1 5300 1;
+#X obj 359 297 s \$0-arduino;
+#X floatatom 317 281 5 0 0 0 - - -;
+#X text 153 -8 Jambe Gauche;
+#X text 381 -8 Jambe Droite;
+#X text 3 52 Hanche;
+#X text 3 233 Genou;
+#X msg 359 268 analog 10 \$1;
+#X msg 359 84 analog 9 \$1;
+#X msg 108 266 analog 8 \$1;
+#X msg 109 86 analog 11 \$1;
+#X connect 0 0 19 0;
+#X connect 0 0 2 0;
+#X connect 3 0 18 0;
+#X connect 3 0 5 0;
+#X connect 6 0 17 0;
+#X connect 6 0 8 0;
+#X connect 9 0 16 0;
+#X connect 9 0 11 0;
+#X connect 16 0 10 0;
+#X connect 17 0 7 0;
+#X connect 18 0 4 0;
+#X connect 19 0 1 0;
+#X restore 348 266 pd TEST_SERVOS;
+#X text 34 351 2010 \, update for Pobot Easy Bipede robot \, Julien
+Holtzer;
+#X msg 28 172 open 39;
+#N canvas 98 352 624 500 GENERE_SERVOS 1;
+#X obj 26 207 sin;
+#X obj 251 192 hsl 150 17 0 1 0 0 empty empty Servo_control_(0-1) -2
+-6 1 10 -260818 -1 -1 6542 1;
+#X obj 248 251 s \$0-arduino;
+#X msg 248 222 analog 9 \$1;
+#X floatatom 248 72 5 0 0 0 - - -;
+#X msg 39 16 bang;
+#X msg 95 15 stop;
+#X obj 24 98 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
+-1;
+#X floatatom 29 182 5 0 0 0 - - -;
+#X obj 24 124 float;
+#X obj 62 57 metro 50;
+#X floatatom 144 22 5 0 0 0 - - -;
+#X obj 28 150 + 0.02;
+#X obj 248 112 / 6;
+#X obj 248 151 + 0.3;
+#X obj 248 327 s \$0-arduino;
+#X msg 248 298 analog 10 \$1;
+#X obj 127 251 s \$0-arduino;
+#X obj 127 327 s \$0-arduino;
+#X msg 127 224 analog 11 \$1;
+#X msg 127 298 analog 8 \$1;
+#X connect 0 0 4 0;
+#X connect 1 0 3 0;
+#X connect 1 0 16 0;
+#X connect 3 0 2 0;
+#X connect 4 0 13 0;
+#X connect 5 0 10 0;
+#X connect 6 0 10 0;
+#X connect 7 0 9 0;
+#X connect 8 0 0 0;
+#X connect 9 0 12 0;
+#X connect 10 0 7 0;
+#X connect 11 0 10 1;
+#X connect 12 0 9 1;
+#X connect 12 0 8 0;
+#X connect 13 0 14 0;
+#X connect 14 0 1 0;
+#X connect 16 0 15 0;
+#X connect 19 0 17 0;
+#X connect 20 0 18 0;
+#X restore 351 301 pd GENERE_SERVOS;
+#X connect 1 0 6 0;
+#X connect 5 0 7 0;
+#X connect 7 0 4 0;
+#X connect 8 0 6 0;
+#X connect 16 0 15 0;
+#X connect 21 0 6 0;
