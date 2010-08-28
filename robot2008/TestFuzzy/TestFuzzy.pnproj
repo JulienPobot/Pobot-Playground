@@ -1,1 +1,0 @@
-<Project name="TestFuzzy"><File path="Fuzzy.c"></File><File path="Fuzzy.h"></File><File path="global.h"></File><File path="makefile"></File><File path="testfuzzy.c"></File><File path="lcd03.h"></File><File path="lcd03.c"></File><File path="i2cconf.h"></File><File path="servoconf.h"></File></Project>
