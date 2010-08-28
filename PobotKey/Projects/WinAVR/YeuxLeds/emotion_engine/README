@@ -1,0 +1,24 @@
+The code source for the ATMEGA8 use for doing the link between I2C and
+the RS232 link to the screen.
+
+I2c give order like (still not implemented)
+- byte0: command type
+- byte1 to byte3: parameters (eyes position for example) (not used)
+
+
+rs232 TX send the image to the screens in a trame format:
+- starting code: 0xA5
+- id code : 0x11 (right), 0x22 (left), 0x0f(broadcast)
+- image 8 times 8 bytes
+- crc: 1 byte (ibutton like polynome 0x8c)
+12 bytes
+
+
+function ("mode") to be implemented:
+         visÅÈ
+         tire
+         arriver au waypoint.
+         fin de match
+         ennuis
+         ÅÈnerver l'adversaire
+         bypass (? for debuging use the parameters as images lines)

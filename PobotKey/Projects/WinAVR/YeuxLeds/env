@@ -1,0 +1,5 @@
+
+
+export AVRLIB=/home/cyrano/Documents/robotique/neuils/toolchain/avrlib/
+export PATH=$PATH:/home/cyrano/Documents/robotique/neuils/toolchain/local/bin
+
