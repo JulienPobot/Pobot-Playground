@@ -1,0 +1,13 @@
+# pobtools project
+pobtools.version=4
+target.name=./PremierEssai.hex
+sources.number=2
+sources.0=./PremierEssai.c
+sources.1=./pattern.h
+bmps.number=0
+patterns.number=3
+patterns.0=./pattern/circle.bmp
+patterns.1=./pattern/cross.bmp
+patterns.2=./pattern/triangle.bmp
+sdk=pobeye2
+lang=C
