@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
-<sequence name="right">
-  <commande gg="8" hg="8" gd="7" hd="7"/>
-  <commande gg="9" hg="9" gd="9" hd="9"/>
-  <commande gg="9" hg="1" gd="9" hd="1"/>
-  <commande gg="1" hg="9" gd="1" hd="9"/>
-  <commande gg="5" hg="5" gd="5" hd="5"/>
-</sequence>
