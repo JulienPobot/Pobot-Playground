@@ -1,0 +1,100 @@
+   1               		.file	"lcdtest.c"
+   2               		.arch atmega8
+   3               	__SREG__ = 0x3f
+   4               	__SP_H__ = 0x3e
+   5               	__SP_L__ = 0x3d
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+   8               		.global __do_copy_data
+   9               		.global __do_clear_bss
+  17               	.Ltext0:
+  18               	.global	CLK_TEMPLATE
+  19               		.data
+  22               	CLK_TEMPLATE:
+  23 0000 2020 3A20 		.string	"  :  :  "
+  23      203A 2020 
+  23      00
+  24               	.global	MSG3
+  27               	MSG3:
+  28 0009 5061 7573 		.string	"Paused    "
+  28      6564 2020 
+  28      2020 00
+  29               	.global	MSG2
+  32               	MSG2:
+  33 0014 5275 6E6E 		.string	"Running..."
+  33      696E 672E 
+  33      2E2E 00
+  34               	.global	MSG1
+  37               	MSG1:
+  38 001f 4865 6C6C 		.string	"Hello AVRlib"
+  38      6F20 4156 
+  38      526C 6962 
+  38      00
+  39               		.text
+  40               	.global	main
+  42               	main:
+  43               	.LFB4:
+  44               	.LM1:
+  45               	/* prologue: frame size=0 */
+  46 0000 C0E0      		ldi r28,lo8(__stack - 0)
+  47 0002 D0E0      		ldi r29,hi8(__stack - 0)
+  48 0004 DEBF      		out __SP_H__,r29
+  49 0006 CDBF      		out __SP_L__,r28
+  50               	/* prologue end (size=4) */
+  51               	.LM2:
+  52 0008 00D0      		rcall lcdInit
+  53               	.LM3:
+  54 000a 47E0      		ldi r20,lo8(7)
+  55 000c 69E0      		ldi r22,lo8(9)
+  56 000e 80E0      		ldi r24,lo8(LcdCustomChar)
+  57 0010 90E0      		ldi r25,hi8(LcdCustomChar)
+  58 0012 00D0      		rcall lcdLoadCustomChar
+  59               	.LM4:
+  60 0014 00D0      		rcall lcdClear
+  61               	.LM5:
+  62 0016 00D0      		rcall lcdHome
+  63               	.LM6:
+  64 0018 A0E0      		ldi r26,lo8(MSG1)
+  65 001a B0E0      		ldi r27,hi8(MSG1)
+  66 001c FD01      		movw r30,r26
+  67 001e 0190      		ld __tmp_reg__,Z+
+  68 0020 0020      		tst __tmp_reg__
+  69 0022 E9F7      		brne .-6
+  70 0024 3197      		sbiw r30,1
+  71 0026 EA1B      		sub r30,r26
+  72 0028 FB0B      		sbc r31,r27
+  73 002a 6E2F      		mov r22,r30
+  74 002c CD01      		movw r24,r26
+  75 002e 00D0      		rcall lcdPrintData
+  76               	.L2:
+  77               	.LM7:
+  78 0030 FFCF      		rjmp .L2
+  79               	/* epilogue: frame size=0 */
+  80               	/* epilogue: noreturn */
+  81               	/* epilogue end (size=0) */
+  82               	/* function main size 25 (21) */
+  83               	.LFE4:
+  85               	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 lcdtest.c
+C:\WINDOWS\TEMP/ccOyaaaa.s:3      *ABS*:0000003f __SREG__
+C:\WINDOWS\TEMP/ccOyaaaa.s:4      *ABS*:0000003e __SP_H__
+C:\WINDOWS\TEMP/ccOyaaaa.s:5      *ABS*:0000003d __SP_L__
+C:\WINDOWS\TEMP/ccOyaaaa.s:6      *ABS*:00000000 __tmp_reg__
+C:\WINDOWS\TEMP/ccOyaaaa.s:7      *ABS*:00000001 __zero_reg__
+C:\WINDOWS\TEMP/ccOyaaaa.s:22     .data:00000000 CLK_TEMPLATE
+C:\WINDOWS\TEMP/ccOyaaaa.s:27     .data:00000009 MSG3
+C:\WINDOWS\TEMP/ccOyaaaa.s:32     .data:00000014 MSG2
+C:\WINDOWS\TEMP/ccOyaaaa.s:37     .data:0000001f MSG1
+C:\WINDOWS\TEMP/ccOyaaaa.s:42     .text:00000000 main
+
+UNDEFINED SYMBOLS
+__do_copy_data
+__do_clear_bss
+__stack
+lcdInit
+LcdCustomChar
+lcdLoadCustomChar
+lcdClear
+lcdHome
+lcdPrintData

@@ -1,0 +1,1 @@
+<Project name="AVR LCD"><File path="makefile"></File><File path="global.h"></File><File path="hardware.h"></File><File path="lcdconf.h"></File><File path="lcdtest.c"></File></Project>
