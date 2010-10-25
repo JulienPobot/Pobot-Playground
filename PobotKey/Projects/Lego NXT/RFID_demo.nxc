@@ -1,0 +1,51 @@
+/*
+Codatex RFID sensor library for NXC
+author : Daniele Benedettelli, 19 June 2008
+DEMO program
+*/
+#include "RFIDlib.nxc"
+
+////////////////////////////////////////////////////////////////////////////////
+///                    RFID SENSOR USAGE DEMONSTRATION                                         ///
+////////////////////////////////////////////////////////////////////////////////
+
+#define PORT IN_3
+
+task main ()
+{
+   string version, manufacturer, type;
+   string serial = "";
+   // set sensor port to read I2C data
+   SetSensorLowspeed(PORT);
+   // send dummy command to wake up sensor
+   RFIDDummy(PORT);
+   // get sensor version, manufacturer, type and serial number
+   version = GetI2CString(PORT,RFID_ADDRESS,RFID_VERSION);
+   manufacturer = GetI2CString(PORT,RFID_ADDRESS,RFID_MANUFACTURER);
+   type = GetI2CString(PORT,RFID_ADDRESS,RFID_TYPE);
+   GetRFIDSerial(PORT,serial);
+   TextOut(0,LCD_LINE1,version);
+   TextOut(0,LCD_LINE2,manufacturer);
+   TextOut(0,LCD_LINE3,type);
+   TextOut(0,LCD_LINE4,serial);
+   Wait(2000);
+
+   string data = "";
+   byte a[5];
+   while (true)
+   {
+      // read the transponder
+      GetRFIDArray(PORT,a,true);
+      // convert data for visualization
+      RFIDDataToString(a,data);
+      ClearScreen();
+      NumOut(0,LCD_LINE1,a[0] );
+      NumOut(0,LCD_LINE2,a[1] );
+      NumOut(0,LCD_LINE3,a[2] );
+      NumOut(0,LCD_LINE4,a[3] );
+      NumOut(0,LCD_LINE5,a[4] );
+      TextOut(0,LCD_LINE7,data);
+      // play an acknowledgment tone, if the transponder is near
+      PlayTone(10*(a[0]+a[1]+a[2]+a[3]+a[4]),10);
+   }
+}

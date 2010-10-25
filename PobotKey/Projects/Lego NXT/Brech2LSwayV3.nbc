@@ -1,0 +1,242 @@
+//------------------------------------------------
+// BrechNxtway V5 (correctif sur intégrale)
+// V1: Premier essai
+// V2: Valeur neutre = moyenne de deux valeurs
+// V3: Ajout de sons pour trace de passage dans le code
+// V4: Ecriture d'un fichier de trace des valeurs
+// V5: Correctif sur calcul intégrale
+// 2LSV1: Deux Light Sensors (trace des valeurs)
+// 2LSV2: Suit ligne
+//------------------------------------------------
+
+// Déclaratives
+dseg segment
+
+// Sensor values
+NVal word
+NVal2 word
+offset word
+offset2 word
+err sdword
+err2 sdword
+errprop sdword
+errold sdword
+errdiff sdword
+errint sdword
+
+// Motor values
+theUF byte
+thePower sbyte
+theOM byte OUT_MODE_MOTORON+OUT_MODE_BRAKE+OUT_MODE_REGULATED
+theRM byte OUT_REGMODE_IDLE
+theRS byte OUT_RUNSTATE_RUNNING
+thePorts byte[] OUT_B, OUT_C  // motors B and C
+
+// pid coeffs
+kp sdword 777      //30
+kd sdword 1111     //35
+ki sdword 22       //5
+scale sdword 1000  //45
+
+seuil sword 100        //Seuil sortie de la ligne
+plusB sword 0
+moins75 sword -75
+
+// pid value
+pid sdword
+
+//temp var
+temp sdword
+
+// timer vars
+thenTick dword
+nowTick dword
+
+// Pour écriture fichier de trace
+affich byte
+
+foArgs TFileOpen
+fwArgs TFileReadWrite
+fdArgs TFileDelete
+
+writeresult word
+
+loop word 20      // Pour test de fin si dépasse 100 plus de x fois de suite
+
+
+currTick dword
+
+// Données en  sortie fichier trace
+
+maligne byte[]
+
+strcurrTick byte[]
+strNVal byte[]
+strNVal2 byte[]
+stroffset byte[]
+strerr byte[]
+strerrprop byte[]
+strerrold byte[]
+strerrdiff byte[]
+strerrint byte[]
+strpid byte[]
+
+dseg ends
+
+thread main
+
+	setin	IN_TYPE_LIGHT_ACTIVE, IN_3, Type         // Init Light sensor 1
+	setin	IN_TYPE_LIGHT_ACTIVE, IN_2, Type         // Init Light sensor 2
+	
+	set affich,TRUE                                // Ecriture fichier trace?
+	
+	// Create file
+	mov foArgs.Filename, 'Brechfile.txt'           // Nom du fichier pour création
+  set foArgs.Length, 60000                       // creation avec capacité 60000 bytes
+  syscall FileOpenWrite, foArgs                  // creation fichier trace
+  brcmp EQ, lblFileCreated, foArgs.Result, NO_ERR
+
+  mov fdArgs.Filename, 'Brechfile.txt'           // Nom du fichier pour delete
+  syscall FileDelete, fdArgs                     // delete file si code retour (fichier déjà existant)
+  syscall FileOpenWrite, foArgs                  // creation fichier trace
+  
+
+lblEndIf:
+lblFileCreated:
+	mov fwArgs.FileHandle,  foArgs.FileHandle
+
+  // initialize motors
+  set thePower, 0
+	set theUF, UF_UPDATE_SPEED+UF_UPDATE_MODE
+	setout thePorts, OutputMode, theOM, RegMode, theRM, RunState, theRS, UpdateFlags, theUF, Power, thePower
+	set theUF, UF_UPDATE_SPEED
+	
+  // wait a bit to let sensor stabilize
+	wait 2000
+
+  //PlayFileEx("Right.rso",3,FALSE);
+
+  // reads center value. NXTway must be balanced.
+  getin	NVal, IN_3, NormalizedValue              // Lecture valeur neutre
+  mov offset, NVal
+  add temp,temp,offset
+  NumOut (10,LCD_LINE2,NVal)
+
+  wait 1000
+
+  getin	NVal, IN_3, NormalizedValue              // Lecture valeur neutre
+  mov offset, NVal
+  
+  getin	NVal2, IN_2, NormalizedValue             // Lecture valeur neutre (ligne)
+  mov offset2, NVal2
+  //sub offset2,offset,150
+
+  NumOut (40,LCD_LINE2,offset)
+
+  add temp,temp,offset
+  div temp,temp,2                                // Moyenne de deux valeurs
+  mov offset,temp
+
+  NumOut (80,LCD_LINE2,offset)
+  wait 2000
+
+ // mov temp,offset
+ //sub temp,offset2
+ // brcmp LT, equilibre, temp, seuil
+ //add offset,offset,15                           // avance en permanence
+  
+  equilibre:
+  
+  //PlayFileEx("Left.rso",3,FALSE);
+
+
+  // Ligne de titre avec virgules pour ficher .csv
+ WriteLn (fwArgs.FileHandle, 'NVal2,NVal,offset,errprop,errold,errdiff,errint,err,pid',writeresult)
+
+
+Forever:
+	getin	NVal,  IN_3, NormalizedValue               // Lecture nouvelle valeur sensor
+  sub err,  NVal,  offset                            // erreur par rapport au neutre
+  
+
+  mov errprop,err
+  brtst GT, ErrPos, errprop                        // Ecarts plus faibles quand l'erreur est négative
+  mul errprop, errprop, 12                         // (sensor plus loin du sol)
+  div errprop, errprop, 10                         // Mesure = environ 12/10
+//  jmp Errok
+ErrPos:
+//  mul errprop, errprop, 10
+//  div errprop, errprop, 12
+//Errok:
+
+
+  sub errdiff, errprop, errold                     // Différentielle
+
+  add errint, errint, errprop                      // Intégrale
+  //add errint, errint, errold
+
+  numtostr strerrold,errold                        // Transfo en string pour fichier trace de l'ancienne valeur
+  mov errold, errprop
+  
+  mul pid, kd, errdiff                             // Coeff differentiel
+  
+  mul temp, kp, errprop                            // Coeff proportionnel
+  add pid, pid, temp                               //  PID = D+P
+  
+  mul temp, ki, errint                             // Coeff intégrale
+  add pid, pid, temp                               // Pid = P+I+D
+
+  div pid, pid, scale                              // Rapport
+  
+   //                                               Maximum 100 ou -100
+  brcmp LT, under100, pid, 100
+  mov pid, 100
+  sub loop,loop,1                                  // Compteur de fin
+  jmp Min100
+
+under100:
+  brcmp GT, overMin100, pid, -100
+  mov pid, -100
+  sub loop,loop,1                                  // Compteur de fin
+  jmp Min100
+
+overMin100:
+  mov loop,20                                      // Réinit cpteur de fin
+Min100:
+
+ mov thePower, pid                                // motor power = pid
+
+ //setout thePorts, UpdateFlags, theUF, Power, thePower  // Commande des moteurs
+
+ brcmp EQ, nodisplay,affich ,FALSE                 // Saut écriture fichier trace
+ //                                                 Transfo des valeurs en string pour sortie
+ numtostr strcurrTick,currTick
+ numtostr strNVal,NVal
+ numtostr strNVal2,NVal2
+ numtostr stroffset,offset
+ numtostr strerr,err
+ numtostr strerrprop,errprop
+ numtostr strerrdiff,errdiff
+ numtostr strerrint,errint
+ numtostr strpid,pid
+//                                                 Ecriture ligne de valeurs séparées par des virgules (fichier .csv)
+ strcat maligne,strNVal2,',',strNVal,',',stroffset,',',strerrprop,',',strerrold,',',strerrdiff,',',strerrint,',',strerr,',',strpid
+ WriteLn (fwArgs.FileHandle, maligne,writeresult)
+
+ nodisplay:
+ getin	NVal2, IN_2, NormalizedValue               // Lecture nouvelle valeur sensor 2
+ sub err2, NVal2, offset2                          // erreur par rapport au neutre
+ //add thePower,thePower,20
+ mov plusB,0
+ brcmp LT, underSeuil, err2, seuil
+ mov plusB,10
+ underSeuil:
+ setout 2, UpdateFlags, theUF, Power, thePower  // Commande des moteurs
+ add thePower,thePower,plusB
+ setout 1, UpdateFlags, theUF, Power, thePower  // Commande des moteurs
+
+
+brtst GT,Forever,loop                                // Boucle tant que le compteur est positif
+  
+ exit
+endt
