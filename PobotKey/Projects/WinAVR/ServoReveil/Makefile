@@ -41,7 +41,8 @@
 
 
 # MCU name
-MCU = attiny13
+#MCU = attiny13
+MCU = at90s2313
 #MCU = atmega8
 
 

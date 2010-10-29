@@ -215,9 +215,14 @@ static void avr_init(void)
 	
 	// L'interruption
 	
-	GIMSK |= 1<<PCIE;  // interruption de changement sur une patte (PC = pin change)
+	// Pour ATtiny : 
+	// GIMSK |= 1<<PCIE;  // interruption de changement sur une patte (PC = pin change)
+	// PCMSK |= _BV(1);   // sélection de la patte 1 (remplaçable par 2,3,4,5..)
 	
-	PCMSK |= _BV(1);   // sélection de la patte 1 (remplaçable par 2,3,4,5..)
+		
+	// Pour AT90s2313 : 
+	GIMSK |= _BV(6); // int 0
+	
 	
 	// Choix du mode sleep (ici, le plus "profond" qui économise le plus le courant)
 	// seul le reset ou une interruption pin change peuvent sortir le µC de ce mode
