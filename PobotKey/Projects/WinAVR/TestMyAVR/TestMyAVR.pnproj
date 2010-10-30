@@ -1,0 +1,1 @@
+<Project name="TestMyAVR"><File path="test.c"></File><File path="global.h"></File><File path="i2cconf.h"></File><File path="makefile"></File></Project>
