@@ -56,10 +56,10 @@ static void avr_init(void);
 
 ISR(PCINT0_vect)
 {
-    	
-	count++;
-	
-	
+	// on incrémente notre compteur
+	// l'interruption fonctionne à chaque changement de valeur
+	// donc un appui sur un bouton déclenche un incrément de 2
+	count++;	
 }
 
 /** 
@@ -130,7 +130,15 @@ int main(void)
 				// passer à la phase suivante si on détecte qu'il s'agit bien du réveil
 				// et pas du bip des heures
 				
-				phase = phase_open;				
+				if (count > 6) {
+					
+					phase = phase_open;				
+					
+				} else {
+					
+					phase = phase_sleep;
+					
+				}
 				
 			break;
 			
