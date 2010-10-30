@@ -33,6 +33,9 @@ int phase = phase_sleep;
 // position du servo
 int position = POSITION_START;
 
+// nombre d'interruptions détectées
+volatile int count;
+
 
 /** Déclaration des fonctions **/
 
@@ -53,9 +56,9 @@ static void avr_init(void);
 
 ISR(PCINT0_vect)
 {
-    // Changer la led de test pour voir le passage ici
+    	
+	count++;
 	
-	PORTB ^= _BV(0) ;
 	
 }
 
@@ -75,6 +78,8 @@ int main(void)
 		switch (phase)
 		{
 			case phase_sleep:
+				
+				count = 0;
 				
 				// activation du mode économie d'énergie
 				// cela ne démarre pas l'économie d'énergie
@@ -97,10 +102,34 @@ int main(void)
 			
 			case phase_detect:
 				
-				// plus tard, il faudra détecter le signal du réveil
+				// il faut détecter le signal du réveil
+				
+				for (int i=0; i< 10; i++)
+				{				
+					// Changer la led de test pour voir le passage ici		
+					PORTB ^= _BV(0) ;
+					
+					_delay_ms(1000);
+					
+				}
+				
+				// éteindre la led de test
+				PORTB &=~ _BV(0);
+				
+				// montrer le nombre de count pendant la phase précédente
+				for (int i=0; i< count+1; i++) 
+				{
+					PORTB ^= _BV(3) ;
+					_delay_ms(200);
+					
+					PORTB ^= _BV(3) ;
+					_delay_ms(100);
+				}			
+				
 				
 				// passer à la phase suivante si on détecte qu'il s'agit bien du réveil
 				// et pas du bip des heures
+				
 				phase = phase_open;				
 				
 			break;
@@ -205,8 +234,8 @@ static void avr_init(void)
 	DDRB |= _BV(0); // la led de test
 	DDRB |= _BV(2); // le servo à activer
 	
-	DDRB |= _BV(3); // le micro
-	PORTB |= _BV(3);
+	DDRB |= _BV(3); // autre led de test
+	PORTB &=~ _BV(3);
 	
 	// Les entrées
 	
