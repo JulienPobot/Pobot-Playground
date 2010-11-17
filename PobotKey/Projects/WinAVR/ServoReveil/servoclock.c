@@ -11,7 +11,7 @@
 // plutôt que de définir 90 ou 0 on définit aussi le test
 
 #define POSITION_START	0
-#define SERVO_IS_OPEN(pos) (pos >= 90)
+#define SERVO_IS_OPEN(pos) (pos >= 120)
 #define SERVO_IS_CLOSED(pos) (pos <= 0)
 #define SERVO_OPEN(pos) (pos++)
 #define SERVO_CLOSE(pos) (pos--)
@@ -159,7 +159,7 @@ int main(void)
 				
 				
 				//_delay_ms(0.500+((double)position)*0.005556);
-				// Ne jamais utiliser de float
+				// 
 				_delay_ms(1);
 				
 				// 0 = 1000 ms / 90 = 1500 ms / 180 = 2000 ms
