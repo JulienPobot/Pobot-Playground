@@ -1,36 +1,41 @@
-//----- Include Files ---------------------------------------------------------
-#include <avr/io.h>		// include I/O definitions (port names, pin names, etc)
-#include <avr/interrupt.h>	// include interrupt support
+#include <avr/io.h>
+#include <util/delay.h>
 
-#include "global.h"		// include our global settings
-#include "uart.h"		// include uart function library
-#include "rprintf.h"	// include printf function library
-#include "timer.h"		// include timer function library (timing, PWM, etc)
-#include "vt100.h"		// include VT100 terminal support
+int A,B,C,var=0;
+
+void init(void)
+{  
+SREG= 0b10000000;
+DDRA = 0b01111111;
+ADMUX= 0b01100111;
+ADCSRA=0b11101000;
+
+}
+
+void ISR(int _VECTOR(14))
+ {            
+
+var = ADCH/0.5;
+A = (int)(var/100);
+B = (int)((var/10)-(10*A));
+C = (int)((var)-(10*B)-(100*A));
+ }
+
 
 int main(void)
 {
-	// port B all output
-	DDRB = 0xFF;
-	PORTB = 0x00;
-	
-	//
-	timerInit();
-	uartInit();
-	uartSetBaudRate(9600);
-	rprintfInit(uartSendByte);
-	vt100Init();
-	vt100ClearScreen();
-	//
-	while (1) 
-	{			
-		rprintf("Cool program\r\n");
-		
-		PORTB += 1;
-		
-		delay_ms(500);
-		
-	}
-		
-	return 0;
+
+init();  
+
+while(1)
+{
+PORTA = 0b01110000;
+_delay_ms(0.001);
+PORTA = 0b01100000 + A;
+_delay_ms(0.001);
+PORTA = 0b01010000 + B;
+_delay_ms(0.001);
+PORTA = 0b00110000 + C;
+_delay_ms(0.001);
+} 
 }
