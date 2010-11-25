@@ -15,17 +15,22 @@
 PImage a; // l'image source
 PImage b; // l'image colorée
 
+PImage c; // l'image réelle
+
 String mode = "source";
 
 float eyeX;
 float eyeY;
 float eyeZ;
 
+boolean reel = false;
+
 void setup()
 {
   // charger l'image
-  a = loadImage("image_depart.jpg");
-  b = loadImage("image_depart.jpg");
+  a = loadImage("image_depart2.jpg");
+  b = loadImage("image_depart2.jpg");
+  c = loadImage("image_reel.jpg");
 
   // donner sa taille à la fenêtre
   size(a.width, a.height, P3D);
@@ -51,8 +56,8 @@ void setup()
     float grey = red(c);
     colorMode(HSB);
     // utiliser le niveau de gris
-    if (grey > 20) {
-      float teinte = map(grey,0,255,255,45);
+    if (grey > 10) {
+      float teinte = map(grey,0,255,255,0);
       color n = color(teinte,255,255);
       b.pixels[i] = n;
     }
@@ -67,12 +72,18 @@ void keyPressed()
 {
   if (key == 'c') {
     mode = "couleurs";
+    reel = false;
   } 
   else if (key == 's') {
     mode = "source";
+    reel = false;
   }
   else if (key == 'x') {
     mode = "3D";
+  }
+  else if (key == 'r') {
+    mode = "reel";
+    reel = true;
   }
 
   if (key == CODED) {  
@@ -91,18 +102,18 @@ void keyPressed()
     if (keyCode == RIGHT) {
       eyeX += 100;
       mode = "3D";
-    }    
+    }
   }
-  
+
   if (key == '+') {
-    
-      eyeZ += 100;
-      mode = "3D";
+
+    eyeZ += 100;
+    mode = "3D";
   } 
   if (key == '-') {
-    
-      eyeZ -= 100;
-      mode = "3D";
+
+    eyeZ -= 100;
+    mode = "3D";
   }
 }
 
@@ -112,6 +123,11 @@ void draw()
   {    
     background(0);
     image(a, 0, 0);
+  } 
+  if (mode.equals("reel")) 
+  {    
+    background(0);
+    image(c, 0, 0);
   } 
   else if (mode.equals("couleurs"))
   {
@@ -134,8 +150,14 @@ void draw()
       {        
         // j représenta la colonne
         color pix = b.get(j,i); // coloration
+        color ree = c.get(j,i); // pixel réel
         color gray = a.get(j,i); // profondeur
-        fill(pix,255);
+        if (reel) {
+          fill(ree,255);
+        } 
+        else {
+          fill(pix,255);
+        }
         translate(j,i,red(gray));
         sphere(2);
         translate(-j,-i,-red(gray));
