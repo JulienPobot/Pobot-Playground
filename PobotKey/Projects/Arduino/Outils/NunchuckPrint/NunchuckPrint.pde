@@ -13,9 +13,9 @@ void setup()
 {
   Serial.begin(19200);
   
-   DDRC |= _BV(PC3) | _BV(PC2);  // make outputs
-   PORTC &=~ _BV(PC2);
-    PORTC |=  _BV(PC3);
+   DDRC |= _BV(PORTC3) | _BV(PORTC2);  // make outputs
+   PORTC &=~ _BV(PORTC2);
+    PORTC |=  _BV(PORTC3);
     delay(100);  // wait for things to stabilize
     
   nunchuck_init(); // send the initilization handshake
@@ -140,7 +140,7 @@ void nunchuck_print_data()
   Serial.print("\r\n");  // newline
 
 /*
-  // choisir la valeur affichée
+  // choisir la valeur affichï¿½e
   val = accel_x_axis;
   // la transformer
   val *= 4; // 0;255  --> 0;1000
