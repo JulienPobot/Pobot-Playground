@@ -106,9 +106,9 @@ Defines=
 [Compression Utility]
 Zimport External Utility=ZCOMPRESS.EXE
 [MRU Files]
-FileCount=7
+FileCount=8
 [Open Files]
-Number Open=1
+Number Open=0
 [INCLUDES]
 Includes=F:\LOGICIELS\Robotique\DCRABBIT_10.64\Include;
 [OpenFile  1]
@@ -133,27 +133,27 @@ ProjEx Window State=0
 [C FILES]
 C Files=
 [MRU 1]
-MRU 1 Path=F:\LOGICIELS\Robotique\DCRABBIT_10.64\Lib\Rabbit4000\I2C\I2C_DEVICES.LIB
+MRU 1 Path=F:\LOGICIELS\Robotique\DCRABBIT_10.64\Lib\Rabbit4000\I2C\I2C_SW.LIB
 MRU 1 Read Only=0
-MRU 1 X=409
-MRU 1 Y=279
+MRU 1 X=393
+MRU 1 Y=78
 MRU 1 W=800
-MRU 1 H=500
-MRU 1 Top Row=63
+MRU 1 H=780
+MRU 1 Top Row=58
 MRU 1 WindowState=0
-MRU 1 Cursor Row=73
-MRU 1 Cursor Col=20
+MRU 1 Cursor Row=58
+MRU 1 Cursor Col=61
 [MRU 2]
-MRU 2 Path=F:\ROBOTIQUE\1. POBOT\SOURCE\Repository\PobotKey\Projects\Rabbit\Tests simples\BlinkM I2C\blink.C
+MRU 2 Path=F:\LOGICIELS\Robotique\DCRABBIT_10.64\Lib\Rabbit4000\I2C\I2C_DEVICES.LIB
 MRU 2 Read Only=0
-MRU 2 X=25
-MRU 2 Y=25
+MRU 2 X=409
+MRU 2 Y=279
 MRU 2 W=800
 MRU 2 H=500
-MRU 2 Top Row=6
+MRU 2 Top Row=63
 MRU 2 WindowState=0
-MRU 2 Cursor Row=19
-MRU 2 Cursor Col=1
+MRU 2 Cursor Row=73
+MRU 2 Cursor Col=20
 [OpenFile  2]
 OpenFile  2 Path=F:\LOGICIELS\Robotique\DCRABBIT_10.64\Lib\Rabbit4000\I2C\I2C_DEVICES.LIB
 OpenFile  2 Read Only=0
@@ -167,57 +167,68 @@ OpenFile  2 WindowState=0
 OpenFile  2 Cursor Row=55
 OpenFile  2 Cursor Col=89
 [MRU 3]
-MRU 3 Path=F:\LOGICIELS\Robotique\DCRABBIT_10.64\Samples\DEMO3.C
+MRU 3 Path=F:\ROBOTIQUE\1. POBOT\SOURCE\Repository\PobotKey\Projects\Rabbit\Tests simples\BlinkM I2C\blink.C
 MRU 3 Read Only=0
-MRU 3 X=22
-MRU 3 Y=27
+MRU 3 X=25
+MRU 3 Y=25
 MRU 3 W=800
 MRU 3 H=500
-MRU 3 Top Row=0
+MRU 3 Top Row=6
 MRU 3 WindowState=0
-MRU 3 Cursor Row=22
-MRU 3 Cursor Col=29
+MRU 3 Cursor Row=19
+MRU 3 Cursor Col=1
 [MRU 4]
-MRU 4 Path=F:\LOGICIELS\Robotique\DCRABBIT_10.64\Samples\DEMO1.C
+MRU 4 Path=F:\LOGICIELS\Robotique\DCRABBIT_10.64\Samples\DEMO3.C
 MRU 4 Read Only=0
-MRU 4 X=0
-MRU 4 Y=0
+MRU 4 X=22
+MRU 4 Y=27
 MRU 4 W=800
 MRU 4 H=500
 MRU 4 Top Row=0
 MRU 4 WindowState=0
-MRU 4 Cursor Row=0
-MRU 4 Cursor Col=0
+MRU 4 Cursor Row=22
+MRU 4 Cursor Col=29
 [MRU 5]
-MRU 5 Path=F:\LOGICIELS\Robotique\DCRABBIT_10.64\Lib\Rabbit4000\I2C\I2C.LIB
+MRU 5 Path=F:\LOGICIELS\Robotique\DCRABBIT_10.64\Samples\DEMO1.C
 MRU 5 Read Only=0
-MRU 5 X=135
-MRU 5 Y=315
+MRU 5 X=0
+MRU 5 Y=0
 MRU 5 W=800
-MRU 5 H=629
+MRU 5 H=500
 MRU 5 Top Row=0
 MRU 5 WindowState=0
-MRU 5 Cursor Row=5
-MRU 5 Cursor Col=16
+MRU 5 Cursor Row=0
+MRU 5 Cursor Col=0
 [MRU 6]
-MRU 6 Path=F:\LOGICIELS\Robotique\DCRABBIT_10.64\Samples\I2C\I2C_DAC_MAX517.C
+MRU 6 Path=F:\LOGICIELS\Robotique\DCRABBIT_10.64\Lib\Rabbit4000\I2C\I2C.LIB
 MRU 6 Read Only=0
-MRU 6 X=52
-MRU 6 Y=81
+MRU 6 X=135
+MRU 6 Y=315
 MRU 6 W=800
-MRU 6 H=500
+MRU 6 H=629
 MRU 6 Top Row=0
 MRU 6 WindowState=0
-MRU 6 Cursor Row=8
-MRU 6 Cursor Col=2
+MRU 6 Cursor Row=5
+MRU 6 Cursor Col=16
 [MRU 7]
-MRU 7 Path=F:\LOGICIELS\Robotique\DCRABBIT_10.64\Samples\RCM5700\FLASHLED01.C
+MRU 7 Path=F:\LOGICIELS\Robotique\DCRABBIT_10.64\Samples\I2C\I2C_DAC_MAX517.C
 MRU 7 Read Only=0
-MRU 7 X=176
-MRU 7 Y=216
+MRU 7 X=52
+MRU 7 Y=81
 MRU 7 W=800
 MRU 7 H=500
-MRU 7 Top Row=33
+MRU 7 Top Row=0
 MRU 7 WindowState=0
-MRU 7 Cursor Row=53
-MRU 7 Cursor Col=21
+MRU 7 Cursor Row=8
+MRU 7 Cursor Col=2
+[MRU 8]
+MRU 8 Path=F:\LOGICIELS\Robotique\DCRABBIT_10.64\Samples\RCM5700\FLASHLED01.C
+MRU 8 Read Only=0
+MRU 8 X=176
+MRU 8 Y=216
+MRU 8 W=800
+MRU 8 H=500
+MRU 8 Top Row=33
+MRU 8 WindowState=0
+MRU 8 Cursor Row=53
+MRU 8 Cursor Col=21
