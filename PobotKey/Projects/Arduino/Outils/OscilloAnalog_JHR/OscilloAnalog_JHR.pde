@@ -24,7 +24,7 @@
 #define ANALOG_IN 0
 
 void setup() {
-  Serial.begin(9600); 
+  Serial.begin(57600); 
 }
 
 void loop() {
@@ -32,4 +32,5 @@ void loop() {
   Serial.print( 0xff, BYTE);
   Serial.print( (val >> 8) & 0xff, BYTE);
   Serial.print( val & 0xff, BYTE);
+  delay(300);
 }

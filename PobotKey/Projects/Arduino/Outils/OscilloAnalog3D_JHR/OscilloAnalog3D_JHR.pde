@@ -16,5 +16,5 @@ void loop() {
   Serial.print(" ");
   Serial.print(valZ & 0xFFFF,DEC);
   Serial.println();
-  delay(2);
+  delay(20);
 }
