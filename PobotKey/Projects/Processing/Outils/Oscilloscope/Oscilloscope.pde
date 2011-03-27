@@ -32,7 +32,7 @@ void setup()
   size(640, 480);
   // Open the port that the board is connected to and use the same speed (9600 bps)
   println(Serial.list());
-  port = new Serial(this, Serial.list()[0], 38400);
+  port = new Serial(this, Serial.list()[1], 38400);
   values = new int[width];
   smooth();  
 }

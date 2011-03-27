@@ -1,7 +1,8 @@
 import processing.serial.*;
 
 Serial serial;
-int serialPort = 0;
+int serialPort = 1;
+int baudrate = 115200;
 
 int sen = 2; // sensors
 
@@ -20,7 +21,7 @@ void setup()
   // Open the port that the board is connected to and use the same speed (9600 bps)
 
   println(Serial.list());
-  serial = new Serial(this, Serial.list()[serialPort], 38400); 
+  serial = new Serial(this, Serial.list()[serialPort], baudrate); 
   serial.bufferUntil(10); // line feed
 
   valuesX = new int[width];
