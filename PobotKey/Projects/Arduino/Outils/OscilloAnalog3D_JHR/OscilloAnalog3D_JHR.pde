@@ -2,7 +2,7 @@
 
 
 void setup() {
-  Serial.begin(115200); 
+  Serial.begin(9600); 
   digitalWrite(14,LOW); 
 }
 
@@ -16,5 +16,4 @@ void loop() {
   Serial.print(" ");
   Serial.print(valZ & 0xFFFF,DEC);
   Serial.println();
-  delay(20);
 }

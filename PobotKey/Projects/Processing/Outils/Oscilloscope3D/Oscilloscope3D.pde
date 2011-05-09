@@ -2,9 +2,9 @@ import processing.serial.*;
 
 Serial serial;
 int serialPort = 1;
-int baudrate = 115200;
+int baudrate = 9600;
 
-int sen = 2; // sensors
+int sen = 3; // sensors
 
 int[] valuesX;
 int[] valuesY;
