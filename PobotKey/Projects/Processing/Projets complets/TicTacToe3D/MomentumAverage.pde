@@ -1,6 +1,7 @@
 class MomentumAverage {
   float adapt;
   float avg;
+  
   MomentumAverage(float adapt) {
     this.adapt = adapt;
     reset();

@@ -1,9 +1,9 @@
-#define PILOT_A 7     // entrée A du pont en H
-#define PILOT_B 8     // entrée B du pont en H
-#define PILOT_PWM 9   // entrée "Enable" du pont en H
-#define PILOT_REF 0   // entrée analogique reliée au commun de la piste du potentiomètre
+#define PILOT_A 11     // entrï¿½e A du pont en H
+#define PILOT_B 12     // entrï¿½e B du pont en H
+#define PILOT_PWM 6   // entrï¿½e "Enable" du pont en H
+#define PILOT_REF 0   // entrï¿½e analogique reliï¿½e au commun de la piste du potentiomï¿½tre
 
-#define ECRART_V_DIV2 150 // rapport PWM min pour déplacement moteur potentiomètre
+#define ECRART_V_DIV2 150 // rapport PWM min pour dï¿½placement moteur potentiomï¿½tre
 
 int cmdValeur;
 int cmdChar;
@@ -80,10 +80,9 @@ void setup()
 
 void loop ()
 {
-    while (serialAvailable())
+    while (Serial.available())
     {
-	cmdChar = serialRead ();
-	printByte (cmdChar);        
+	cmdChar = Serial.read ();	        
 	switch (cmdChar)
 	{
 	  case 'a' : // retour chariot commande
@@ -93,6 +92,7 @@ void loop ()
             break;
 	  case '?' :
 		Serial.println(analogRead(PILOT_REF));
+		allerA (analogRead(PILOT_REF));
 	    break;
 	  case '0' : 
 	  case '1' : 
