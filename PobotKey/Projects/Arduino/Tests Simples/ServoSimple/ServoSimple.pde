@@ -32,7 +32,7 @@ void setup()
   // La variable servo qui représente le moteur doit être "attachée" au numéro de patte 
   // correspondant à l'entrée de la carte Arduino sur laquelle on a fixé le moteur.
   // Ici, 9 mais depuis l'amélioration de la librairie (> version 0017), 12 servomoteurs peuvent être utilisés
-  servo.attach(9);
+  servo.attach(10);
   // Des options sont disponibles pour préciser les bornes min et max réelles du moteur
   // mais dans le cas d'un servomoteur standard ce n'est pas nécessaire.
 }
