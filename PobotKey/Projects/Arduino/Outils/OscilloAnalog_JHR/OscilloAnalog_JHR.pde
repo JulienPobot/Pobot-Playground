@@ -25,6 +25,7 @@
 
 void setup() {
   Serial.begin(9600); 
+  digitalWrite(14+ANALOG_IN,LOW);
 }
 
 void loop() {

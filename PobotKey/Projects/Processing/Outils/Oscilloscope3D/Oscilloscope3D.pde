@@ -1,7 +1,7 @@
 import processing.serial.*;
 
 Serial serial;
-int serialPort = 1;
+int serialPort = 3;
 int baudrate = 9600;
 
 int sen = 3; // sensors

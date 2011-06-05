@@ -21,7 +21,7 @@
 Servo serv;
 
 // servo connection to the Arduino (digital output 9 or 10)
-int servPin = 9;
+int servPin = 10;
 
 // default value that will be updated when the user sends a new value 
 int valeur = 90;
