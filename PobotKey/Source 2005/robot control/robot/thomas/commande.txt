@@ -1,0 +1,1 @@
+./video-capture -s 320x240 -m -c -o -r -F fichier.ppm > sortie.jpg 
