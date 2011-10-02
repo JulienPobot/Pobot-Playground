@@ -1,9 +1,9 @@
-#include <MegaServo.h>
+#include <Servo.h>
 #include <Wire.h>
 
 #include "Sequences.h"
 
-// à partir de combien de millisecondes on passe en mode automatique (5000 = 5 secondes)
+// ï¿½ partir de combien de millisecondes on passe en mode automatique (5000 = 5 secondes)
 #define DELAY_SWITCHMODE  5000
 
 #define FORWARD  0
@@ -14,27 +14,27 @@
 #define INCREMENT  1
 #define DELAY_UPDATE  15
 
-MegaServo Servos[4]; // 4 servos
+Servo Servos[4]; // 4 servos
 
 /////// commun 
 
-int consigne[4]; // 4 consignes mises à jour selon la commande
+int consigne[4]; // 4 consignes mises ï¿½ jour selon la commande
 int position[4]; // 4 vrai position du servo
 
 /////// le mode automatique
 
-long millisLastReceived = millis(); // dernière réception d'un caractère
+long millisLastReceived = millis(); // derniï¿½re rï¿½ception d'un caractï¿½re
 
 long millisLastChanged = millis();
 
-int curIndex = 0; // l'indice de la commande en cours dans la séquence en cours 
-int curMode = FORWARD; // la séquence en cours
-int reqMode = FORWARD; // la séquence demandée
+int curIndex = 0; // l'indice de la commande en cours dans la sï¿½quence en cours 
+int curMode = FORWARD; // la sï¿½quence en cours
+int reqMode = FORWARD; // la sï¿½quence demandï¿½e
 
 
-/////// le mode contrôlé 
+/////// le mode contrï¿½lï¿½ 
 
-char cmd[4]; // 4 octets de commande reçue au fur et à mesure
+char cmd[4]; // 4 octets de commande reï¿½ue au fur et ï¿½ mesure
 int indice = 0;
 
 /**
@@ -42,7 +42,7 @@ int indice = 0;
  */
 void setup()
 {
-  // la liaison série
+  // la liaison sï¿½rie
   Serial.begin(9600);
 
   // les servomoteurs
@@ -61,7 +61,7 @@ void loop()
 {
   if (Serial.available()) 
   {    
-    // se souvenir de la réception
+    // se souvenir de la rï¿½ception
     millisLastReceived = millis();
 
     char rec = Serial.read();
@@ -86,12 +86,12 @@ void loop()
     }
   }
 
-  // test si on est en mode automatique ou contrôlé
+  // test si on est en mode automatique ou contrï¿½lï¿½
   if ( (millis() - millisLastReceived) > DELAY_SWITCHMODE)
   {
     // mode automatique
 
-    // test si on est en train de parcourir la séquence
+    // test si on est en train de parcourir la sï¿½quence
     if (curMode == reqMode || curIndex != 0)
     {
       if ((millis() - millisLastChanged) > 1000) 
@@ -113,21 +113,22 @@ void loop()
       }    
     } 
 
-    // atteindre le mode souhaité
+    // atteindre le mode souhaitï¿½
 
     if (curMode != reqMode) 
     {
-      // les séquences en cours et souhaitée sont différentes
-      // mais peut être qu'on a atteint le début de la séquence, moment propice pour changer
+      // les sï¿½quences en cours et souhaitï¿½e sont diffï¿½rentes
+      // mais peut ï¿½tre qu'on a atteint le dï¿½but de la sï¿½quence, moment propice pour changer
       if (curIndex == 0)
       {
-        curMode = reqMode; // changement de séquence        
+        curMode = reqMode; // changement de sï¿½quence        
       }
     }
 
     // changer de mode
-    if (curIndex ==0)       // on ne teste que lorsque l'index est à 0 (robot à plat)
+    if (curIndex == 0)       // on ne teste que lorsque l'index est ï¿½ 0 (robot ï¿½ plat)
     {
+      /*
       int val = analogRead(0) + analogRead(1);
       if (curMode != FORWARD && val < 1000)
       {
@@ -139,6 +140,7 @@ void loop()
         reqMode = BACKWARD;
         Serial.println("Backward");
       }
+      */
     }
 
   } 
@@ -148,7 +150,7 @@ void loop()
 
   }
 
-  // mise à jour de la position
+  // mise ï¿½ jour de la position
   updatePosition();
 
   // envoi des capteurs
@@ -185,7 +187,7 @@ void updatePosition()
 }
 
 /**
- * Prends en compte la nouvelle commande reçue 
+ * Prends en compte la nouvelle commande reï¿½ue 
  * et traduis en consignes de servomoteur
  */
 void changeConsigne()
