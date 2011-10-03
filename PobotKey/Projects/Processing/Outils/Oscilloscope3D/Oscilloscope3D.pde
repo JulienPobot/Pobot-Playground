@@ -1,17 +1,17 @@
 import processing.serial.*;
 
 Serial serial;
-int serialPort = 3;
-int baudrate = 9600;
+int serialPort = 1;
 
 int sen = 3; // sensors
+
+byte[] inBuffer;
+
+int val;      
 
 int[] valuesX;
 int[] valuesY;
 int[] valuesZ;
-
-String trame;
-String[] parts;
 
 void setup() 
 {
@@ -21,8 +21,7 @@ void setup()
   // Open the port that the board is connected to and use the same speed (9600 bps)
 
   println(Serial.list());
-  serial = new Serial(this, Serial.list()[serialPort], baudrate); 
-  serial.bufferUntil(10); // line feed
+  serial = new Serial(this, Serial.list()[serialPort], 115200);
 
   valuesX = new int[width];
   valuesY = new int[width];
@@ -34,53 +33,64 @@ int getY(int val) {
   return (int)(val / 1023.0f * height) - 1;
 }
 
-/**
- * Réception d'une trame
- */
-void serialEvent(Serial p) {
-  // traiter la chaine de caractères
-  trame = serial.readString();
-  // vérifier la longueur
-  if (trame.length() < 9) {
-    print("e");
-    return;
-  }   
-  parts = split(trame, " ");
-  // décaler les valeurs précédentes  
-  for (int i=0; i<width-1; i++) {
-    valuesX[i] = valuesX[i+1];
-    valuesY[i] = valuesY[i+1];
-    valuesZ[i] = valuesZ[i+1];    
-  }
-
-  // enregistrer les nouvelles valeurs filtrées
-  valuesX[width-1] = int(float(parts[0]));
-  valuesY[width-1] = int(float(parts[1]));
-  valuesZ[width-1] = int(float(parts[2]));
-  
-}
-
 void draw()
 { 
-  // déclencher l'affichage
-  updateOscillo();
-  
+  updateSerial();
 }
 
-void updateOscillo() {
-  background(250);
-  for (int x=1; x<width; x++) {
+void updateSerial() {
+  String cur = serial.readStringUntil('\n');
+  if (cur != null)
+  {
+    if (cur.length() < 16) {
+      return;
+    }
+    // valeurs brutes
+    println(cur);
+    String[] parts = split(cur, " ");
+    
+    int[] xyz = new int[sen];
+    for(int i = 0; i < sen; i++) {
+      xyz[i] = int(float(parts[i]));
+    }
+    
+    
+    // g�rer les X
+
+    val = (xyz[0] - 3300)*2;    // ajuster la valeur
+        
+    for (int i=0; i<width-1; i++)
+      valuesX[i] = valuesX[i+1];
+    valuesX[width-1] = val;
+    background(250);
     stroke(150,0,0);
-    line(width-x,   height-1-getY(valuesX[x-1]), 
-    width-1-x, height-1-getY(valuesX[x]));
-    //
+    for (int x=1; x<width; x++) {
+      line(width-x,   height-1-getY(valuesX[x-1]), 
+      width-1-x, height-1-getY(valuesX[x]));
+    }
+
+    // g�rer les Y
+
+    val = (xyz[1] - 3800)*2;
+    for (int i=0; i<width-1; i++)
+      valuesY[i] = valuesY[i+1];
+    valuesY[width-1] = val;
     stroke(0,150,0);
-    line(width-x,   height-1-getY(valuesY[x-1]), 
-    width-1-x, height-1-getY(valuesY[x]));
-    //    
+    for (int x=1; x<width; x++) {
+      line(width-x,   height-1-getY(valuesY[x-1]), 
+      width-1-x, height-1-getY(valuesY[x]));
+    }
+
+    // g�rer les Z
+
+    val = (xyz[2] - 3400)*2;
+    for (int i=0; i<width-1; i++)
+      valuesZ[i] = valuesZ[i+1];
+    valuesZ[width-1] = val;
     stroke(0,0,150);
-    line(width-x,   height-1-getY(valuesZ[x-1]), 
-    width-1-x, height-1-getY(valuesZ[x]));
+    for (int x=1; x<width; x++) {
+      line(width-x,   height-1-getY(valuesZ[x-1]), 
+      width-1-x, height-1-getY(valuesZ[x]));
+    }
   }
 }
-
