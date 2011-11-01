@@ -1,0 +1,80 @@
+/*****  Release Notes for the Xbee Plus Bootloader  *****/
+Current Version:  11.05
+Date Released:  12/21/2009
+
+/*****  New Features ********************************************/
+Over-the-Air application update support
+Over-the-Air menu support
+Add memory size to bootloader version string
+
+/*****  Defects Corrected ***************************************/
+
+Don't allow Xmodem buffer pointer to overflow in event of synch loss
+
+Do not write packet data to xmodem buffer if size is other than 84, 49, or 1
+
+Resize bootloader start to 0xEA00
+
+Added number-of-retries maximum for when we miss packets in transfer state
+
+/*****  Known Issues/Limitations ********************************/
+
+The 32Kb version of bootloader uses flash address 0xEA00-0xFFFF
+this is the currently supported flash size.
+
+/*****  History  ************************************************/
+//11.03 Changes...
+//  Fixed lLength return value bug by fixing function prototype
+//  Removed sending of NAKs if MAX_RETRIES exceeded
+//  Preserve application if MAX_RETRIES exceeded and state is init
+//11.04 Changes...
+//  Added support for Bootloader menu OTA (no access to bypass mode)
+//  Check for #CTS_XBEE low before attempting OTA features
+//  Write 1st recieved xmodem packet to flash last
+//  Fixed bug in xmodemReceive where BUFFER_SIZE chars read in
+//    after SOH already loaded in buffer - change index from 0 to 1
+//  Increased stack size to 320 bytes
+//11.05 Changes
+//  Changed bootloader version string to include memory size (32)
+//  Don't allow Xmodem buffer pointer to overflow in event of synch loss
+//  Do not write packet data to xmodem buffer if size is other than 84, 49, or 1
+//  Resize bootloader start to 0xEA00
+//  Added number-of-retries maximum for when we miss packets in transfer state
+//12.02 Changes
+//  Rewrote xmodem to take normal uart and API
+//  Removed files uart,ApitoXmodem, byte, Frame.c, serial, xmodemTick
+//  Added Api.c  -> makes reading and writing to UART2 appear transparent.
+//  Modified CmdProcessor to work with the Api.c
+//  Condensed strings to take less space.
+//  Added timeout backoffs automatically with xmodem
+//  Added initial timeout start on menu
+//  Added Reset on menu (This exits the Bootloader and runs the App if valid)
+//  Change menu to only kick back menu for LF,CR,SPACE, and ('B' if it is over the air).
+//  Changed bootloader startup to always jump to APP unless a command to do otherwise.
+//    if an app is bad and keeps watchdogging or invalid instructions, after 16 tries,
+//    the bootloader will stop running the App.
+//  After 10 minutes of accumulated idle time, the Bootloader will reset (This runs the App if valid)
+//  Bootloader size reduced to consume 3.5k instead of 5.5k
+//    this affects the Vector table redirection and AppStringPtr locations.
+//023 Changes
+//  version 0.12.03 condensed to 023.
+//  version response is now "BL032-2B0-023_064"
+//  very few changes are expected, so it was better to use these bytes in the BL string for other things.
+/**********************************
+*       Versions
+*
+*  BLFFF-HHH-XYZ_DDD
+*  FFF = Flash size in k;  032 = 32k Flash
+*  HHH = Hardware depenancy 2B0 = S2B used Freescale MC9S08QE = 0
+*  X   = Change of size of bootloader/ customization/ functionality 
+*        '0' to '9', 'A' to 'D' reserved for Digi. D is used for Debuggable code
+*  Y  = Major Change  ('0' to '9', 'A' to 'Z')
+*  Z  = Minor revision (Beta revisions are Even, Releases are Odd)
+*  DDD = Prefered Update XMODEM Payload size. 
+*        064 = 64 bytes per packet 
+*        Double the payload size is expected to also be handled, but not guaranteed.
+*/
+// future enhancement changes are planned to send back with the ACK another char indicating the packet acknowledged
+// The 2 byte response will sometimes be 1 byte to avoid the confusion of ACK-NAK, ACK-CAN,ACK-ACK, NAK-NAK etc.
+
+ 

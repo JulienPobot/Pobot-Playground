@@ -1,0 +1,53 @@
+/* This is a linker parameter file for the mc9s08qe32 */
+
+NAMES END /* CodeWarrior will pass all the needed files to the linker by command line. But here you may add your own files too. */
+
+SEGMENTS /* Here all RAM/ROM areas of the device are listed. Used in PLACEMENT below. */
+    Z_RAM               =  READ_WRITE   0x0080 TO 0x00FF;
+    FLASH_RAM           =  READ_ONLY    0x0100 TO 0x01EF;                    /* Reserved for flash code that executes in RAM */
+    EXTRA_RAM           =  READ_WRITE   0x01F0 TO 0x01FF;
+    SHARED_RAM          =  NO_INIT      0x0200 TO 0x020B;                    /* Used to send data between bootloader and application */
+    RAM                 =  READ_WRITE   0x020C TO 0x047F;                    /* The rest of RAM */
+
+    APP_RESERVED        =  NO_INIT      0x8000 TO 0x83FF;                    /* 1KB storage for app - never touched by BL */
+    APP_ROM             =  NO_INIT      0x8400 TO 0xF3BB;
+    APP_VERSION         =  NO_INIT      0xF3BC TO 0xF3BF;                    /* 4 byte pointer to app version string */
+    APP_IVT             =  NO_INIT      0xF3C0 TO 0xF3FD;                    /* Application Interrupt Vector Table */
+    APP_START           =  NO_INIT      0xF3FE TO 0xF3FF;                    /* Application start address */
+        
+    FLASH_ROM           =  READ_ONLY    0xF200 TO 0xF2EF RELOCATE_TO 0x0100; /* Flash routines that get copied to RAM */
+    BOOTLOADER          =  READ_ONLY    0xF2F0 TO 0xFFA9;                    /* The rest of the bootloader */
+    BL_VERSION          =  READ_ONLY    0xFFAA TO 0xFFAD;                    /* 4 byte pointer to BL version number */
+    BL_UNUSED_VECTS     =  READ_ONLY    0xFFC0 TO 0xFFFD;
+
+//  REGISTERS           =  READ_ONLY    0xFFAE TO 0xFFBF;                    /* Frescale reserves this region... */   
+//  INTVECTS            =  READ_ONLY    0xFFC0 TO 0xFFFF;                    /* Reserved for Interrupt Vectors */
+END
+
+PLACEMENT 
+    SHARED_DATA            INTO SHARED_RAM;
+
+    _DATA_ZEROPAGE,                                 /* zero page variables */
+    MY_ZEROPAGE,           INTO Z_RAM;
+
+    FAR_RAM,                                        /* non-zero page variables */                       
+    DEFAULT_RAM            INTO EXTRA_RAM,RAM;
+
+    FLASH_ROUTINES         INTO FLASH_ROM;
+
+    _PRESTART,                                      /* startup code */
+    STARTUP,                                        /* startup data structures */
+    STRINGS,                                        /* string literals */
+    VIRTUAL_TABLE_SEGMENT,                          /* C++ virtual table segment */
+    DEFAULT_ROM,
+    ROM_VAR,
+    COPY                   INTO BOOTLOADER;         /* copy down information: how to initialize variables */
+
+    EXTRA_DATA             INTO BL_UNUSED_VECTS;
+
+END
+
+//changed stack size from 0xA0 to 
+STACKSIZE 0x6B  
+
+VECTOR 0 _Startup /* Reset vector: this is the default entry point for an application. */
